@@ -1,11 +1,9 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { DataSource } from "typeorm";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { User } from "./user/user.entity";
-import { UserModule } from "./user/user.module";
 
 @Module({
   imports: [
@@ -26,11 +24,8 @@ import { UserModule } from "./user/user.module";
       }),
       inject: [ConfigService],
     }),
-    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {
-  constructor(private dataSource: DataSource) {}
-}
+export class AppModule {}

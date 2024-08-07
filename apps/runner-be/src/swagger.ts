@@ -11,6 +11,7 @@ export function initSwagger(app: INestApplication) {
     .setTitle("Runner")
     .setDescription("Runner API")
     .setVersion("1.0")
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
