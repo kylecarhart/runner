@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Runner monorepo",
   "type": "module",
-  "scripts": {},
+  "scripts": {
+    "prettier:write": "prettier --write ."
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
