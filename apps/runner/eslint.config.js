@@ -1,3 +1,4 @@
+// @ts-expect-error - no types for @eslint/js
 import js from "@eslint/js";
 import ts from "typescript-eslint";
 import svelte from "eslint-plugin-svelte";
