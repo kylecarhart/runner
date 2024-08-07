@@ -1,9 +1,15 @@
 import { Controller, Get } from "@nestjs/common";
+import { ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { UserService } from "./user.service";
 
+@ApiTags("user")
 @Controller("user")
 export class UserController {
+  constructor(private readonly userService: UserService) {}
+
   @Get()
-  findAll(): string {
-    return "This action returns all users";
+  @ApiOkResponse({ description: "Returns all users" })
+  findAll() {
+    return this.userService.findAll();
   }
 }
