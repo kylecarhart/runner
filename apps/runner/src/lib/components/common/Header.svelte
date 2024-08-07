@@ -1,6 +1,6 @@
 <script>
 </script>
 
-<header class="p-2 border-b">
-	<span class="text-xl">Runner </span>
+<header class="border-b p-2">
+  <span class="text-xl">Runner </span>
 </header>

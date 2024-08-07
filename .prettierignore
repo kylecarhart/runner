@@ -1,5 +1,10 @@
+# Dependencies
 node_modules
+pnpm-lock.yaml
+
+# Build files
 dist
 build
+
+# Test
 coverage
-pnpm-lock.yaml
