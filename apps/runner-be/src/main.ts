@@ -1,3 +1,4 @@
+import { ValidationPipe } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
@@ -9,8 +10,15 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const port = configService.get("PORT");
 
-  /** Swagger */
+  // Swagger
   initSwagger(app);
+
+  // Validation
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true, // Strip unknown incoming properties
+    }),
+  );
 
   await app.listen(port);
 }

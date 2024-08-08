@@ -1,9 +1,7 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { PickType } from "@nestjs/swagger";
+import { User } from "src/user/user.entity";
 
-export class LoginDto {
-  @ApiProperty({ example: "username" })
-  username: string;
-
-  @ApiProperty({ example: "password" })
-  password: string;
-}
+export class LoginDto extends PickType(User, [
+  "username",
+  "password",
+] as const) {}
