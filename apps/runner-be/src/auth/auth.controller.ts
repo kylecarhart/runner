@@ -7,10 +7,10 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from "@nestjs/swagger";
-import { ChangePasswordDto } from "src/user/change-password.dto";
-import { CreateUserDto } from "src/user/dto/create-user.dto";
-import { User } from "src/user/user.decorator";
-import { UserService } from "src/user/user.service";
+import { User } from "src/users/decorators/user.decorator";
+import { ChangePasswordDto } from "src/users/dto/change-password.dto";
+import { CreateUserDto } from "src/users/dto/create-user.dto";
+import { UserService } from "src/users/user.service";
 import { AuthService } from "./auth.service";
 import { JwtAuthGuard } from "./jwt-auth.guard";
 import { JwtUserPayload } from "./jwt.strategy";
