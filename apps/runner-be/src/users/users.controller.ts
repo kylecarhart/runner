@@ -9,26 +9,26 @@ import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 import { JwtUserPayload } from "src/auth/jwt.strategy";
 import { User } from "./decorators/user.decorator";
 import { UpdateUserDto } from "./dto/update-user.dto";
-import { UserService } from "./users.service";
+import { UsersService } from "./users.service";
 
 @ApiTags("user")
 @Controller("users")
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 export class UsersController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private usersService: UsersService) {}
 
   @Get()
   @ApiOperation({ summary: "Get all users" })
   @ApiOkResponse({ description: "Returns all users" })
   findAll() {
-    return this.userService.findAll();
+    return this.usersService.findAll();
   }
 
   @Get("profile")
   @ApiOperation({ summary: "Get logged in user profile" })
   async getUser(@User() user: JwtUserPayload) {
-    return await this.userService.findOne(user.id);
+    return await this.usersService.findOne(user.id);
   }
 
   @Put(":id")
@@ -37,6 +37,6 @@ export class UsersController {
     @Param("id") id: string,
     @Body() updateUserDto: UpdateUserDto,
   ) {
-    return this.userService.update(id, updateUserDto);
+    return this.usersService.update(id, updateUserDto);
   }
 }

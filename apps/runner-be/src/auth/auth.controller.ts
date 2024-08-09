@@ -10,7 +10,7 @@ import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { User } from "src/users/decorators/user.decorator";
 import { ChangePasswordDto } from "src/users/dto/change-password.dto";
 import { CreateUserDto } from "src/users/dto/create-user.dto";
-import { UserService } from "src/users/users.service";
+import { UsersService } from "src/users/users.service";
 import { AuthService } from "./auth.service";
 import { JwtAuthGuard } from "./jwt-auth.guard";
 import { JwtUserPayload } from "./jwt.strategy";
@@ -22,7 +22,7 @@ import { LoginDto } from "./login.dto";
 export class AuthController {
   constructor(
     private authService: AuthService,
-    private userService: UserService,
+    private usersService: UsersService,
   ) {}
 
   @Post("login")
@@ -53,6 +53,6 @@ export class AuthController {
     @User() user: JwtUserPayload,
     @Body() changePasswordDto: ChangePasswordDto,
   ) {
-    return this.userService.changePassword(user.id, changePasswordDto);
+    return this.usersService.changePassword(user.id, changePasswordDto);
   }
 }

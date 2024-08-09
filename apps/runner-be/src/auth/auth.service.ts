@@ -3,17 +3,18 @@ import { JwtService } from "@nestjs/jwt";
 import * as argon2 from "argon2";
 import { CreateUserDto } from "src/users/dto/create-user.dto";
 import { UserWithoutPassword } from "src/users/entities/user.entity";
-import { UserService } from "src/users/users.service";
+import { UsersService } from "src/users/users.service";
 
 @Injectable()
 export class AuthService {
   constructor(
-    private userService: UserService,
+    private usersService: UsersService,
     private jwtService: JwtService,
   ) {}
 
   async validateUser(username: string, password: string): Promise<any> {
-    const user = await this.userService.findOneByUsernameWithPassword(username);
+    const user =
+      await this.usersService.findOneByUsernameWithPassword(username);
     const isMatch = await argon2.verify(user.password, password);
 
     if (isMatch) {
@@ -38,7 +39,7 @@ export class AuthService {
     }
 
     // Check if username is taken
-    const isUsernameTaken = !!(await this.userService.findOneByUsername(
+    const isUsernameTaken = !!(await this.usersService.findOneByUsername(
       createUserDto.username,
     ));
 
@@ -54,7 +55,7 @@ export class AuthService {
     delete createUserDto.confirmPassword;
 
     // Create user and return without password
-    const newUser = await this.userService.create({
+    const newUser = await this.usersService.create({
       ...createUserDto,
       password: hashedPassword,
     });
