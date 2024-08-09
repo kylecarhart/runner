@@ -6,7 +6,7 @@ import {
 
 export abstract class Base {
   @PrimaryGeneratedColumn("uuid")
-  id: number;
+  id: string;
 
   @CreateDateColumn()
   createdDate: Date;

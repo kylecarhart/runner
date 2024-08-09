@@ -25,8 +25,10 @@ export class User extends Base {
   @IsEmail()
   email: string;
 
-  @Column()
+  @Column({ select: false })
   @ApiProperty({ example: "password" })
   @Length(8, 64)
   password: string;
 }
+
+export type UserWithoutPassword = Omit<User, "password">;

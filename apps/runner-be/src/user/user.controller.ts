@@ -1,6 +1,7 @@
-import { Controller, Get, Request, UseGuards } from "@nestjs/common";
+import { Controller, Get, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
+import { User } from "./user.decorator";
 import { UserService } from "./user.service";
 
 @ApiTags("user")
@@ -17,7 +18,8 @@ export class UserController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Get("profile")
-  getProfile(@Request() req) {
-    return req.user;
+  async getProfile(@User("id") id) {
+    const user = await this.userService.findOne(id);
+    return user;
   }
 }

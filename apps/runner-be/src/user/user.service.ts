@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { CreateUserDto } from "./create-user.dto";
-import { User } from "./user.entity";
+import { User, UserWithoutPassword } from "./user.entity";
 
 @Injectable()
 export class UserService {
@@ -11,19 +11,29 @@ export class UserService {
     private usersRepository: Repository<User>,
   ) {}
 
-  findAll(): Promise<User[]> {
+  findAll(): Promise<UserWithoutPassword[]> {
     return this.usersRepository.find();
   }
 
-  findOne(id: number): Promise<User | null> {
+  findOne(id: User["id"]): Promise<UserWithoutPassword | null> {
     return this.usersRepository.findOneBy({ id });
   }
 
-  findOneByUsername(username: string): Promise<User | null> {
+  findOneByUsername(
+    username: User["username"],
+  ): Promise<UserWithoutPassword | null> {
     return this.usersRepository.findOneBy({ username });
   }
 
-  create(createUserDto: CreateUserDto): Promise<User> {
+  findOneByUsernameForAuth(username: User["username"]): Promise<User | null> {
+    return this.usersRepository
+      .createQueryBuilder("user")
+      .addSelect("user.password")
+      .where("user.username = :username", { username })
+      .getOne();
+  }
+
+  create(createUserDto: CreateUserDto): Promise<UserWithoutPassword> {
     const user = this.usersRepository.create(createUserDto);
     return this.usersRepository.save(user);
   }

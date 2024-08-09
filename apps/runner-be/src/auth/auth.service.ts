@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import * as bcrypt from "bcrypt";
 import { CreateUserDto } from "src/user/create-user.dto";
-import { User } from "src/user/user.entity";
+import { UserWithoutPassword } from "src/user/user.entity";
 import { UserService } from "src/user/user.service";
 
 @Injectable()
@@ -13,7 +13,7 @@ export class AuthService {
   ) {}
 
   async validateUser(username: string, password: string): Promise<any> {
-    const user = await this.userService.findOneByUsername(username);
+    const user = await this.userService.findOneByUsernameForAuth(username);
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (isMatch) {
@@ -24,23 +24,21 @@ export class AuthService {
     return null;
   }
 
-  async login(user: any) {
-    const payload = { username: user.username, sub: user.userId };
+  async login(user: UserWithoutPassword) {
+    const payload = { username: user.username, sub: user.id };
     return {
       access_token: this.jwtService.sign(payload),
     };
   }
 
-  async register(
-    createUserDto: CreateUserDto,
-  ): Promise<Omit<User, "password">> {
+  async register(createUserDto: CreateUserDto): Promise<UserWithoutPassword> {
     // Confirm password
     if (createUserDto.password !== createUserDto.confirmPassword) {
       throw new Error("Passwords do not match");
     }
 
     // Check if username is taken
-    const isUsernameTaken = !!(await this.userService.findOneByUsername(
+    const isUsernameTaken = !!(await this.userService.findOneByUsernameForAuth(
       createUserDto.username,
     ));
 
@@ -56,7 +54,7 @@ export class AuthService {
     delete createUserDto.confirmPassword;
 
     // Create user and return without password
-    const { password, ...newUser } = await this.userService.create({
+    const newUser = await this.userService.create({
       ...createUserDto,
       password: hashedPassword,
     });
