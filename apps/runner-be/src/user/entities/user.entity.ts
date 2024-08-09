@@ -2,7 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { IsEmail, Length } from "class-validator";
 import { Base } from "src/database/base.entity";
 import { Column, Entity } from "typeorm";
-import { UserPassword } from "./user-password.decorator";
+import { UserPassword } from "../decorators/user-password.decorator";
 
 @Entity()
 export class User extends Base {
