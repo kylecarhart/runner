@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Put, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
-import * as bcrypt from "bcrypt";
+import * as argon2 from "argon2";
 import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 import { UpdateUserDto } from "./update-user.dto";
 import { User } from "./user.decorator";
@@ -37,7 +37,7 @@ export class UserController {
       delete updateUserDto.confirmPassword;
     }
 
-    updateUserDto.password = await bcrypt.hash(updateUserDto.password, 10);
+    updateUserDto.password = await argon2.hash(updateUserDto.password);
 
     return this.userService.update(id, updateUserDto);
   }

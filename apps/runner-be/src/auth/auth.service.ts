@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import * as bcrypt from "bcrypt";
+import * as argon2 from "argon2";
 import { CreateUserDto } from "src/user/create-user.dto";
 import { UserWithoutPassword } from "src/user/user.entity";
 import { UserService } from "src/user/user.service";
@@ -14,7 +14,7 @@ export class AuthService {
 
   async validateUser(username: string, password: string): Promise<any> {
     const user = await this.userService.findOneByUsernameForAuth(username);
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await argon2.verify(user.password, password);
 
     if (isMatch) {
       const { password, ...result } = user;
@@ -47,7 +47,7 @@ export class AuthService {
     }
 
     // Hash password
-    const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
+    const hashedPassword = await argon2.hash(createUserDto.password);
 
     // Remove password and confirmPassword from memory
     delete createUserDto.password;
