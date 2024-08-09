@@ -15,7 +15,7 @@ import { UserService } from "./users.service";
 @Controller("users")
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
-export class UserController {
+export class UsersController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
