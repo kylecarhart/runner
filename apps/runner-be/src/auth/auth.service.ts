@@ -13,7 +13,7 @@ export class AuthService {
   ) {}
 
   async validateUser(username: string, password: string): Promise<any> {
-    const user = await this.userService.findOneByUsernameForAuth(username);
+    const user = await this.userService.findOneByUsernameWithPassword(username);
     const isMatch = await argon2.verify(user.password, password);
 
     if (isMatch) {
@@ -38,7 +38,7 @@ export class AuthService {
     }
 
     // Check if username is taken
-    const isUsernameTaken = !!(await this.userService.findOneByUsernameForAuth(
+    const isUsernameTaken = !!(await this.userService.findOneByUsername(
       createUserDto.username,
     ));
 
