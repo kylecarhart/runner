@@ -9,7 +9,7 @@ import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 import { JwtUserPayload } from "src/auth/jwt.strategy";
 import { User } from "./decorators/user.decorator";
 import { UpdateUserDto } from "./dto/update-user.dto";
-import { UserService } from "./user.service";
+import { UserService } from "./users.service";
 
 @ApiTags("user")
 @Controller("users")

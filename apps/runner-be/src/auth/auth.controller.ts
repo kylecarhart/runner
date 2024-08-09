@@ -10,7 +10,7 @@ import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { User } from "src/users/decorators/user.decorator";
 import { ChangePasswordDto } from "src/users/dto/change-password.dto";
 import { CreateUserDto } from "src/users/dto/create-user.dto";
-import { UserService } from "src/users/user.service";
+import { UserService } from "src/users/users.service";
 import { AuthService } from "./auth.service";
 import { JwtAuthGuard } from "./jwt-auth.guard";
 import { JwtUserPayload } from "./jwt.strategy";
