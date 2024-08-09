@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import * as argon2 from "argon2";
-import { CreateUserDto } from "src/user/create-user.dto";
+import { CreateUserDto } from "src/user/dto/create-user.dto";
 import { UserWithoutPassword } from "src/user/user.entity";
 import { UserService } from "src/user/user.service";
 

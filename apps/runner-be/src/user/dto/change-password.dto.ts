@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { UserPassword } from "./user-password.decorator";
+import { UserPassword } from "../user-password.decorator";
 
 export class ChangePasswordDto {
   @ApiProperty({ example: "Password1!" })

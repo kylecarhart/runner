@@ -8,7 +8,7 @@ import {
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ChangePasswordDto } from "src/user/change-password.dto";
-import { CreateUserDto } from "src/user/create-user.dto";
+import { CreateUserDto } from "src/user/dto/create-user.dto";
 import { User } from "src/user/user.decorator";
 import { UserService } from "src/user/user.service";
 import { AuthService } from "./auth.service";

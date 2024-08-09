@@ -2,9 +2,9 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import * as argon2 from "argon2";
 import { Repository } from "typeorm";
-import { ChangePasswordDto } from "./change-password.dto";
-import { CreateUserDto } from "./create-user.dto";
-import { UpdateUserDto } from "./update-user.dto";
+import { ChangePasswordDto } from "./dto/change-password.dto";
+import { CreateUserDto } from "./dto/create-user.dto";
+import { UpdateUserDto } from "./dto/update-user.dto";
 import { User, UserWithoutPassword } from "./user.entity";
 
 @Injectable()
