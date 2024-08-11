@@ -11,7 +11,7 @@ import { User } from "./decorators/user.decorator";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { UsersService } from "./users.service";
 
-@ApiTags("user")
+@ApiTags("users")
 @Controller("users")
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
