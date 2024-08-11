@@ -15,7 +15,7 @@ import { AuthService } from "./auth.service";
 import { LoginDto } from "./dtos/login.dto";
 import { JwtAuthGuard } from "./jwt-auth.guard";
 import { JwtUserPayload } from "./jwt.strategy";
-import { LocalAuthGuard } from "./local-auth.guard";
+import { LocalAuthGuard } from "./local/local-auth.guard";
 
 @ApiTags("auth")
 @Controller("auth")
