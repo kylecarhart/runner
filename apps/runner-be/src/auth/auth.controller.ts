@@ -13,8 +13,8 @@ import { CreateUserDto } from "src/users/dto/create-user.dto";
 import { UsersService } from "src/users/users.service";
 import { AuthService } from "./auth.service";
 import { LoginDto } from "./dtos/login.dto";
-import { JwtAuthGuard } from "./jwt-auth.guard";
-import { JwtUserPayload } from "./jwt.strategy";
+import { JwtAuthGuard } from "./jwt/jwt-auth.guard";
+import { JwtUserPayload } from "./jwt/jwt.strategy";
 import { LocalAuthGuard } from "./local/local-auth.guard";
 
 @ApiTags("auth")
