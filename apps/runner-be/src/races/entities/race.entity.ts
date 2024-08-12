@@ -3,8 +3,8 @@ import { Type } from "class-transformer";
 import { IsDate, Length } from "class-validator";
 import { Base } from "src/database/base.entity";
 import { Event } from "src/events/entities/event.entity";
-import { User } from "src/users/entities/user.entity";
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne } from "typeorm";
+import { UserRace } from "src/user-races/entities/user-race.entity";
+import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
 
 @Entity()
 export class Race extends Base {
@@ -28,7 +28,6 @@ export class Race extends Base {
   event: Event;
 
   // Participants
-  @ManyToMany(() => User)
-  @JoinTable()
-  users: User[];
+  @OneToMany(() => UserRace, (userRace) => userRace.race)
+  public userRaces: UserRace[];
 }

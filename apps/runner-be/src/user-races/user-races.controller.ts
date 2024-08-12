@@ -7,11 +7,13 @@ import {
   Patch,
   Post,
 } from "@nestjs/common";
+import { ApiTags } from "@nestjs/swagger";
 import { CreateUserRaceDto } from "./dto/create-user-race.dto";
 import { UpdateUserRaceDto } from "./dto/update-user-race.dto";
 import { UserRacesService } from "./user-races.service";
 
 @Controller("user-races")
+@ApiTags("user-races")
 export class UserRacesController {
   constructor(private readonly userRacesService: UserRacesService) {}
 

@@ -26,12 +26,12 @@ export class RacesService {
     const race = await this.racesRepository.findOneByOrFail({ id });
     const user = await this.usersRepository.findOneBy({ id: userId });
 
-    if (!race.users) {
-      race.users = [];
-    }
+    // if (!race.users) {
+    //   race.users = [];
+    // }
 
-    race.users.push(user);
-    return this.racesRepository.save(race);
+    // race.users.push(user);
+    // return this.racesRepository.save(race);
   }
 
   findAll() {

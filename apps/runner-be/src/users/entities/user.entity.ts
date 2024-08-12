@@ -1,7 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsEmail, Length } from "class-validator";
 import { Base } from "src/database/base.entity";
-import { Column, Entity } from "typeorm";
+import { UserRace } from "src/user-races/entities/user-race.entity";
+import { Column, Entity, OneToMany } from "typeorm";
 import { UserPassword } from "../decorators/user-password.decorator";
 
 @Entity()
@@ -30,6 +31,9 @@ export class User extends Base {
   @ApiProperty({ example: "Password1!" })
   @UserPassword()
   password: string;
+
+  @OneToMany(() => UserRace, (userRace) => userRace.user)
+  public userRaces: UserRace[];
 }
 
 export type UserWithoutPassword = Omit<User, "password">;
