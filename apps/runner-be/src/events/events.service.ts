@@ -18,18 +18,19 @@ export class EventsService {
   }
 
   findAll() {
-    return `This action returns all events`;
+    return this.eventsRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} event`;
+  findOne(id: string) {
+    return this.eventsRepository.findOneBy({ id });
   }
 
-  update(id: number, updateEventDto: UpdateEventDto) {
-    return `This action updates a #${id} event`;
+  async update(id: string, updateEventDto: UpdateEventDto) {
+    await this.eventsRepository.update(id, updateEventDto);
+    return this.eventsRepository.findOneBy({ id });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} event`;
+  remove(id: string) {
+    this.eventsRepository.delete(id);
   }
 }
