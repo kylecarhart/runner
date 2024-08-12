@@ -6,6 +6,7 @@ import { AuthModule } from "./auth/auth.module";
 import { DatabaseModule } from "./database/database.module";
 import { EventsModule } from "./events/events.module";
 import { RacesModule } from "./races/races.module";
+import { UserRacesModule } from "./user-races/user-races.module";
 import { UsersModule } from "./users/users.module";
 
 @Module({
@@ -18,6 +19,7 @@ import { UsersModule } from "./users/users.module";
     AuthModule,
     RacesModule,
     EventsModule,
+    UserRacesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
