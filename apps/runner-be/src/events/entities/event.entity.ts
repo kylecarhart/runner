@@ -25,6 +25,6 @@ export class Event extends Base {
   @IsOptional()
   endDate?: Date;
 
-  @OneToMany(() => Race, (race) => race.event)
+  @OneToMany(() => Race, (race) => race.event, { eager: true })
   races: Race[];
 }

@@ -1,11 +1,6 @@
-import { Body, Controller, Get, Param, Put, UseGuards } from "@nestjs/common";
-import {
-  ApiBearerAuth,
-  ApiOkResponse,
-  ApiOperation,
-  ApiTags,
-} from "@nestjs/swagger";
-import { JwtAuthGuard } from "src/auth/jwt/jwt-auth.guard";
+import { Body, Controller, Get, Param, Put } from "@nestjs/common";
+import { ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { Jwt } from "src/auth/jwt/jwt-decorator";
 import { JwtUserPayload } from "src/auth/jwt/jwt.strategy";
 import { User } from "./decorators/user.decorator";
 import { UpdateUserDto } from "./dto/update-user.dto";
@@ -13,8 +8,7 @@ import { UsersService } from "./users.service";
 
 @ApiTags("users")
 @Controller("users")
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+@Jwt()
 export class UsersController {
   constructor(private usersService: UsersService) {}
 

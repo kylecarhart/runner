@@ -17,8 +17,8 @@ export class EventsService {
     return this.eventsRepository.save(event);
   }
 
-  findAll() {
-    return this.eventsRepository.find();
+  findAll({ skip = 0, take = 10 }: { skip?: number; take?: number } = {}) {
+    return this.eventsRepository.find({ skip, take });
   }
 
   findOne(id: string) {
