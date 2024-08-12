@@ -8,9 +8,9 @@ export abstract class Base {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: "timestamptz" })
   createdDate: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ type: "timestamptz" })
   updatedDate: Date;
 }
