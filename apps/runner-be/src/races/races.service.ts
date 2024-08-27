@@ -22,18 +22,6 @@ export class RacesService {
     });
   }
 
-  async signup(id: string, userId: string) {
-    const race = await this.racesRepository.findOneByOrFail({ id });
-    const user = await this.usersRepository.findOneBy({ id: userId });
-
-    // if (!race.users) {
-    //   race.users = [];
-    // }
-
-    // race.users.push(user);
-    // return this.racesRepository.save(race);
-  }
-
   findAll() {
     return this.racesRepository.find();
   }

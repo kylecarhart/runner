@@ -9,8 +9,6 @@ import {
 } from "@nestjs/common";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { Jwt } from "src/auth/jwt/jwt-decorator";
-import { JwtUserPayload } from "src/auth/jwt/jwt.strategy";
-import { User } from "src/users/decorators/user.decorator";
 import { CreateRaceDto } from "./dto/create-race.dto";
 import { UpdateRaceDto } from "./dto/update-race.dto";
 import { RacesService } from "./races.service";
@@ -25,13 +23,6 @@ export class RacesController {
   @Jwt()
   create(@Param("id") id: string, @Body() createRaceDto: CreateRaceDto) {
     return this.racesService.create(id, createRaceDto);
-  }
-
-  @Post("races/:id")
-  @ApiOperation({ summary: "Sign up for a race" })
-  @Jwt()
-  signup(@Param("id") id: string, @User() user: JwtUserPayload) {
-    return this.racesService.signup(id, user.id);
   }
 
   @Get("races")

@@ -1,9 +1,10 @@
 import { Base } from "src/database/base.entity";
 import { Race } from "src/races/entities/race.entity";
 import { User } from "src/users/entities/user.entity";
-import { Column, Entity, ManyToOne } from "typeorm";
+import { Column, Entity, ManyToOne, Unique } from "typeorm";
 
 @Entity()
+@Unique(["userId", "raceId"])
 export class UserRace extends Base {
   @Column()
   userId: string;
@@ -11,9 +12,11 @@ export class UserRace extends Base {
   @Column()
   raceId: string;
 
-  @ManyToOne(() => User)
+  // TODO: Should this be eager?
+  @ManyToOne(() => User, { eager: true })
   user: User;
 
-  @ManyToOne(() => Race)
+  // TODO: Should this be eager?
+  @ManyToOne(() => Race, { eager: true })
   race: Race;
 }

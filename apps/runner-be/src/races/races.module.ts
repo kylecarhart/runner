@@ -9,5 +9,6 @@ import { RacesService } from "./races.service";
   imports: [TypeOrmModule.forFeature([Race, User])],
   controllers: [RacesController],
   providers: [RacesService],
+  exports: [RacesService],
 })
 export class RacesModule {}

@@ -2,6 +2,7 @@ import { INestApplication } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 
+// TODO: Maybe look into using a different openapi ui library (redoc?)
 export function initSwagger(app: INestApplication) {
   const configService = app.get(ConfigService);
   const path = configService.get("PATH_SWAGGER");
