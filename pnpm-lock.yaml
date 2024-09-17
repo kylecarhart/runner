@@ -98,9 +98,15 @@ importers:
       '@koa/router':
         specifier: ^13.0.1
         version: 13.0.1
+      dotenv:
+        specifier: ^16.4.5
+        version: 16.4.5
       koa:
         specifier: ^2.15.3
         version: 2.15.3
+      zod:
+        specifier: ^3.23.8
+        version: 3.23.8
     devDependencies:
       '@koa/cors':
         specifier: ^5.0.0
@@ -120,6 +126,9 @@ importers:
       '@types/node':
         specifier: ^20.3.1
         version: 20.14.14
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
       tsx:
         specifier: ^4.19.1
         version: 4.19.1
@@ -5017,6 +5026,9 @@ packages:
   yocto-queue@1.1.1:
     resolution: {integrity: sha512-b4JR1PFR10y1mKjhHY9LaGo6tmrgjit7hxVIeAmyMw3jegXR4dhYqLaQF5zMXZxY7tLpMyJeLjr1C4rLmkVe8g==}
     engines: {node: '>=12.20'}
+
+  zod@3.23.8:
+    resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
 
 snapshots:
 
@@ -9973,3 +9985,5 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   yocto-queue@1.1.1: {}
+
+  zod@3.23.8: {}

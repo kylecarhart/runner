@@ -1,6 +1,7 @@
 import cors from "@koa/cors";
 import Router from "@koa/router";
 import Koa from "koa";
+import { Env } from "./utils/env.js";
 
 const app = new Koa();
 const router = new Router();
@@ -13,6 +14,6 @@ router.get("/", (ctx, next) => {
 
 app.use(router.routes()).use(router.allowedMethods());
 
-app.listen(3000, () => {
-  console.log("Server started on port 3000");
+app.listen(Env.PORT, () => {
+  console.log(`Server started on port ${Env.PORT}`);
 });
