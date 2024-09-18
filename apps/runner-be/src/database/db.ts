@@ -1,6 +1,9 @@
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
-import { Env } from "../utils/env.js";
+import * as events from "../events/events.schema";
+import * as races from "../races/races.schema";
+import * as users from "../users/users.schema";
+import { Env } from "../utils/env";
 
 // Connect to your database using the Connection Pooler for serverless environments, and the Direct Connection for long-running servers.
 const client = postgres({
@@ -12,4 +15,11 @@ const client = postgres({
   // prepare: false,
 });
 
-export const db = drizzle(client);
+// NOTE: The schemas are imported and spread to include the relations as well.
+const schema = {
+  ...users,
+  ...events,
+  ...races,
+};
+
+export const db = drizzle(client, { schema });
