@@ -1,0 +1,25 @@
+import winston from "winston";
+import { Env } from "./env.js";
+
+const { combine, timestamp, printf, colorize, json } = winston.format;
+
+const customFormat = printf(({ level, message, timestamp }) => {
+  return `${timestamp} ${level}: ${message}`;
+});
+
+export const logger = winston.createLogger({
+  level: Env.LOG_LEVEL,
+  format: json(),
+  transports: [
+    // Your file transports can remain here if needed
+  ],
+});
+
+// Console logger
+if (process.env.NODE_ENV !== "production") {
+  logger.add(
+    new winston.transports.Console({
+      format: combine(colorize({ all: true }), timestamp(), customFormat),
+    }),
+  );
+}
