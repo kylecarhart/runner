@@ -1,16 +1,22 @@
 import cors from "@koa/cors";
 import Router from "@koa/router";
 import Koa from "koa";
+import { userRouter } from "./user/routes/user.route.js";
 import { Env } from "./utils/env.js";
 
 const app = new Koa();
-const router = new Router();
+const router = new Router({ prefix: "/api/v1" });
 
+/** Use CORS */
 app.use(cors());
 
-router.get("/", (ctx, next) => {
-  // ctx.router available
+/** Health check */
+router.get("/health", (ctx, next) => {
+  ctx.body = "OK";
 });
+
+/** V1 Routes */
+router.use("/users", userRouter.routes());
 
 app.use(router.routes()).use(router.allowedMethods());
 
