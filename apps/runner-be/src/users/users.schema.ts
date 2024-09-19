@@ -23,8 +23,8 @@ export const createUserRequestSchema = createInsertSchema(users, {
 });
 export type CreateUser = z.infer<typeof createUserRequestSchema>;
 
-const updateUserSchema = createUserRequestSchema.partial();
-type UpdateUser = z.infer<typeof updateUserSchema>;
+// const updateUserSchema = createUserRequestSchema.partial();
+// type UpdateUser = z.infer<typeof updateUserSchema>;
 
 // Schema for selecting a user - can be used to validate API responses
 export const selectUserSchema = createSelectSchema(users);
