@@ -1,5 +1,7 @@
+import { StatusCodes } from "http-status-codes";
 import { Context, Next } from "koa";
 import { ZodError } from "zod";
+import { ApplicationError } from "../errors/ApplicationError";
 import { logger } from "../utils/logger";
 
 /**
@@ -10,6 +12,12 @@ export const errorMiddleware = () => async (ctx: Context, next: Next) => {
   try {
     await next();
   } catch (err) {
+    // Application specific error
+    if (err instanceof ApplicationError) {
+      return handleApplicationError(ctx, err);
+    }
+
+    // Request validation error
     if (err instanceof ZodError) {
       return handleZodError(ctx, err);
     }
@@ -23,7 +31,20 @@ export const errorMiddleware = () => async (ctx: Context, next: Next) => {
 };
 
 /**
- * Handle a Zod validation error
+ * Handle an application specific error
+ * @param ctx Koa context
+ * @param err Application error
+ */
+function handleApplicationError(ctx: Context, err: ApplicationError) {
+  logger.error(err.logMessage);
+  ctx.body = {
+    message: err.apiMessage,
+  };
+  ctx.status = err.httpStatusCode;
+}
+
+/**
+ * Handle a Zod request validation error
  * @param ctx Koa context
  * @param err Zod validation error
  */
@@ -32,7 +53,7 @@ function handleZodError(ctx: Context, err: ZodError) {
   ctx.body = {
     message: err.errors,
   };
-  ctx.status = 400;
+  ctx.status = StatusCodes.BAD_REQUEST;
 }
 
 /**
@@ -45,7 +66,7 @@ function handleError(ctx: Context, err: Error) {
   ctx.body = {
     message: err.message,
   };
-  ctx.status = 500;
+  ctx.status = StatusCodes.INTERNAL_SERVER_ERROR;
 }
 
 /**
@@ -56,5 +77,5 @@ function handleUnknownError(ctx: Context) {
   ctx.body = {
     message: "An unknown error occurred",
   };
-  ctx.status = 500;
+  ctx.status = StatusCodes.INTERNAL_SERVER_ERROR;
 }
