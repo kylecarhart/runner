@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "db:migrate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pre-commit": "lint-staged"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +28,7 @@
     "cross-env": "^7.0.3",
     "drizzle-kit": "^0.24.2",
     "eslint": "^9.10.0",
+    "lint-staged": "^15.2.10",
     "tsx": "^4.19.1",
     "typescript": "^5.6.2",
     "typescript-eslint": "^8.0.0-alpha.20"
