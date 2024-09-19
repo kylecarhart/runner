@@ -1,6 +1,8 @@
+import { bodyParser } from "@koa/bodyparser";
 import cors from "@koa/cors";
 import Router from "@koa/router";
 import Koa from "koa";
+import koaHelmet from "koa-helmet";
 import { errorMiddleware } from "./middleware/error.middleware";
 import { loggerMiddleware } from "./middleware/logger.middleware";
 import { userRouter } from "./users/users.route";
@@ -10,8 +12,9 @@ import { logger } from "./utils/logger";
 const app = new Koa();
 const router = new Router({ prefix: "/api/v1" });
 
-/** Use CORS */
-app.use(cors());
+app.use(koaHelmet()); // Basic security
+app.use(cors()); // CORS
+app.use(bodyParser()); // Parse JSON request body
 
 app.use(errorMiddleware());
 app.use(loggerMiddleware());

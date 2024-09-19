@@ -1,11 +1,11 @@
-import { BaseContext, Next } from "koa";
+import { Context, Next } from "koa";
 import { logger } from "../utils/logger";
 
 /**
  * Logger middleware
  * @returns Koa middleware
  */
-export const loggerMiddleware = () => async (ctx: BaseContext, next: Next) => {
+export const loggerMiddleware = () => async (ctx: Context, next: Next) => {
   const start = Date.now();
   try {
     await next();
