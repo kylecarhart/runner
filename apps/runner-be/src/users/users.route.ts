@@ -1,19 +1,14 @@
 import Router from "@koa/router";
-import { CreateUserRequestSchema, SelectUserSchema } from "@runner/api";
-import { db } from "../database/db";
+import {
+  CreateUserRequestSchema,
+  GetUsersRequestQueryParamsSchema,
+  GetUsersResponseSchema,
+  SelectUserSchema,
+} from "@runner/api";
 import { validate } from "../middleware/validate.middleware";
 import { usersService } from "./users.service";
 
 export const userRouter = new Router();
-
-userRouter.get("/", async (ctx, next) => {
-  const allUsers = await db.query.events.findMany({
-    with: {
-      races: true,
-    },
-  });
-  ctx.body = JSON.stringify(allUsers, null, 2);
-});
 
 /**
  * Create a new user
@@ -29,6 +24,19 @@ userRouter.post(
       ctx.body = newUser;
     },
   ),
+);
+
+/**
+ * Query users
+ */
+userRouter.get(
+  "query-users",
+  "/",
+  validate({ res: GetUsersResponseSchema }, async (ctx) => {
+    const params = GetUsersRequestQueryParamsSchema.parse(ctx.request.query);
+    const users = await usersService.queryUsers(params);
+    ctx.body = users;
+  }),
 );
 
 /**

@@ -39,3 +39,17 @@ export const CreateUserRequestSchema = SelectUserSchema.omit({
   updatedAt: true,
 });
 export type CreateUserRequest = z.infer<typeof CreateUserRequestSchema>;
+
+export const GetUsersRequestQueryParamsSchema = SelectUserSchema.partial().omit(
+  {
+    id: true,
+    password: true,
+    email: true,
+  },
+);
+
+export const GetUsersResponseSchema = z.array(
+  SelectUserSchema.omit({
+    password: true,
+  }),
+);

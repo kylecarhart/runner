@@ -1,16 +1,33 @@
 import { CreateUserRequest } from "@runner/api";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { db } from "../database/db";
 import { NotFoundError } from "../errors/NotFoundError";
-import { User, users } from "./users.schema";
+import { queryModel } from "../utils/drizzle";
+import { User, UserWithPassword, users } from "./users.schema";
 
-export async function getById(id: string): Promise<User> {
+export async function getById(id: string): Promise<UserWithPassword> {
   const user = await db.query.users.findFirst({ where: eq(users.id, id) });
   if (!user) {
     throw new NotFoundError("User", { id });
   }
 
   return user;
+}
+
+export async function queryUsers(
+  user: Partial<User>,
+  offset = 0,
+): Promise<User[]> {
+  const wheres = queryModel(users, user);
+
+  return db.query.users.findMany({
+    limit: 10,
+    offset,
+    columns: {
+      password: false,
+    },
+    ...(wheres.length > 0 && { where: and(...wheres) }), // TODO: fix this
+  });
 }
 
 // export function findOneWithPassword(id: User["id"]): Promise<User | null> {
@@ -37,7 +54,9 @@ export async function getById(id: string): Promise<User> {
 //     .getOne();
 // }
 
-function createUser(createUserRequest: CreateUserRequest): Promise<User[]> {
+function createUser(
+  createUserRequest: CreateUserRequest,
+): Promise<UserWithPassword[]> {
   return db.insert(users).values(createUserRequest).returning();
 }
 
@@ -81,4 +100,5 @@ function createUser(createUserRequest: CreateUserRequest): Promise<User[]> {
 export const usersService = {
   createUser,
   getById,
+  queryUsers,
 };
