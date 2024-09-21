@@ -36,6 +36,7 @@
   "dependencies": {
     "@koa/bodyparser": "^5.1.1",
     "@koa/router": "^13.0.1",
+    "@runner/api": "workspace:*",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.33.0",
     "drizzle-zod": "^0.5.1",
