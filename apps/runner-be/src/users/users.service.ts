@@ -1,9 +1,6 @@
-// export function findAll(): Promise<UserWithoutPassword[]> {
-//   return this.usersRepository.find();
-// }
-
+import { CreateUserRequest } from "@runner/api";
 import { db } from "../database/db";
-import { CreateUser, User, users } from "./users.schema";
+import { User, users } from "./users.schema";
 
 // export function findOne(id: User["id"]): Promise<UserWithoutPassword | null> {
 //   return this.usersRepository.findOneBy({ id });
@@ -33,8 +30,10 @@ import { CreateUser, User, users } from "./users.schema";
 //     .getOne();
 // }
 
-export function createUser(createUserDto: CreateUser): Promise<User[]> {
-  return db.insert(users).values(createUserDto).returning();
+export function createUser(
+  createUserRequest: CreateUserRequest,
+): Promise<User[]> {
+  return db.insert(users).values(createUserRequest).returning();
 }
 
 // export async function update(

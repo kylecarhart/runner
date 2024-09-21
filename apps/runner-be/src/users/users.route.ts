@@ -1,7 +1,7 @@
 import Router from "@koa/router";
+import { CreateUserRequestSchema, SelectUserSchema } from "@runner/api";
 import { db } from "../database/db";
 import { validate } from "../middleware/validate.middleware";
-import { createUserRequestSchema, selectUserSchema } from "./users.schema";
 import { createUser } from "./users.service";
 
 export const userRouter = new Router();
@@ -22,7 +22,7 @@ userRouter.post(
   "create-user",
   "/",
   validate(
-    { req: createUserRequestSchema, res: selectUserSchema.array() },
+    { req: CreateUserRequestSchema, res: SelectUserSchema.array() },
     async (ctx) => {
       const createUserRequest = ctx.request.body;
       const newUser = await createUser(createUserRequest);
