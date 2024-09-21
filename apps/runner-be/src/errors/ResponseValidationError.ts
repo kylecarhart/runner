@@ -4,10 +4,10 @@ import { ApplicationError } from "./ApplicationError";
 
 export class ResponseValidationError extends ApplicationError {
   constructor(err: ZodError) {
-    super(
-      `Error parsing response body: ${JSON.stringify(err.flatten())}. Check the response body and try again.`,
-      "An unknown error has occurred. Please try again.",
-      StatusCodes.INTERNAL_SERVER_ERROR,
-    );
+    super({
+      apiMessage: "An unknown error has occurred. Please try again.",
+      logMessage: `Error parsing response body: ${JSON.stringify(err.flatten())}. Check the response body and try again.`,
+      httpStatusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+    });
   }
 }
