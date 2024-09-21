@@ -13,10 +13,12 @@ import { ResponseValidationError } from "../errors/ResponseValidationError";
  * @returns Koa middleware
  */
 const validateMiddleware =
-  (reqSchema: ZodSchema, resSchema?: ZodSchema) =>
+  ({ req: reqSchema, res: resSchema }: Schemas) =>
   async (ctx: Context, next: Next) => {
-    const parsedBody = await reqSchema.parseAsync(ctx.request.body);
-    ctx.request.body = parsedBody;
+    if (reqSchema) {
+      const parsedBody = await reqSchema.parseAsync(ctx.request.body);
+      ctx.request.body = parsedBody;
+    }
 
     await next(); // Wait for route to complete
 
@@ -40,12 +42,14 @@ type Modify<T, U> = Omit<T, keyof U> & U;
  * Context with request and response body inferred types.
  */
 type HandlerContext<
-  T extends ZodSchema,
-  U extends ZodSchema | unknown,
+  T extends ZodSchema | undefined,
+  U extends ZodSchema | undefined,
 > = Modify<
   Context,
   {
-    request: Modify<Context["request"], { body: z.infer<T> }>;
+    request: T extends ZodSchema
+      ? Modify<Context["request"], { body: z.infer<T> }>
+      : Context["request"];
     body: U extends ZodSchema ? z.infer<U> : unknown;
   }
 >;
@@ -53,9 +57,9 @@ type HandlerContext<
 /**
  * Zod schemas to parse for request and response bodies.
  */
-type Schemas<T extends ZodSchema, U extends ZodSchema | undefined> = {
+type Schemas<T = ZodSchema | undefined, U = ZodSchema | undefined> = {
   /** Request zod schema */
-  req: T;
+  req?: T;
   /** Response zod schema */
   res?: U;
 };
@@ -80,9 +84,12 @@ type Schemas<T extends ZodSchema, U extends ZodSchema | undefined> = {
  * @param handler Route handler
  * @returns Koa middleware
  */
-export function validate<T extends ZodSchema, U extends ZodSchema | undefined>(
+export function validate<
+  T extends ZodSchema | undefined,
+  U extends ZodSchema | undefined,
+>(
   { req, res }: Schemas<T, U>,
   handler: (ctx: HandlerContext<T, U>, next: Next) => unknown,
 ) {
-  return compose([validateMiddleware(req, res), handler]);
+  return compose([validateMiddleware({ req, res }), handler]);
 }

@@ -1,10 +1,17 @@
 import { CreateUserRequest } from "@runner/api";
+import { eq } from "drizzle-orm";
 import { db } from "../database/db";
+import { NotFoundError } from "../errors/NotFoundError";
 import { User, users } from "./users.schema";
 
-// export function findOne(id: User["id"]): Promise<UserWithoutPassword | null> {
-//   return this.usersRepository.findOneBy({ id });
-// }
+export async function getById(id: string): Promise<User> {
+  const user = await db.query.users.findFirst({ where: eq(users.id, id) });
+  if (!user) {
+    throw new NotFoundError("User", { id });
+  }
+
+  return user;
+}
 
 // export function findOneWithPassword(id: User["id"]): Promise<User | null> {
 //   return this.usersRepository
@@ -30,9 +37,7 @@ import { User, users } from "./users.schema";
 //     .getOne();
 // }
 
-export function createUser(
-  createUserRequest: CreateUserRequest,
-): Promise<User[]> {
+function createUser(createUserRequest: CreateUserRequest): Promise<User[]> {
   return db.insert(users).values(createUserRequest).returning();
 }
 
@@ -72,3 +77,8 @@ export function createUser(
 //   const hashedPassword = await argon2.hash(password);
 //   await this.usersRepository.update(id, { password: hashedPassword });
 // }
+
+export const usersService = {
+  createUser,
+  getById,
+};
