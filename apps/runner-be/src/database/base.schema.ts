@@ -7,13 +7,13 @@ const idColumn = {
 } satisfies PgTableColumns;
 
 const auditColumns = {
-  createdDate: timestamp("createdDate", {
+  createdAt: timestamp("createdAt", {
     withTimezone: true,
     mode: "string",
   })
     .defaultNow()
     .notNull(),
-  updatedDate: timestamp("updatedDate", {
+  updatedAt: timestamp("updatedAt", {
     withTimezone: true,
     mode: "string",
   })
