@@ -67,8 +67,6 @@ type OptionalInferredType<Schema extends OptionalZodSchema> =
  * TODO: I think ideally, I would like to override the types that come default
  * with router and koa, but for now, I will just create my own `requestBody`
  * alias to `ctx.request.body`.
- *
- * TODO: THIS STILL NEEDS TO BE FIXED... Omit doest work
  */
 type HandlerContext<
   RequestBodySchema extends OptionalZodSchema,
