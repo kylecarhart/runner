@@ -1,5 +1,22 @@
 import { z } from "zod";
 
+const PasswordSchema = z
+  .string()
+  .min(8, "Password must be at least 8 characters")
+  .max(64)
+  .refine(
+    (value) => {
+      const strongPassword = new RegExp(
+        "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})",
+      );
+      return strongPassword.test(value);
+    },
+    {
+      message:
+        "Password must be at least 8 characters, contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+    },
+  );
+
 export const SelectUserSchema = z.object({
   id: z.string().uuid(),
   firstName: z.string().min(1, "First name is required").max(64),
@@ -13,22 +30,7 @@ export const SelectUserSchema = z.object({
         "Username can only contain letters, numbers, underscores, and hyphens",
     }),
   email: z.string().email("Email is not valid"),
-  password: z
-    .string()
-    .min(8, "Password must be at least 8 characters")
-    .max(64)
-    .refine(
-      (value) => {
-        const strongPassword = new RegExp(
-          "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})",
-        );
-        return strongPassword.test(value);
-      },
-      {
-        message:
-          "Password must be at least 8 characters, contain at least one uppercase letter, one lowercase letter, one number, and one special character",
-      },
-    ),
+  password: PasswordSchema,
   createdAt: z.string(),
   updatedAt: z.string(),
 });
@@ -68,11 +70,26 @@ export const UpdateUserRequestSchema = SelectUserSchema.omit({
   id: true,
   username: true, // TODO: Do we ever want a person to be able to change their username?
   email: true, // TODO: Changing email will require a confirmation.
-  password: true, // TODO: Changing password should probably require its own endpoint.
+  password: true,
   createdAt: true,
   updatedAt: true,
 });
 export type UpdateUserRequest = z.infer<typeof UpdateUserRequestSchema>;
+
+// Change password
+export const ChangePasswordParamsSchema = SelectUserSchema.pick({ id: true });
+export const ChangePasswordRequestSchema = SelectUserSchema.pick({
+  password: true,
+})
+  .extend({
+    oldPassword: z.string(),
+    confirmPassword: z.string(),
+  })
+  .refine((schema) => schema.password === schema.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
+export type ChangePasswordRequest = z.infer<typeof ChangePasswordRequestSchema>;
 
 // Delete
 export const DeleteUserParamsSchema = SelectUserSchema.pick({ id: true });

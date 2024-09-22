@@ -1,10 +1,10 @@
 import Router from "@koa/router";
 import {
+  ChangePasswordParamsSchema,
+  ChangePasswordRequestSchema,
   CreateUserRequestSchema,
   GetUserParamsSchema,
   GetUserResponseSchema,
-  GetUsersRequestQueryParamsSchema,
-  GetUsersResponseSchema,
   SuccessResponseSchema,
   UpdateUserParamsSchema,
   UpdateUserRequestSchema,
@@ -37,21 +37,21 @@ userRouter.post(
 /**
  * Query users
  */
-userRouter.get(
-  "query-users",
-  "/",
-  validate(
-    {
-      res: withSuccessResponseSchema(GetUsersResponseSchema),
-      query: GetUsersRequestQueryParamsSchema,
-    },
-    async (ctx) => {
-      const params = ctx.query;
-      const users = await usersService.queryUsers(params);
-      ctx.body = { success: true, data: users };
-    },
-  ),
-);
+// userRouter.get(
+//   "query-users",
+//   "/",
+//   validate(
+//     {
+//       res: withSuccessResponseSchema(GetUsersResponseSchema),
+//       query: GetUsersRequestQueryParamsSchema,
+//     },
+//     async (ctx) => {
+//       const params = ctx.query;
+//       const users = await usersService.queryUsers(params);
+//       ctx.body = { success: true, data: users };
+//     },
+//   ),
+// );
 
 /**
  * Get a user by id
@@ -110,6 +110,29 @@ userRouter.delete(
       const { id } = ctx.params;
       await usersService.deleteUser(id);
       ctx.body = { success: true, message: `User ${id} deleted.` };
+    },
+  ),
+);
+
+/**
+ * Change user password
+ */
+userRouter.patch(
+  "change-password",
+  "/:id/password",
+  validate(
+    {
+      params: ChangePasswordParamsSchema,
+      req: ChangePasswordRequestSchema,
+      res: SuccessResponseSchema,
+    },
+    async (ctx) => {
+      const { id } = ctx.params;
+      const changePasswordRequest = ctx.requestBody;
+
+      await usersService.changePassword(id, changePasswordRequest);
+
+      ctx.body = { success: true, message: `User ${id} password changed.` };
     },
   ),
 );
