@@ -1,5 +1,5 @@
 import Router from "@koa/router";
-import { Context, Next } from "koa";
+import { Context, DefaultState, Next } from "koa";
 import compose from "koa-compose";
 import { z, ZodError, ZodSchema } from "zod";
 import { ResponseValidationError } from "../errors/ResponseValidationError";
@@ -64,19 +64,28 @@ type OptionalInferredType<Schema extends OptionalZodSchema> =
  * Context with request body, response body, query params, and params inferred
  * from optionally provided zod schemas.
  *
- * TODO: Ideally, I would like to override the types that come default with
- * router and koa, but for now, I will just create my own `requestBody` alias
- * to `ctx.request.body`.
+ * TODO: I think ideally, I would like to override the types that come default
+ * with router and koa, but for now, I will just create my own `requestBody`
+ * alias to `ctx.request.body`.
+ *
+ * TODO: THIS STILL NEEDS TO BE FIXED... Omit doest work
  */
 type HandlerContext<
   RequestBodySchema extends OptionalZodSchema,
   ResponseBodySchema extends OptionalZodSchema,
   QueryParamsSchema extends OptionalZodSchema,
   ParamsSchema extends OptionalZodSchema,
-> = Omit<Router.RouterContext, "requestBody" | "query" | "body" | "params"> & {
+> = Omit<
+  Router.RouterContext<
+    DefaultState,
+    object, // TODO: Not sure if this should be object or unknown or what.
+    OptionalInferredType<ResponseBodySchema>
+  >,
+  "query" | "params"
+> & {
   requestBody: OptionalInferredType<RequestBodySchema>;
   query: OptionalInferredType<QueryParamsSchema>;
-  body: OptionalInferredType<ResponseBodySchema>;
+  // body: OptionalInferredType<ResponseBodySchema>;
   params: OptionalInferredType<ParamsSchema>;
 };
 
