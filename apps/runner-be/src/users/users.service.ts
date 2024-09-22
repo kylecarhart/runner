@@ -22,7 +22,8 @@ const userServiceLogger = logger.child({ service: "users" });
  * @returns User
  * @throws NotFoundError if user is not found.
  */
-export async function getUserById(id: string): Promise<User> {
+async function getUserById(id: string): Promise<User> {
+  userServiceLogger.debug("getUserById", { id });
   const user = await db.query.users.findFirst({
     where: eq(users.id, id),
     columns: { password: false },
@@ -35,10 +36,8 @@ export async function getUserById(id: string): Promise<User> {
   return user;
 }
 
-export async function queryUsers(
-  user: Partial<User>,
-  offset = 0,
-): Promise<User[]> {
+async function queryUsers(user: Partial<User>, offset = 0): Promise<User[]> {
+  userServiceLogger.debug("queryUsers", { user, offset });
   const wheres = queryModel(users, user);
 
   return db.query.users.findMany({
@@ -50,30 +49,6 @@ export async function queryUsers(
     ...(wheres.length > 0 && { where: and(...wheres) }), // TODO: fix this
   });
 }
-
-// export function findOneWithPassword(id: User["id"]): Promise<User | null> {
-//   return this.usersRepository
-//     .createQueryBuilder("user")
-//     .addSelect("user.password")
-//     .where("user.id = :id", { id })
-//     .getOne();
-// }
-
-// export function findOneByUsername(
-//   username: User["username"],
-// ): Promise<UserWithoutPassword | null> {
-//   return this.usersRepository.findOneBy({ username });
-// }
-
-// export function findOneByUsernameWithPassword(
-//   username: User["username"],
-// ): Promise<User | null> {
-//   return this.usersRepository
-//     .createQueryBuilder("user")
-//     .addSelect("user.password")
-//     .where("user.username = :username", { username })
-//     .getOne();
-// }
 
 async function createUser(createUserRequest: CreateUserRequest): Promise<User> {
   try {
@@ -142,9 +117,18 @@ async function updateUser(
   }
 }
 
-// export async function remove(id: User["id"]): Promise<void> {
-//   await this.usersRepository.delete(id);
-// }
+/**
+ * Delete a user
+ * @param id User id
+ */
+async function deleteUser(id: string): Promise<void> {
+  userServiceLogger.debug("deleteUser", { id });
+  const user = (await db.delete(users).where(eq(users.id, id)).returning())[0];
+
+  if (!user) {
+    throw new NotFoundError("User", { id });
+  }
+}
 
 // export async function changePassword(
 //   id: User["id"],
@@ -176,4 +160,5 @@ export const usersService = {
   getUserById,
   queryUsers,
   updateUser,
+  deleteUser,
 };

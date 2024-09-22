@@ -2,6 +2,7 @@
 
 TODO:
 
+- Create runner-be debug launch.json
 - Implement api contract package
 - Look at implementing knip
 - Add tests (vitest)

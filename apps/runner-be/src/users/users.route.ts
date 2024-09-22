@@ -8,6 +8,7 @@ import {
   UpdateUserParamsSchema,
   UpdateUserRequestSchema,
 } from "@runner/api";
+import z from "zod";
 import { validate } from "../middleware/validate.middleware";
 import { usersService } from "./users.service";
 
@@ -65,6 +66,7 @@ userRouter.get(
 
 /**
  * Update a users basic information
+ * TODO: PUT or PATCH? Does it really matter at all? Semantics :|
  */
 userRouter.patch(
   "update-user",
@@ -81,6 +83,25 @@ userRouter.patch(
 
       const updatedUser = await usersService.updateUser(id, updateUserRequest);
       ctx.body = updatedUser;
+    },
+  ),
+);
+
+/**
+ * Delete a user.
+ */
+userRouter.delete(
+  "delete-user",
+  "/:id",
+  validate(
+    {
+      params: UpdateUserParamsSchema,
+      res: z.string(), // TODO: Eventually change this to a better return type
+    },
+    async (ctx) => {
+      const { id } = ctx.params;
+      await usersService.deleteUser(id);
+      ctx.body = "OK";
     },
   ),
 );
