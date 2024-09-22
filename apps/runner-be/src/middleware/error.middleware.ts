@@ -22,10 +22,12 @@ export const errorMiddleware = () => async (ctx: Context, next: Next) => {
       return handleZodError(ctx, err);
     }
 
+    // Unhandled error
     if (err instanceof Error) {
       return handleError(ctx, err);
     }
 
+    // Unknown error
     return handleUnknownError(ctx);
   }
 };
@@ -64,18 +66,18 @@ function handleZodError(ctx: Context, err: ZodError) {
 function handleError(ctx: Context, err: Error) {
   logger.error(err.stack);
   ctx.body = {
-    message: err.message,
+    message: "An error occurred. Please try again.",
   };
   ctx.status = StatusCodes.INTERNAL_SERVER_ERROR;
 }
 
 /**
- * Catch all for anything thrown that is not an error.
+ * Catch all for anything thrown that is not an instance of Error.
  * @param ctx Koa context
  */
 function handleUnknownError(ctx: Context) {
   ctx.body = {
-    message: "An unknown error occurred",
+    message: "An unknown error occurred. Please try again.",
   };
   ctx.status = StatusCodes.INTERNAL_SERVER_ERROR;
 }

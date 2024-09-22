@@ -5,6 +5,7 @@ import { db } from "../database/db";
 import { ConstraintError } from "../errors/ConstraintError";
 import { NotFoundError } from "../errors/NotFoundError";
 import { queryModel } from "../utils/drizzle";
+import { logger } from "../utils/logger";
 import {
   INDEX_UNIQUE_EMAIL,
   INDEX_UNIQUE_USERNAME,
@@ -12,6 +13,8 @@ import {
   UserWithPassword,
   users,
 } from "./users.schema";
+
+const userServiceLogger = logger.child({ service: "users" });
 
 export async function getById(id: string): Promise<UserWithPassword> {
   const user = await db.query.users.findFirst({ where: eq(users.id, id) });
@@ -64,6 +67,7 @@ export async function queryUsers(
 
 async function createUser(createUserRequest: CreateUserRequest): Promise<User> {
   try {
+    userServiceLogger.debug("createUser", createUserRequest);
     const user = (
       await db.insert(users).values(createUserRequest).returning()
     )[0];
