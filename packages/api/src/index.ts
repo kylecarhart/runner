@@ -36,7 +36,7 @@ export const SelectUserSchema = z.object({
 export const GetUserParamsSchema = SelectUserSchema.pick({ id: true });
 export const GetUserResponseSchema = SelectUserSchema.omit({
   password: true,
-});
+}).strict();
 
 export const CreateUserRequestSchema = SelectUserSchema.omit({
   id: true,

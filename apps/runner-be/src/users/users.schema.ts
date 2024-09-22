@@ -18,6 +18,9 @@ export const users = pgTable(
   (table) => ({
     /** @see https://orm.drizzle.team/learn/guides/unique-case-insensitive-email */
     emailUniqueIndex: uniqueIndex(INDEX_UNIQUE_EMAIL).on(lower(table.email)),
+    usernameUniqueIndex: uniqueIndex(INDEX_UNIQUE_USERNAME).on(
+      lower(table.username),
+    ),
   }),
 );
 
