@@ -1,6 +1,7 @@
 import Router from "@koa/router";
 import {
   CreateUserRequestSchema,
+  GetUserParamsSchema,
   GetUserResponseSchema,
   GetUsersRequestQueryParamsSchema,
   GetUsersResponseSchema,
@@ -51,8 +52,11 @@ userRouter.get(
 userRouter.get(
   "get-user",
   "/:id",
-  validate({ res: GetUserResponseSchema }, async (ctx) => {
-    const { id } = ctx.params;
-    ctx.body = await usersService.getById(id);
-  }),
+  validate(
+    { params: GetUserParamsSchema, res: GetUserResponseSchema },
+    async (ctx) => {
+      const { id } = ctx.params;
+      ctx.body = await usersService.getById(id);
+    },
+  ),
 );

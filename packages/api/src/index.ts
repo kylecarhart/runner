@@ -33,6 +33,7 @@ export const SelectUserSchema = z.object({
   updatedAt: z.string(),
 });
 
+export const GetUserParamsSchema = SelectUserSchema.pick({ id: true });
 export const GetUserResponseSchema = SelectUserSchema.omit({
   password: true,
 });

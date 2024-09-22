@@ -1,7 +1,6 @@
 import Router from "@koa/router";
 import { Context, Next } from "koa";
 import compose from "koa-compose";
-import { ParsedUrlQuery } from "querystring";
 import { z, ZodError, ZodSchema } from "zod";
 import { ResponseValidationError } from "../errors/ResponseValidationError";
 import { enabled } from "../utils/flags";
@@ -17,7 +16,7 @@ import { enabled } from "../utils/flags";
  * @returns Koa middleware
  */
 const validateMiddleware =
-  ({ req, res, query }: Schemas) =>
+  ({ req, res, query, params }: Schemas) =>
   async (ctx: Context, next: Next) => {
     if (req) {
       const parsedBody = await req.parseAsync(ctx.request.body);
@@ -29,6 +28,11 @@ const validateMiddleware =
     if (query) {
       const parsedQuery = await query.parseAsync(ctx.query);
       ctx.query = parsedQuery;
+    }
+
+    if (params) {
+      const parsedParams = await params.parseAsync(ctx.params);
+      ctx.params = parsedParams;
     }
 
     await next(); // Wait for route to complete
@@ -44,12 +48,22 @@ const validateMiddleware =
     }
   };
 
-/** Helper for modifying pre-existing types */
-// type Modify<T, U> = Omit<T, keyof U> & U;
 type OptionalZodSchema = ZodSchema | undefined;
+/**
+ * We need to do `undefined extends T` because union types distribute
+ * @see https://www.typescriptlang.org/docs/handbook/2/conditional-types.html#distributive-conditional-types
+ */
+type OptionalInferredType<Schema extends OptionalZodSchema> =
+  undefined extends Schema
+    ? unknown
+    : Schema extends ZodSchema
+      ? z.infer<Schema>
+      : never;
 
 /**
- * Context with request and response body inferred types.
+ * Context with request body, response body, query params, and params inferred
+ * from optionally provided zod schemas.
+ *
  * TODO: Ideally, I would like to override the types that come default with
  * router and koa, but for now, I will just create my own `requestBody` alias
  * to `ctx.request.body`.
@@ -58,26 +72,12 @@ type HandlerContext<
   RequestBodySchema extends OptionalZodSchema,
   ResponseBodySchema extends OptionalZodSchema,
   QueryParamsSchema extends OptionalZodSchema,
-> = Omit<Router.RouterContext, "query" | "body"> & {
-  /**
-   * We need to do `undefined extends T` because union types distribute
-   * @see https://www.typescriptlang.org/docs/handbook/2/conditional-types.html#distributive-conditional-types
-   */
-  requestBody: undefined extends RequestBodySchema
-    ? unknown
-    : RequestBodySchema extends ZodSchema
-      ? z.infer<RequestBodySchema>
-      : never;
-  query: undefined extends QueryParamsSchema
-    ? ParsedUrlQuery
-    : QueryParamsSchema extends ZodSchema
-      ? z.infer<QueryParamsSchema>
-      : never;
-  body: undefined extends ResponseBodySchema
-    ? unknown
-    : ResponseBodySchema extends ZodSchema
-      ? z.infer<ResponseBodySchema>
-      : never;
+  ParamsSchema extends OptionalZodSchema,
+> = Omit<Router.RouterContext, "requestBody" | "query" | "body" | "params"> & {
+  requestBody: OptionalInferredType<RequestBodySchema>;
+  query: OptionalInferredType<QueryParamsSchema>;
+  body: OptionalInferredType<ResponseBodySchema>;
+  params: OptionalInferredType<ParamsSchema>;
 };
 
 /**
@@ -85,19 +85,23 @@ type HandlerContext<
  */
 type Schemas<
   RequestBodySchema = OptionalZodSchema,
-  ResponseBodySchema = OptionalZodSchema,
+  ResponseBodySchema = ZodSchema,
   QueryParamsSchema = OptionalZodSchema,
+  ParamsSchema = OptionalZodSchema,
 > = {
   /** Request zod schema */
   req?: RequestBodySchema;
   /** Response zod schema */
-  res?: ResponseBodySchema;
+  res: ResponseBodySchema;
   /** Query params zod schema */
   query?: QueryParamsSchema;
+  /** Params zod schema */
+  params?: ParamsSchema;
 };
 
 /**
- * Validates request and response bodies (optional).
+ * Validates request bodies, response bodies, query params, and params using
+ * the provided schemas. Note that only response is required.
  *
  * @example
  * userRouter.post(
@@ -118,22 +122,30 @@ type Schemas<
  */
 export function validate<
   RequestBodySchema extends OptionalZodSchema,
-  ResponseBodySchema extends OptionalZodSchema,
+  ResponseBodySchema extends ZodSchema,
   QueryParamsSchema extends OptionalZodSchema,
+  ParamsSchema extends OptionalZodSchema,
 >(
   {
     req,
     res,
     query,
-  }: Schemas<RequestBodySchema, ResponseBodySchema, QueryParamsSchema>,
+    params,
+  }: Schemas<
+    RequestBodySchema,
+    ResponseBodySchema,
+    QueryParamsSchema,
+    ParamsSchema
+  >,
   handler: (
     ctx: HandlerContext<
       RequestBodySchema,
       ResponseBodySchema,
-      QueryParamsSchema
+      QueryParamsSchema,
+      ParamsSchema
     >,
     next: Next,
   ) => unknown,
 ) {
-  return compose([validateMiddleware({ req, res, query }), handler]);
+  return compose([validateMiddleware({ req, res, query, params }), handler]);
 }
