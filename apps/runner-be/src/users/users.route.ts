@@ -19,7 +19,7 @@ userRouter.post(
   validate(
     { req: CreateUserRequestSchema, res: SelectUserSchema.array() },
     async (ctx) => {
-      const createUserRequest = ctx.request.body;
+      const createUserRequest = ctx.requestBody;
       const newUser = await usersService.createUser(createUserRequest);
       ctx.body = newUser;
     },
@@ -32,11 +32,17 @@ userRouter.post(
 userRouter.get(
   "query-users",
   "/",
-  validate({ res: GetUsersResponseSchema }, async (ctx) => {
-    const params = GetUsersRequestQueryParamsSchema.parse(ctx.request.query);
-    const users = await usersService.queryUsers(params);
-    ctx.body = users;
-  }),
+  validate(
+    {
+      res: GetUsersResponseSchema,
+      query: GetUsersRequestQueryParamsSchema,
+    },
+    async (ctx) => {
+      const params = ctx.query;
+      const users = await usersService.queryUsers(params);
+      ctx.body = users;
+    },
+  ),
 );
 
 /**
@@ -45,7 +51,7 @@ userRouter.get(
 userRouter.get(
   "get-user",
   "/:id",
-  validate({ res: SelectUserSchema }, async (ctx) => {
+  validate({}, async (ctx) => {
     const { id } = ctx.params;
     ctx.body = await usersService.getById(id);
   }),
