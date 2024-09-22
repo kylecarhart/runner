@@ -3,7 +3,7 @@ import { pgTable, timestamp, uuid } from "drizzle-orm/pg-core";
 type PgTableColumns = Parameters<typeof pgTable>[1];
 
 const idColumn = {
-  id: uuid("id").defaultRandom().primaryKey().notNull(),
+  id: uuid("id").defaultRandom().primaryKey(),
 } satisfies PgTableColumns;
 
 const auditColumns = {

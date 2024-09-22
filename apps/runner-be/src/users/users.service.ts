@@ -1,9 +1,17 @@
 import { CreateUserRequest } from "@runner/api";
 import { and, eq } from "drizzle-orm";
+import { PostgresError } from "postgres";
 import { db } from "../database/db";
+import { ConstraintError } from "../errors/ConstraintError";
 import { NotFoundError } from "../errors/NotFoundError";
 import { queryModel } from "../utils/drizzle";
-import { User, UserWithPassword, users } from "./users.schema";
+import {
+  INDEX_UNIQUE_EMAIL,
+  INDEX_UNIQUE_USERNAME,
+  User,
+  UserWithPassword,
+  users,
+} from "./users.schema";
 
 export async function getById(id: string): Promise<UserWithPassword> {
   const user = await db.query.users.findFirst({ where: eq(users.id, id) });
@@ -54,10 +62,29 @@ export async function queryUsers(
 //     .getOne();
 // }
 
-function createUser(
-  createUserRequest: CreateUserRequest,
-): Promise<UserWithPassword[]> {
-  return db.insert(users).values(createUserRequest).returning();
+async function createUser(createUserRequest: CreateUserRequest): Promise<User> {
+  try {
+    const user = (
+      await db.insert(users).values(createUserRequest).returning()
+    )[0];
+    return user;
+  } catch (e) {
+    if (e instanceof PostgresError) {
+      if (e.constraint_name === INDEX_UNIQUE_USERNAME) {
+        throw new ConstraintError(
+          "Username already exists.",
+          e.constraint_name,
+        );
+      } else if (e.constraint_name === INDEX_UNIQUE_EMAIL) {
+        throw new ConstraintError(
+          "Email already exists.",
+          e.constraint_name,
+          createUserRequest,
+        );
+      }
+    }
+    throw e;
+  }
 }
 
 // export async function update(

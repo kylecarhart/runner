@@ -20,8 +20,8 @@ const validateMiddleware =
   async (ctx: Context, next: Next) => {
     if (req) {
       const parsedBody = await req.parseAsync(ctx.request.body);
-      ctx.request.body = parsedBody;
-      ctx.requestBody = parsedBody;
+      ctx.request.body = parsedBody; // Overwrite request body
+      ctx.requestBody = parsedBody; // Create alias for request body with inferred type
     }
 
     // TODO: See if we want to throw on query params or not.
