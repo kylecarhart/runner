@@ -1,9 +1,10 @@
 import Router from "@koa/router";
-import { Context, DefaultContext, DefaultState, Next } from "koa";
+import { Context, Next } from "koa";
 import compose from "koa-compose";
 import { ParsedUrlQuery } from "querystring";
 import { z, ZodError, ZodSchema } from "zod";
 import { ResponseValidationError } from "../errors/ResponseValidationError";
+import { enabled } from "../utils/flags";
 
 /**
  * Validates request bodies, query params, and response bodies. The middleware
@@ -32,7 +33,8 @@ const validateMiddleware =
 
     await next(); // Wait for route to complete
 
-    if (res) {
+    // Only run if response validation is enabled
+    if (res && enabled("RESPONSE_VALIDATION")) {
       try {
         await res.parseAsync(ctx.body);
       } catch (e) {
@@ -56,14 +58,7 @@ type HandlerContext<
   RequestBodySchema extends OptionalZodSchema,
   ResponseBodySchema extends OptionalZodSchema,
   QueryParamsSchema extends OptionalZodSchema,
-> = Omit<
-  Router.RouterContext<
-    DefaultState,
-    DefaultContext,
-    ResponseBodySchema extends ZodSchema ? z.infer<ResponseBodySchema> : unknown
-  >,
-  "query"
-> & {
+> = Omit<Router.RouterContext, "query" | "body"> & {
   /**
    * We need to do `undefined extends T` because union types distribute
    * @see https://www.typescriptlang.org/docs/handbook/2/conditional-types.html#distributive-conditional-types
@@ -73,11 +68,15 @@ type HandlerContext<
     : RequestBodySchema extends ZodSchema
       ? z.infer<RequestBodySchema>
       : never;
-} & {
   query: undefined extends QueryParamsSchema
     ? ParsedUrlQuery
     : QueryParamsSchema extends ZodSchema
       ? z.infer<QueryParamsSchema>
+      : never;
+  body: undefined extends ResponseBodySchema
+    ? unknown
+    : ResponseBodySchema extends ZodSchema
+      ? z.infer<ResponseBodySchema>
       : never;
 };
 

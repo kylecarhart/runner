@@ -8,6 +8,8 @@ TODO:
 - implement eslint base config with
   - eslint-plugin-jsdoc
 - Make a global eslint config
+- Add common response schema for success and failure.
+- Add feature toggles. (so i can dynamically turn off response validation)
 
 - Read through https://github.com/koajs/koa/wiki for popular koa middlware, utils, etc...
 - Add openapi spec

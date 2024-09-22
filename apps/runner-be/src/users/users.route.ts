@@ -1,9 +1,9 @@
 import Router from "@koa/router";
 import {
   CreateUserRequestSchema,
+  GetUserResponseSchema,
   GetUsersRequestQueryParamsSchema,
   GetUsersResponseSchema,
-  SelectUserSchema,
 } from "@runner/api";
 import { validate } from "../middleware/validate.middleware";
 import { usersService } from "./users.service";
@@ -17,7 +17,7 @@ userRouter.post(
   "create-user",
   "/",
   validate(
-    { req: CreateUserRequestSchema, res: SelectUserSchema.array() },
+    { req: CreateUserRequestSchema, res: GetUserResponseSchema },
     async (ctx) => {
       const createUserRequest = ctx.requestBody;
       const newUser = await usersService.createUser(createUserRequest);
@@ -51,7 +51,7 @@ userRouter.get(
 userRouter.get(
   "get-user",
   "/:id",
-  validate({}, async (ctx) => {
+  validate({ res: GetUserResponseSchema }, async (ctx) => {
     const { id } = ctx.params;
     ctx.body = await usersService.getById(id);
   }),

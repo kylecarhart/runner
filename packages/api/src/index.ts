@@ -33,6 +33,10 @@ export const SelectUserSchema = z.object({
   updatedAt: z.string(),
 });
 
+export const GetUserResponseSchema = SelectUserSchema.omit({
+  password: true,
+});
+
 export const CreateUserRequestSchema = SelectUserSchema.omit({
   id: true,
   createdAt: true,
@@ -47,9 +51,4 @@ export const GetUsersRequestQueryParamsSchema = SelectUserSchema.partial().omit(
     email: true,
   },
 );
-
-export const GetUsersResponseSchema = z.array(
-  SelectUserSchema.omit({
-    password: true,
-  }),
-);
+export const GetUsersResponseSchema = z.array(GetUserResponseSchema);
