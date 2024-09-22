@@ -2,6 +2,10 @@ import { StatusCodes } from "http-status-codes";
 import { ZodError } from "zod";
 import { ApplicationError } from "./ApplicationError";
 
+/**
+ * If the response body to be returned to the client does not match the expected
+ * schema, this error will be thrown.
+ */
 export class ResponseValidationError extends ApplicationError {
   constructor(err: ZodError) {
     super({
