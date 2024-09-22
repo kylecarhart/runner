@@ -43,6 +43,10 @@ export abstract class ApplicationError extends Error {
     this.data = data;
   }
 
+  /**
+   * Get the error response body based on the error.
+   * @returns Error response
+   */
   getResponseBody(): ErrorResponse {
     return {
       success: false,
