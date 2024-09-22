@@ -92,7 +92,7 @@ async function updateUser(
     userServiceLogger.debug("updateUser", updateUserRequest);
 
     // TODO: Ideally I don't ever want the password returned from the db.
-    const { password, ...user } = (
+    const updatedUser = (
       await db
         .update(users)
         .set(updateUserRequest)
@@ -100,6 +100,11 @@ async function updateUser(
         .returning()
     )[0];
 
+    if (!updatedUser) {
+      throw new NotFoundError("User", { id });
+    }
+
+    const { password, ...user } = updatedUser;
     return user;
   } catch (e) {
     // TODO: Abstract this out to a common constraint error handler

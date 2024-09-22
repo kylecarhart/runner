@@ -5,10 +5,11 @@ import {
   GetUserResponseSchema,
   GetUsersRequestQueryParamsSchema,
   GetUsersResponseSchema,
+  SuccessResponseSchema,
   UpdateUserParamsSchema,
   UpdateUserRequestSchema,
+  withSuccessResponseSchema,
 } from "@runner/api";
-import z from "zod";
 import { validate } from "../middleware/validate.middleware";
 import { usersService } from "./users.service";
 
@@ -21,11 +22,14 @@ userRouter.post(
   "create-user",
   "/",
   validate(
-    { req: CreateUserRequestSchema, res: GetUserResponseSchema },
+    {
+      req: CreateUserRequestSchema,
+      res: withSuccessResponseSchema(GetUserResponseSchema),
+    },
     async (ctx) => {
       const createUserRequest = ctx.requestBody;
       const newUser = await usersService.createUser(createUserRequest);
-      ctx.body = newUser;
+      ctx.body = { success: true, message: "User created", data: newUser };
     },
   ),
 );
@@ -38,13 +42,13 @@ userRouter.get(
   "/",
   validate(
     {
-      res: GetUsersResponseSchema,
+      res: withSuccessResponseSchema(GetUsersResponseSchema),
       query: GetUsersRequestQueryParamsSchema,
     },
     async (ctx) => {
       const params = ctx.query;
       const users = await usersService.queryUsers(params);
-      ctx.body = users;
+      ctx.body = { success: true, data: users };
     },
   ),
 );
@@ -56,10 +60,14 @@ userRouter.get(
   "get-user",
   "/:id",
   validate(
-    { params: GetUserParamsSchema, res: GetUserResponseSchema },
+    {
+      params: GetUserParamsSchema,
+      res: withSuccessResponseSchema(GetUserResponseSchema),
+    },
     async (ctx) => {
       const { id } = ctx.params;
-      ctx.body = await usersService.getUserById(id);
+      const user = await usersService.getUserById(id);
+      ctx.body = { success: true, data: user };
     },
   ),
 );
@@ -75,14 +83,14 @@ userRouter.patch(
     {
       params: UpdateUserParamsSchema,
       req: UpdateUserRequestSchema,
-      res: GetUserResponseSchema,
+      res: withSuccessResponseSchema(GetUserResponseSchema),
     },
     async (ctx) => {
       const { id } = ctx.params;
       const updateUserRequest = ctx.requestBody;
 
       const updatedUser = await usersService.updateUser(id, updateUserRequest);
-      ctx.body = updatedUser;
+      ctx.body = { success: true, message: "User updated", data: updatedUser };
     },
   ),
 );
@@ -96,12 +104,12 @@ userRouter.delete(
   validate(
     {
       params: UpdateUserParamsSchema,
-      res: z.string(), // TODO: Eventually change this to a better return type
+      res: SuccessResponseSchema,
     },
     async (ctx) => {
       const { id } = ctx.params;
       await usersService.deleteUser(id);
-      ctx.body = "OK";
+      ctx.body = { success: true, message: `User ${id} deleted.` };
     },
   ),
 );
