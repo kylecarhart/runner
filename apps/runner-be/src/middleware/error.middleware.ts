@@ -1,14 +1,24 @@
+import { ErrorResponse } from "@runner/api";
 import { StatusCodes } from "http-status-codes";
-import { Context, Next } from "koa";
+import { DefaultContext, DefaultState, Next, ParameterizedContext } from "koa";
 import { ZodError } from "zod";
 import { ApplicationError } from "../errors/ApplicationError";
 import { logger } from "../utils/logger";
 
 /**
+ * Gives type safety for setting the error response body.
+ */
+type ErrorContext = ParameterizedContext<
+  DefaultContext,
+  DefaultState,
+  ErrorResponse
+>;
+
+/**
  * Error middleware
  * @returns Error middleware
  */
-export const errorMiddleware = () => async (ctx: Context, next: Next) => {
+export const errorMiddleware = () => async (ctx: ErrorContext, next: Next) => {
   try {
     await next();
   } catch (err) {
@@ -28,7 +38,7 @@ export const errorMiddleware = () => async (ctx: Context, next: Next) => {
     }
 
     // Unknown error
-    return handleUnknownError(ctx);
+    return handleUnknownError(ctx, err);
   }
 };
 
@@ -37,11 +47,9 @@ export const errorMiddleware = () => async (ctx: Context, next: Next) => {
  * @param ctx Koa context
  * @param err Application error
  */
-function handleApplicationError(ctx: Context, err: ApplicationError) {
+function handleApplicationError(ctx: ErrorContext, err: ApplicationError) {
   logger.error(err.logMessage);
-  ctx.body = {
-    message: err.apiMessage,
-  };
+  ctx.body = err.getResponseBody();
   ctx.status = err.httpStatusCode;
 }
 
@@ -50,10 +58,13 @@ function handleApplicationError(ctx: Context, err: ApplicationError) {
  * @param ctx Koa context
  * @param err Zod validation error
  */
-function handleZodError(ctx: Context, err: ZodError) {
+function handleZodError(ctx: ErrorContext, err: ZodError) {
   logger.warn(err.flatten());
   ctx.body = {
-    message: err.errors,
+    success: false,
+    code: "REQUEST_VALIDATION_ERROR",
+    message: "The request could not be completed due to validation errors.",
+    data: err.issues,
   };
   ctx.status = StatusCodes.BAD_REQUEST;
 }
@@ -63,9 +74,11 @@ function handleZodError(ctx: Context, err: ZodError) {
  * @param ctx Koa context
  * @param err Error
  */
-function handleError(ctx: Context, err: Error) {
+function handleError(ctx: ErrorContext, err: Error) {
   logger.error(err.stack);
   ctx.body = {
+    success: false,
+    code: "ERROR",
     message: "An error occurred. Please try again.",
   };
   ctx.status = StatusCodes.INTERNAL_SERVER_ERROR;
@@ -75,8 +88,11 @@ function handleError(ctx: Context, err: Error) {
  * Catch all for anything thrown that is not an instance of Error.
  * @param ctx Koa context
  */
-function handleUnknownError(ctx: Context) {
+function handleUnknownError(ctx: ErrorContext, err: unknown) {
+  logger.error(`Error of unknown type was thrown: ${err}`);
   ctx.body = {
+    success: false,
+    code: "UNKNOWN_ERROR",
     message: "An unknown error occurred. Please try again.",
   };
   ctx.status = StatusCodes.INTERNAL_SERVER_ERROR;

@@ -9,6 +9,7 @@ export class NotFoundError extends ApplicationError {
     super({
       apiMessage: `${name} with id ${model.id} not found`,
       httpStatusCode: StatusCodes.NOT_FOUND,
+      code: "NOT_FOUND_ERROR", // TODO: Come back and put these codes somewhere together
     });
   }
 }

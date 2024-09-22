@@ -18,6 +18,7 @@ const ErrorResponseSchema = z.object({
   message: z.string(),
   data: z.unknown().optional(),
 });
+export type ErrorResponse = z.infer<typeof ErrorResponseSchema>;
 
 export function withSuccessResponseSchema<T extends ZodSchema>(schema: T) {
   return SuccessResponseSchema.extend({

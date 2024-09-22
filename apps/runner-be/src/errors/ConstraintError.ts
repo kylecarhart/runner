@@ -10,6 +10,7 @@ export class ConstraintError extends ApplicationError {
       apiMessage,
       logMessage: `Constraint '${constraintName}' violated${obj ? ` on ${JSON.stringify(obj)}.` : "."}`,
       httpStatusCode: StatusCodes.BAD_REQUEST,
+      code: "CONSTRAINT_ERROR", // TODO: Come back and put these codes somewhere together
     });
   }
 }
