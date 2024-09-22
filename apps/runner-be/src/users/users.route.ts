@@ -5,6 +5,8 @@ import {
   GetUserResponseSchema,
   GetUsersRequestQueryParamsSchema,
   GetUsersResponseSchema,
+  UpdateUserParamsSchema,
+  UpdateUserRequestSchema,
 } from "@runner/api";
 import { validate } from "../middleware/validate.middleware";
 import { usersService } from "./users.service";
@@ -56,7 +58,29 @@ userRouter.get(
     { params: GetUserParamsSchema, res: GetUserResponseSchema },
     async (ctx) => {
       const { id } = ctx.params;
-      ctx.body = await usersService.getById(id);
+      ctx.body = await usersService.getUserById(id);
+    },
+  ),
+);
+
+/**
+ * Update a users basic information
+ */
+userRouter.patch(
+  "update-user",
+  "/:id",
+  validate(
+    {
+      params: UpdateUserParamsSchema,
+      req: UpdateUserRequestSchema,
+      res: GetUserResponseSchema,
+    },
+    async (ctx) => {
+      const { id } = ctx.params;
+      const updateUserRequest = ctx.requestBody;
+
+      const updatedUser = await usersService.updateUser(id, updateUserRequest);
+      ctx.body = updatedUser;
     },
   ),
 );

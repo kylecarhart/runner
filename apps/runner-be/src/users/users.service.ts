@@ -1,4 +1,5 @@
-import { CreateUserRequest } from "@runner/api";
+import { CreateUserRequest, UpdateUserRequest } from "@runner/api";
+import * as argon2 from "argon2";
 import { and, eq } from "drizzle-orm";
 import { PostgresError } from "postgres";
 import { db } from "../database/db";
@@ -10,14 +11,23 @@ import {
   INDEX_UNIQUE_EMAIL,
   INDEX_UNIQUE_USERNAME,
   User,
-  UserWithPassword,
   users,
 } from "./users.schema";
 
 const userServiceLogger = logger.child({ service: "users" });
 
-export async function getById(id: string): Promise<UserWithPassword> {
-  const user = await db.query.users.findFirst({ where: eq(users.id, id) });
+/**
+ * Get user by id.
+ * @param id User id
+ * @returns User
+ * @throws NotFoundError if user is not found.
+ */
+export async function getUserById(id: string): Promise<User> {
+  const user = await db.query.users.findFirst({
+    where: eq(users.id, id),
+    columns: { password: false },
+  });
+
   if (!user) {
     throw new NotFoundError("User", { id });
   }
@@ -68,11 +78,19 @@ export async function queryUsers(
 async function createUser(createUserRequest: CreateUserRequest): Promise<User> {
   try {
     userServiceLogger.debug("createUser", createUserRequest);
-    const user = (
-      await db.insert(users).values(createUserRequest).returning()
+
+    const hashedPassword = await argon2.hash(createUserRequest.password);
+
+    // TODO: Ideally I don't ever want the password returned from the db.
+    const { password, ...user } = (
+      await db
+        .insert(users)
+        .values({ ...createUserRequest, password: hashedPassword })
+        .returning()
     )[0];
     return user;
   } catch (e) {
+    // TODO: Abstract this out to a common constraint error handler
     if (e instanceof PostgresError) {
       if (e.constraint_name === INDEX_UNIQUE_USERNAME) {
         throw new ConstraintError(
@@ -91,13 +109,38 @@ async function createUser(createUserRequest: CreateUserRequest): Promise<User> {
   }
 }
 
-// export async function update(
-//   id: string,
-//   updateUserDto: UpdateUserDto,
-// ): Promise<UserWithoutPassword> {
-//   await this.usersRepository.update(id, updateUserDto);
-//   return this.usersRepository.findOneByOrFail({ id });
-// }
+async function updateUser(
+  id: string,
+  updateUserRequest: UpdateUserRequest,
+): Promise<User> {
+  try {
+    userServiceLogger.debug("updateUser", updateUserRequest);
+
+    // TODO: Ideally I don't ever want the password returned from the db.
+    const { password, ...user } = (
+      await db
+        .update(users)
+        .set(updateUserRequest)
+        .where(eq(users.id, id))
+        .returning()
+    )[0];
+
+    return user;
+  } catch (e) {
+    // TODO: Abstract this out to a common constraint error handler
+    if (e instanceof PostgresError) {
+      if (e.constraint_name === INDEX_UNIQUE_USERNAME) {
+        throw new ConstraintError(
+          "Username already exists.",
+          e.constraint_name,
+        );
+      } else if (e.constraint_name === INDEX_UNIQUE_EMAIL) {
+        throw new ConstraintError("Email already exists.", e.constraint_name);
+      }
+    }
+    throw e;
+  }
+}
 
 // export async function remove(id: User["id"]): Promise<void> {
 //   await this.usersRepository.delete(id);
@@ -130,6 +173,7 @@ async function createUser(createUserRequest: CreateUserRequest): Promise<User> {
 
 export const usersService = {
   createUser,
-  getById,
+  getUserById,
   queryUsers,
+  updateUser,
 };

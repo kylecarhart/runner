@@ -18,7 +18,11 @@ export function queryModel<T extends TableConfig>(
   const wheres = [];
 
   for (const [key, value] of Object.entries(model)) {
-    wheres.push(eq(table[key], value)); // TODO: Noticing that using eq
+    if (typeof value === "string") {
+      wheres.push(eq(lower(table[key]), value.toLowerCase())); // TODO: Look more into this, we may not want this in every scenario.
+    } else {
+      wheres.push(eq(table[key], value));
+    }
   }
 
   return wheres;
