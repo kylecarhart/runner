@@ -1,7 +1,9 @@
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import * as events from "../events/events.schema";
+import * as participants from "../participants/participants.schema";
 import * as races from "../races/races.schema";
+import * as results from "../results/results.schema";
 import * as users from "../users/users.schema";
 import { Env } from "../utils/env";
 
@@ -20,6 +22,8 @@ const schema = {
   ...users,
   ...events,
   ...races,
+  ...participants,
+  ...results,
 };
 
 export const db = drizzle(client, { schema });
