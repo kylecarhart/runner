@@ -5,6 +5,8 @@ import {
   CreateUserRequestSchema,
   GetUserParamsSchema,
   GetUserResponseSchema,
+  GetUsersRequestQueryParamsSchema,
+  GetUsersResponseSchema,
   SuccessResponseSchema,
   UpdateUserParamsSchema,
   UpdateUserRequestSchema,
@@ -37,21 +39,21 @@ userRouter.post(
 /**
  * Query users
  */
-// userRouter.get(
-//   "query-users",
-//   "/",
-//   validate(
-//     {
-//       res: withSuccessResponseSchema(GetUsersResponseSchema),
-//       query: GetUsersRequestQueryParamsSchema,
-//     },
-//     async (ctx) => {
-//       const params = ctx.query;
-//       const users = await usersService.queryUsers(params);
-//       ctx.body = { success: true, data: users };
-//     },
-//   ),
-// );
+userRouter.get(
+  "query-users",
+  "/",
+  validate(
+    {
+      res: withSuccessResponseSchema(GetUsersResponseSchema),
+      query: GetUsersRequestQueryParamsSchema,
+    },
+    async (ctx) => {
+      const params = ctx.query;
+      const users = await usersService.queryUsers(params);
+      ctx.body = { success: true, data: users };
+    },
+  ),
+);
 
 /**
  * Get a user by id
