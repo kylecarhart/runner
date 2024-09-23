@@ -1,5 +1,7 @@
-import "dotenv/config"; // TODO: Why the fuck cant I import my special Env typescript file.
+import { config } from "@dotenvx/dotenvx"; // TODO: Why the fuck cant I import my special Env typescript file.
 import { defineConfig } from "drizzle-kit";
+
+config(); // Load environment variables
 
 export default defineConfig({
   // schema: ["./src/users/users.schema.ts", "./src/events/events.schema.ts"],

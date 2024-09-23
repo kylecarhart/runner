@@ -1,5 +1,7 @@
-import "dotenv/config";
+import { config } from "@dotenvx/dotenvx";
 import { z } from "zod";
+
+config(); // Load environment variables
 
 /**
  * Schema that validates environment variables for safe usage.
@@ -20,8 +22,8 @@ const EnvSchema = z.object({
   DB_PASSWORD: z.string(),
   DB_NAME: z.string(),
   // OpenAPI
-  PATH_SWAGGER: z.string(),
-  PATH_SWAGGER_JSON: z.string(),
+  PATH_DOCS: z.string(),
+  PATH_OPENAPI: z.string(),
   // Auth
   JWT_SECRET: z.string(),
 });
