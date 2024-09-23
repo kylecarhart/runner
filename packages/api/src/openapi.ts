@@ -6,7 +6,7 @@ import { GetUserResponseSchema } from "./user";
 export const document = createDocument({
   openapi: "3.1.0",
   info: {
-    title: "My API",
+    title: "Runner API",
     version: "1.0.0",
   },
   paths: {
@@ -23,7 +23,9 @@ export const document = createDocument({
             description: "200 OK",
             content: {
               "application/json": {
-                schema: withSuccessResponseSchema(GetUserResponseSchema),
+                schema: withSuccessResponseSchema(
+                  GetUserResponseSchema,
+                ).openapi({ ref: "GetUserResponse" }),
               },
             },
           },

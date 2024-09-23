@@ -54,7 +54,9 @@ export type CreateUserRequest = z.infer<typeof CreateUserRequestSchema>;
 export const GetUserParamsSchema = SelectUserSchema.pick({ id: true });
 export const GetUserResponseSchema = SelectUserSchema.omit({
   password: true,
-}).strict();
+})
+  .strict()
+  .openapi({ ref: "User" });
 export const GetUsersRequestQueryParamsSchema = SelectUserSchema.partial().omit(
   {
     id: true,
