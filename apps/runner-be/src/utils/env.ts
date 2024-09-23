@@ -23,6 +23,8 @@ const EnvSchema = z.object({
   DB_NAME: z.string(),
   // OpenAPI
   PATH_DOCS: z.string(),
+  PATH_SWAGGER: z.string(),
+  PATH_SCALAR: z.string(),
   PATH_OPENAPI: z.string(),
   // Auth
   JWT_SECRET: z.string(),

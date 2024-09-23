@@ -6,7 +6,8 @@ import Koa from "koa";
 import koaHelmet from "koa-helmet";
 import { errorMiddleware } from "./middleware/error.middleware";
 import { loggerMiddleware } from "./middleware/logger.middleware";
-import { scalarHelmet, scalarMiddleware } from "./middleware/scalar.middleware";
+import { scalarMiddleware } from "./middleware/scalar.middleware";
+import { swaggerMiddleware } from "./middleware/swagger.middleware";
 import { userRouter } from "./users/users.route";
 import { Env } from "./utils/env";
 import { logger } from "./utils/logger";
@@ -23,7 +24,8 @@ app.use(errorMiddleware());
 app.use(loggerMiddleware());
 
 /** OpenAPI */
-baseRouter.get("/docs", scalarHelmet, scalarMiddleware());
+baseRouter.get(Env.PATH_SWAGGER, swaggerMiddleware());
+baseRouter.get(Env.PATH_SCALAR, scalarMiddleware()); // TODO: Evaluate scalar
 baseRouter.get(Env.PATH_OPENAPI, (ctx, next) => {
   ctx.body = document;
 });
@@ -45,5 +47,11 @@ app.use(baseRouter.routes()).use(baseRouter.allowedMethods());
 app.use(v1Router.routes()).use(v1Router.allowedMethods());
 
 app.listen(Env.PORT, () => {
-  logger.info(`Server started on port ${Env.PORT}`);
+  logger.info(`Server started on port ${Env.PORT}.`);
+  logger.info(
+    `Swagger docs available at: http://localhost:${Env.PORT}${Env.PATH_SWAGGER}.`,
+  );
+  logger.info(
+    `Scalar docs available at: http://localhost:${Env.PORT}${Env.PATH_SCALAR}.`,
+  );
 });
