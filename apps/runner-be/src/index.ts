@@ -1,3 +1,5 @@
+import "zod-openapi";
+
 import { bodyParser } from "@koa/bodyparser";
 import cors from "@koa/cors";
 import Router from "@koa/router";

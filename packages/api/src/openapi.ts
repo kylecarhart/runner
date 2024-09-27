@@ -69,11 +69,19 @@ export const GetUserOpenApiPath = {
           },
         },
         "201": {
-          description: "400 Bad Request",
+          description: "201 Bad Request",
+          content: {},
         },
       },
     },
   },
+  // "/users": {
+  //   get: {
+  //     summary: "Get all users",
+  //     tags: ["Users"],
+  //     responses: {},
+  //   },
+  // },
 } satisfies ZodOpenApiPathsObject;
 
 // 1. Have each individual contract supply the path and the method
