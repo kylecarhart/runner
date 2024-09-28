@@ -74,14 +74,31 @@ export const GetUserOpenApiPath = {
         },
       },
     },
+    put: {
+      summary: "Update a user by id",
+      tags: ["Users"],
+      requestParams: { path: GetUserParamsSchema },
+      responses: {},
+    },
+    delete: {
+      summary: "Delete a user by id",
+      tags: ["Users"],
+      requestParams: { path: GetUserParamsSchema },
+      responses: {},
+    },
   },
-  // "/users": {
-  //   get: {
-  //     summary: "Get all users",
-  //     tags: ["Users"],
-  //     responses: {},
-  //   },
-  // },
+  "/users": {
+    get: {
+      summary: "Get all users",
+      tags: ["Users"],
+      responses: {},
+    },
+    post: {
+      summary: "Get all users",
+      tags: ["Users"],
+      responses: {},
+    },
+  },
 } satisfies ZodOpenApiPathsObject;
 
 // 1. Have each individual contract supply the path and the method

@@ -3,6 +3,17 @@ import { GetUserOpenApiPath } from "@runner/api";
 import { z, ZodSchema } from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
 
+/** @see https://stackoverflow.com/questions/57683303/how-can-i-see-the-full-expanded-contract-of-a-typescript-type#answer-57683652 */
+// expands object types one level deep
+type Expand<T> = T extends infer O ? { [K in keyof O]: O[K] } : never;
+
+// expands object types recursively
+type ExpandRecursively<T> = T extends object
+  ? T extends infer O
+    ? { [K in keyof O]: ExpandRecursively<O[K]> }
+    : never
+  : T;
+
 /** Http verbs */
 type HttpVerbs =
   | "get"
@@ -61,10 +72,14 @@ type ExtractResponseSchemas<
     }[keyof R]
   : never;
 
-// type PathsObject = typeof GetUserOpenApiPath;
+type PathsObject = typeof GetUserOpenApiPath;
 // const path: keyof ZodPathsForMethod<PathsObject, "get">;
 // const params: ExtractPathParamsSchema<PathsObject, typeof path, "get">;
 // const responses: ExtractResponseSchemas<PathsObject, typeof path, "get">;
+
+// type ExpandedParams = Expand<
+//   ExtractPathParamsSchema<PathsObject, typeof path, "get">
+// >;
 
 class OpenApiRouter<PathsObject extends ZodOpenApiPathsObject> {
   private readonly router: Router;
@@ -104,6 +119,10 @@ class OpenApiRouter<PathsObject extends ZodOpenApiPathsObject> {
   >(
     name: string,
     path: KoaPath<Path>,
+    data: {
+      params: Params;
+      responses: Responses;
+    },
     ...middleware: Router.Middleware[]
   ): Router {
     return this.router.get(name, path as string, ...middleware); // TODO: Maybe get rid of type assertion
@@ -322,4 +341,4 @@ class OpenApiRouter<PathsObject extends ZodOpenApiPathsObject> {
 
 const router = new OpenApiRouter(GetUserOpenApiPath);
 
-router.get("getUser", "/users/:id", (ctx) => {});
+// router.get("getUser", "/users/:id", {}, (ctx) => {});
