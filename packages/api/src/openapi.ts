@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { createDocument, ZodOpenApiPathsObject } from "zod-openapi";
 import { withSuccessResponseSchema } from "./response";
 import { GetUserParamsSchema, GetUserResponseSchema } from "./user";
@@ -91,7 +92,20 @@ export const GetUserOpenApiPath = {
     get: {
       summary: "Get all users",
       tags: ["Users"],
-      responses: {},
+      responses: {
+        "200": {
+          description: "200 OK",
+          content: {
+            "application/json": {
+              schema: withSuccessResponseSchema(
+                z.array(GetUserResponseSchema),
+              ).openapi({
+                ref: "GetUsersResponse",
+              }),
+            },
+          },
+        },
+      },
     },
     post: {
       summary: "Get all users",

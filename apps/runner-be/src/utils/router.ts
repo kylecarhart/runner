@@ -3,17 +3,6 @@ import { GetUserOpenApiPath } from "@runner/api";
 import { z, ZodSchema } from "zod";
 import { ZodOpenApiPathsObject } from "zod-openapi";
 
-/** @see https://stackoverflow.com/questions/57683303/how-can-i-see-the-full-expanded-contract-of-a-typescript-type#answer-57683652 */
-// expands object types one level deep
-type Expand<T> = T extends infer O ? { [K in keyof O]: O[K] } : never;
-
-// expands object types recursively
-type ExpandRecursively<T> = T extends object
-  ? T extends infer O
-    ? { [K in keyof O]: ExpandRecursively<O[K]> }
-    : never
-  : T;
-
 /** Http verbs */
 type HttpVerbs =
   | "get"
@@ -46,40 +35,35 @@ type ExtractPathParamsSchema<
   T extends ZodOpenApiPathsObject,
   Path extends keyof T,
   Method extends keyof T[Path],
-> = T[Path][Method] extends { requestParams: { path: ZodSchema } }
-  ? z.infer<T[Path][Method]["requestParams"]["path"]>
-  : undefined;
+> = Path extends Path // This distributes over the union
+  ? T[Path][Method] extends { requestParams: { path: ZodSchema } }
+    ? z.infer<T[Path][Method]["requestParams"]["path"]>
+    : undefined
+  : never;
 
 /** Extract the response schemas for the given path and method */
 type ExtractResponseSchemas<
   T extends ZodOpenApiPathsObject,
   Path extends keyof T,
   Method extends keyof T[Path],
-> = T[Path][Method] extends { responses: infer R }
-  ? {
-      [StatusCode in keyof R]: R[StatusCode] extends {
-        content: { "application/json": { schema: ZodSchema } };
-      }
-        ? {
-            statusCode: StatusCode;
-            schema: z.infer<
-              R[StatusCode]["content"]["application/json"]["schema"]
-            >;
-          }
-        : {
-            statusCode: StatusCode;
-          };
-    }[keyof R]
+> = Path extends Path
+  ? T[Path][Method] extends { responses: infer R }
+    ? {
+        [StatusCode in keyof R]: R[StatusCode] extends {
+          content: { "application/json": { schema: ZodSchema } };
+        }
+          ? {
+              statusCode: StatusCode;
+              body: z.infer<
+                R[StatusCode]["content"]["application/json"]["schema"]
+              >;
+            }
+          : {
+              statusCode: StatusCode;
+            };
+      }[keyof R]
+    : never
   : never;
-
-type PathsObject = typeof GetUserOpenApiPath;
-// const path: keyof ZodPathsForMethod<PathsObject, "get">;
-// const params: ExtractPathParamsSchema<PathsObject, typeof path, "get">;
-// const responses: ExtractResponseSchemas<PathsObject, typeof path, "get">;
-
-// type ExpandedParams = Expand<
-//   ExtractPathParamsSchema<PathsObject, typeof path, "get">
-// >;
 
 class OpenApiRouter<PathsObject extends ZodOpenApiPathsObject> {
   private readonly router: Router;
@@ -114,18 +98,17 @@ class OpenApiRouter<PathsObject extends ZodOpenApiPathsObject> {
   // ): Router<DefaultState, DefaultContext>;
   get<
     Path extends keyof ZodPathsForMethod<PathsObject, "get">,
-    Params extends ExtractPathParamsSchema<PathsObject, Path, "get">,
+    PathParams extends ExtractPathParamsSchema<PathsObject, Path, "get">,
     Responses extends ExtractResponseSchemas<PathsObject, Path, "get">,
   >(
     name: string,
     path: KoaPath<Path>,
-    data: {
-      params: Params;
-      responses: Responses;
-    },
-    ...middleware: Router.Middleware[]
+    handler: ({ params }: { params: PathParams }) => Responses,
   ): Router {
-    return this.router.get(name, path as string, ...middleware); // TODO: Maybe get rid of type assertion
+    const paramsSchema =
+      this.openApiPath[path]?.["get"]?.["requestParams"]?.["path"];
+
+    return this.router.get(name, path as string, handler); // TODO: Maybe get rid of type assertion
   }
   // post<T = {}, U = {}, B = unknown>(
   //   name: string,
@@ -341,4 +324,12 @@ class OpenApiRouter<PathsObject extends ZodOpenApiPathsObject> {
 
 const router = new OpenApiRouter(GetUserOpenApiPath);
 
-// router.get("getUser", "/users/:id", {}, (ctx) => {});
+router.get("getUser", "/users", ({ params }) => {
+  return {
+    statusCode: "200",
+    body: {
+      success: true,
+      data: [],
+    },
+  };
+});
