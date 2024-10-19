@@ -1,7 +1,7 @@
 import { relations } from "drizzle-orm";
 import { integer, pgTable, uuid } from "drizzle-orm/pg-core";
-import { withBaseSchema } from "../database/base.schema";
-import { participants } from "../participants/participants.schema";
+import { withBaseSchema } from "../database/base.schema.ts";
+import { participants } from "../participants/participants.schema.ts";
 
 export const results = pgTable(
   "results",

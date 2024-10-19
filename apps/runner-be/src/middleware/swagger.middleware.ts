@@ -1,7 +1,7 @@
 import compose from "koa-compose";
 import koaHelmet from "koa-helmet";
 import { koaSwagger, KoaSwaggerUiOptions } from "koa2-swagger-ui";
-import { Env } from "../utils/env";
+import { Env } from "../utils/env.ts";
 
 /**
  * Route handler for swagger docs UI

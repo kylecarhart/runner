@@ -2,8 +2,8 @@ import Router from "@koa/router";
 import { Context, DefaultState, Next } from "koa";
 import compose from "koa-compose";
 import { z, ZodError, ZodSchema } from "zod";
-import { ResponseValidationError } from "../errors/ResponseValidationError";
-import { enabled } from "../utils/flags";
+import { ResponseValidationError } from "../errors/ResponseValidationError.ts";
+import { enabled } from "../utils/flags.ts";
 
 /**
  * Validates request bodies, query params, and response bodies. The middleware
@@ -15,50 +15,50 @@ import { enabled } from "../utils/flags";
  *
  * @returns Koa middleware
  */
-const validateMiddleware =
-  ({ req, res, query, params }: Schemas) =>
-  async (ctx: Context, next: Next) => {
-    if (req) {
-      const parsedBody = await req.parseAsync(ctx.request.body);
-      ctx.request.body = parsedBody; // Overwrite request body
-      ctx.requestBody = parsedBody; // Create alias for request body with inferred type
-    }
+const validateMiddleware = ({ req, res, query, params }: Schemas) =>
+async (
+  ctx: Context,
+  next: Next,
+) => {
+  if (req) {
+    const parsedBody = await req.parseAsync(ctx.request.body);
+    ctx.request.body = parsedBody; // Overwrite request body
+    ctx.requestBody = parsedBody; // Create alias for request body with inferred type
+  }
 
-    // TODO: See if we want to throw on query params or not.
-    if (query) {
-      const parsedQuery = await query.parseAsync(ctx.query);
-      ctx.query = parsedQuery;
-    }
+  // TODO: See if we want to throw on query params or not.
+  if (query) {
+    const parsedQuery = await query.parseAsync(ctx.query);
+    ctx.query = parsedQuery;
+  }
 
-    if (params) {
-      const parsedParams = await params.parseAsync(ctx.params);
-      ctx.params = parsedParams;
-    }
+  if (params) {
+    const parsedParams = await params.parseAsync(ctx.params);
+    ctx.params = parsedParams;
+  }
 
-    await next(); // Wait for route to complete
+  await next(); // Wait for route to complete
 
-    // Only run if response validation is enabled
-    if (res && enabled("RESPONSE_VALIDATION")) {
-      try {
-        await res.parseAsync(ctx.body);
-      } catch (e) {
-        // Typescript should prevent throws here. If you threw, you fucked up.
-        throw new ResponseValidationError(e as ZodError);
-      }
+  // Only run if response validation is enabled
+  if (res && enabled("RESPONSE_VALIDATION")) {
+    try {
+      await res.parseAsync(ctx.body);
+    } catch (e) {
+      // Typescript should prevent throws here. If you threw, you fucked up.
+      throw new ResponseValidationError(e as ZodError);
     }
-  };
+  }
+};
 
 type OptionalZodSchema = ZodSchema | undefined;
 /**
  * We need to do `undefined extends T` because union types distribute
  * @see https://www.typescriptlang.org/docs/handbook/2/conditional-types.html#distributive-conditional-types
  */
-type OptionalInferredType<Schema extends OptionalZodSchema> =
-  undefined extends Schema
-    ? unknown
-    : Schema extends ZodSchema
-      ? z.infer<Schema>
-      : never;
+type OptionalInferredType<Schema extends OptionalZodSchema> = undefined extends
+  Schema ? unknown
+  : Schema extends ZodSchema ? z.infer<Schema>
+  : never;
 
 /**
  * Context with request body, response body, query params, and params inferred
@@ -73,19 +73,21 @@ type HandlerContext<
   ResponseBodySchema extends OptionalZodSchema,
   QueryParamsSchema extends OptionalZodSchema,
   ParamsSchema extends OptionalZodSchema,
-> = Omit<
-  Router.RouterContext<
-    DefaultState,
-    object, // TODO: Not sure if this should be object or unknown or what.
-    OptionalInferredType<ResponseBodySchema>
-  >,
-  "query" | "params"
-> & {
-  requestBody: OptionalInferredType<RequestBodySchema>;
-  query: OptionalInferredType<QueryParamsSchema>;
-  // body: OptionalInferredType<ResponseBodySchema>;
-  params: OptionalInferredType<ParamsSchema>;
-};
+> =
+  & Omit<
+    Router.RouterContext<
+      DefaultState,
+      object, // TODO: Not sure if this should be object or unknown or what.
+      OptionalInferredType<ResponseBodySchema>
+    >,
+    "query" | "params"
+  >
+  & {
+    requestBody: OptionalInferredType<RequestBodySchema>;
+    query: OptionalInferredType<QueryParamsSchema>;
+    // body: OptionalInferredType<ResponseBodySchema>;
+    params: OptionalInferredType<ParamsSchema>;
+  };
 
 /**
  * Zod schemas to parse for request and response bodies.
@@ -121,7 +123,7 @@ type Schemas<
  *      ctx.body = newUser; // inferred type
  *    },
  *  ),
- *);
+ * );
  *
  * @param param0 Request and response schemas
  * @param handler Route handler

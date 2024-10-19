@@ -1,7 +1,7 @@
 import { Context, Next } from "koa";
 import compose from "koa-compose";
 import koaHelmet from "koa-helmet";
-import { Env } from "../utils/env";
+import { Env } from "../utils/env.ts";
 
 /**
  * Route handler for scalar docs UI

@@ -2,8 +2,8 @@ import { ErrorResponse } from "@runner/api";
 import { StatusCodes } from "http-status-codes";
 import { DefaultContext, DefaultState, Next, ParameterizedContext } from "koa";
 import { ZodError } from "zod";
-import { ApplicationError } from "../errors/ApplicationError";
-import { logger } from "../utils/logger";
+import { ApplicationError } from "../errors/ApplicationError.ts";
+import { logger } from "../utils/logger.ts";
 
 /**
  * Gives type safety for setting the error response body.

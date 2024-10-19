@@ -1,10 +1,12 @@
 import winston from "winston";
-import { Env } from "./env";
+import { Env } from "./env.ts";
 
 const { combine, timestamp, printf, colorize, json } = winston.format;
 
 const customFormat = printf(({ level, message, timestamp, ...meta }) => {
-  return `${timestamp} ${level}: ${message} ${Object.keys(meta).length ? JSON.stringify(meta) : ""}`;
+  return `${timestamp} ${level}: ${message} ${
+    Object.keys(meta).length ? JSON.stringify(meta) : ""
+  }`;
 });
 
 export const logger = winston.createLogger({

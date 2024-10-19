@@ -1,23 +1,23 @@
-import {
+import type {
   ChangePasswordRequest,
   CreateUserRequest,
   UpdateUserRequest,
 } from "@runner/api";
 import * as argon2 from "argon2";
 import { and, eq } from "drizzle-orm";
-import { PostgresError } from "postgres";
-import { db } from "../database/db";
-import { AuthenticationError } from "../errors/AuthenticationError";
-import { ConstraintError } from "../errors/ConstraintError";
-import { NotFoundError } from "../errors/NotFoundError";
-import { queryModel } from "../utils/drizzle";
-import { logger } from "../utils/logger";
+import postgres from "postgres";
+import { db } from "../database/db.ts";
+import { AuthenticationError } from "../errors/AuthenticationError.ts";
+import { ConstraintError } from "../errors/ConstraintError.ts";
+import { NotFoundError } from "../errors/NotFoundError.ts";
+import { queryModel } from "../utils/drizzle.ts";
+import { logger } from "../utils/logger.ts";
 import {
   INDEX_UNIQUE_EMAIL,
   INDEX_UNIQUE_USERNAME,
-  User,
+  type User,
   users,
-} from "./users.schema";
+} from "./users.schema.ts";
 
 const userServiceLogger = logger.child({ service: "users" });
 
@@ -85,7 +85,7 @@ async function createUser(createUserRequest: CreateUserRequest): Promise<User> {
     return user;
   } catch (e) {
     // TODO: Abstract this out to a common constraint error handler
-    if (e instanceof PostgresError) {
+    if (e instanceof postgres.PostgresError) {
       if (e.constraint_name === INDEX_UNIQUE_USERNAME) {
         throw new ConstraintError(
           "Username already exists.",
@@ -135,7 +135,7 @@ async function updateUser(
     return user;
   } catch (e) {
     // TODO: Abstract this out to a common constraint error handler
-    if (e instanceof PostgresError) {
+    if (e instanceof postgres.PostgresError) {
       if (e.constraint_name === INDEX_UNIQUE_USERNAME) {
         throw new ConstraintError(
           "Username already exists.",

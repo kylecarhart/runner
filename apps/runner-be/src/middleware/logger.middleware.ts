@@ -1,5 +1,5 @@
 import { Context, Next } from "koa";
-import { logger } from "../utils/logger";
+import { logger } from "../utils/logger.ts";
 
 /**
  * Logger middleware

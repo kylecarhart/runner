@@ -1,6 +1,7 @@
 import "zod-openapi/extend";
 
-export * from "./openapi";
-export { document } from "./openapi";
-export * from "./response";
-export * from "./user";
+export * from "./openapi.ts";
+export { document } from "./openapi.ts";
+export * from "./response.ts";
+export * from "./user.ts";
+

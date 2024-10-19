@@ -1,7 +1,4 @@
-import { config } from "@dotenvx/dotenvx";
 import { z } from "zod";
-
-config(); // Load environment variables
 
 /**
  * Schema that validates environment variables for safe usage.
@@ -30,5 +27,5 @@ const EnvSchema = z.object({
   JWT_SECRET: z.string(),
 });
 
-export const Env = EnvSchema.parse(process.env);
+export const Env = EnvSchema.parse(Deno.env.toObject());
 export type Env = z.infer<typeof EnvSchema>;

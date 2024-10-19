@@ -12,8 +12,8 @@ import {
   UpdateUserRequestSchema,
   withSuccessResponseSchema,
 } from "@runner/api";
-import { validate } from "../middleware/validate.middleware";
-import { usersService } from "./users.service";
+import { validate } from "../middleware/validate.middleware.ts";
+import { usersService } from "./users.service.ts";
 
 export const userRouter = new Router();
 

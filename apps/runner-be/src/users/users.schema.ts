@@ -1,7 +1,7 @@
 import { InferSelectModel } from "drizzle-orm";
 import { pgTable, text, uniqueIndex } from "drizzle-orm/pg-core";
-import { withBaseSchema } from "../database/base.schema";
-import { lower } from "../utils/drizzle";
+import { withBaseSchema } from "../database/base.schema.ts";
+import { lower } from "../utils/drizzle.ts";
 
 export const INDEX_UNIQUE_USERNAME = "users_username_unique";
 export const INDEX_UNIQUE_EMAIL = "users_email_unique";

@@ -19,16 +19,17 @@ type ZodPathsForMethod<
   PathsObject extends ZodOpenApiPathsObject,
   Verb extends HttpVerbs,
 > = {
-  [Path in keyof PathsObject as Verb extends keyof PathsObject[Path]
-    ? Path
-    : never]: PathsObject[Path];
+  [
+    Path in keyof PathsObject as Verb extends keyof PathsObject[Path] ? Path
+      : never
+  ]: PathsObject[Path];
 };
 
 /** Convert a path from the openapi format to a Koa format */
-type KoaPath<OpenApiPath extends string> =
-  OpenApiPath extends `${infer Start}{${infer Param}}${infer Rest}`
-    ? `${Start}:${Param}${KoaPath<Rest>}`
-    : OpenApiPath;
+type KoaPath<OpenApiPath extends string> = OpenApiPath extends
+  `${infer Start}{${infer Param}}${infer Rest}`
+  ? `${Start}:${Param}${KoaPath<Rest>}`
+  : OpenApiPath;
 
 /** Extract the path params schema for the given zod openapi path and method */
 type ExtractPathParamsSchema<
@@ -38,7 +39,7 @@ type ExtractPathParamsSchema<
 > = Path extends Path // This distributes over the union
   ? T[Path][Method] extends { requestParams: { path: ZodSchema } }
     ? z.infer<T[Path][Method]["requestParams"]["path"]>
-    : undefined
+  : undefined
   : never;
 
 /** Extract the response schemas for the given path and method */
@@ -46,23 +47,20 @@ type ExtractResponseSchemas<
   T extends ZodOpenApiPathsObject,
   Path extends keyof T,
   Method extends keyof T[Path],
-> = Path extends Path
-  ? T[Path][Method] extends { responses: infer R }
-    ? {
-        [StatusCode in keyof R]: R[StatusCode] extends {
-          content: { "application/json": { schema: ZodSchema } };
+> = Path extends Path ? T[Path][Method] extends { responses: infer R } ? {
+      [StatusCode in keyof R]: R[StatusCode] extends {
+        content: { "application/json": { schema: ZodSchema } };
+      } ? {
+          statusCode: StatusCode;
+          body: z.infer<
+            R[StatusCode]["content"]["application/json"]["schema"]
+          >;
         }
-          ? {
-              statusCode: StatusCode;
-              body: z.infer<
-                R[StatusCode]["content"]["application/json"]["schema"]
-              >;
-            }
-          : {
-              statusCode: StatusCode;
-            };
-      }[keyof R]
-    : never
+        : {
+          statusCode: StatusCode;
+        };
+    }[keyof R]
+  : never
   : never;
 
 class OpenApiRouter<PathsObject extends ZodOpenApiPathsObject> {
@@ -105,8 +103,8 @@ class OpenApiRouter<PathsObject extends ZodOpenApiPathsObject> {
     path: KoaPath<Path>,
     handler: ({ params }: { params: PathParams }) => Responses,
   ): Router {
-    const paramsSchema =
-      this.openApiPath[path]?.["get"]?.["requestParams"]?.["path"];
+    const paramsSchema = this.openApiPath[path]?.["get"]?.["requestParams"]
+      ?.["path"];
 
     return this.router.get(name, path as string, handler); // TODO: Maybe get rid of type assertion
   }

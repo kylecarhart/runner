@@ -63,7 +63,7 @@ export const actions = {
     cookies.set("sverdle", game.toString(), { path: "/" });
   },
 
-  restart: async ({ cookies }) => {
+  restart: ({ cookies }) => {
     cookies.delete("sverdle", { path: "/" });
   },
 } satisfies Actions;

@@ -1,6 +1,0 @@
-{
-  "extends": "@tsconfig/node20/tsconfig.json",
-  "compilerOptions": {
-    "noErrorTruncation": true // This lets me see more of the type when hovering in VSCode?
-  }
-}

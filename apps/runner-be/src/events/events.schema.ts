@@ -1,7 +1,7 @@
 import { relations } from "drizzle-orm";
 import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
-import { withBaseSchema } from "../database/base.schema";
-import { races } from "../races/races.schema";
+import { withBaseSchema } from "../database/base.schema.ts";
+import { races } from "../races/races.schema.ts";
 
 export const events = pgTable(
   "events",

@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { createDocument, ZodOpenApiPathsObject } from "zod-openapi";
-import { withSuccessResponseSchema } from "./response";
-import { GetUserParamsSchema, GetUserResponseSchema } from "./user";
+import { createDocument, type ZodOpenApiPathsObject } from "zod-openapi";
+import { withSuccessResponseSchema } from "./response.ts";
+import { GetUserParamsSchema, GetUserResponseSchema } from "./user.ts";
 
 export const document = createDocument({
   openapi: "3.1.0",
