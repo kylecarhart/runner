@@ -7,12 +7,13 @@ const FlagSchema = z.object({
 });
 
 // TODO: Eventually use FlagsSchema to validate feature flags from another source
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const FlagsSchema = z.record(z.string(), FlagSchema);
 
 const Flags = {
-  RESPONSE_VALIDATION: {
-    id: "RESPONSE_VALIDATION",
-    description: "Enable response validation with zod.",
+  EXAMPLE_FLAG: {
+    id: "EXAMPLE_FLAG",
+    description: "This is an example flag.",
     enabled: true,
   },
 } as const satisfies z.infer<typeof FlagsSchema>;

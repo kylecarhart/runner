@@ -7,12 +7,12 @@ import type { LoosePartial } from "@runner/utils";
 import * as argon2 from "argon2";
 import { and, eq } from "drizzle-orm";
 import postgres from "postgres";
-import { db } from "../database/db.js";
-import { AuthenticationError } from "../errors/AuthenticationError.js";
-import { ConstraintError } from "../errors/ConstraintError.js";
-import { NotFoundError } from "../errors/NotFoundError.js";
-import { queryModel } from "../utils/drizzle.js";
-import { logger } from "../utils/logger.js";
+import { db } from "../../database/db.js";
+import { AuthenticationError } from "../../errors/AuthenticationError.js";
+import { ConstraintError } from "../../errors/ConstraintError.js";
+import { NotFoundError } from "../../errors/NotFoundError.js";
+import { queryModel } from "../../utils/drizzle.js";
+import { logger } from "../../utils/logger.js";
 import {
   INDEX_UNIQUE_EMAIL,
   INDEX_UNIQUE_USERNAME,

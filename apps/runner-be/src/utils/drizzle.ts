@@ -18,19 +18,20 @@ export function queryModel<T extends TableConfig>(
   const wheres = [];
 
   for (const [key, value] of Object.entries(model)) {
+    const columnKey = key as keyof T["columns"];
     if (typeof value === "string") {
-      wheres.push(eq(lower(table[key]), value.toLowerCase())); // TODO: Look more into this, we may not want this in every scenario.
+      wheres.push(eq(lower(table[columnKey]), value.toLowerCase())); // TODO: Look more into this, we may not want this in every scenario.
     } else {
-      wheres.push(eq(table[key], value));
+      wheres.push(eq(table[columnKey], value));
     }
   }
 
   return wheres;
 }
 
-function withPagination(page: number = 1, limit: number = 10) {
-  const offset = (page - 1) * limit;
-}
+// function withPagination(page: number = 1, limit: number = 10) {
+//   const offset = (page - 1) * limit;
+// }
 
 /**
  * Lowercase a column for use in SQL queries

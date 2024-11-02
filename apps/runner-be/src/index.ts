@@ -4,9 +4,9 @@ import { OpenAPIHono } from "@hono/zod-openapi";
 import { apiReference } from "@scalar/hono-api-reference";
 import { cors } from "hono/cors";
 import { secureHeaders } from "hono/secure-headers";
+import { usersApp } from "./app/users/users.route.js";
 import { errorMiddleware } from "./middleware/error.middleware.js";
 import { loggerMiddleware } from "./middleware/logger.middleware.js";
-import { usersApp } from "./users/users.route.js";
 import { Env } from "./utils/env.js";
 import { logger } from "./utils/logger.js";
 

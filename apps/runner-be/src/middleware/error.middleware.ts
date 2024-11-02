@@ -1,8 +1,8 @@
-import type { Context, Next } from "@hono";
+import type { Context, Next } from "hono";
 import { StatusCodes } from "http-status-codes";
 import { ZodError } from "zod";
-import { ApplicationError } from "../errors/ApplicationError";
-import { logger } from "../utils/logger";
+import { ApplicationError } from "../errors/ApplicationError.js";
+import { logger } from "../utils/logger.js";
 
 /**
  * Error middleware
@@ -10,7 +10,7 @@ import { logger } from "../utils/logger";
  */
 export const errorMiddleware = () => async (c: Context, next: Next) => {
   try {
-    await next();
+    return await next();
   } catch (err) {
     // Application specific error
     if (err instanceof ApplicationError) {
