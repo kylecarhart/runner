@@ -1,23 +1,23 @@
-import type {
-  ChangePasswordRequest,
-  CreateUserRequest,
-  UpdateUserRequest,
+import {
+  DEFAULT_PAGINATION,
+  type ChangePasswordRequest,
+  type CreateUserRequest,
+  type PaginationQuery,
+  type UpdateUserRequest,
 } from "@runner/api";
-import type { LoosePartial } from "@runner/utils";
 import * as argon2 from "argon2";
-import { and, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import postgres from "postgres";
 import { db } from "../../database/db.js";
 import { AuthenticationError } from "../../errors/AuthenticationError.js";
 import { ConstraintError } from "../../errors/ConstraintError.js";
 import { NotFoundError } from "../../errors/NotFoundError.js";
-import { queryModel } from "../../utils/drizzle.js";
 import { logger } from "../../utils/logger.js";
 import {
   INDEX_UNIQUE_EMAIL,
   INDEX_UNIQUE_USERNAME,
-  type User,
   users,
+  type User,
 } from "./users.schema.js";
 
 const userServiceLogger = logger.child({ service: "users" });
@@ -48,20 +48,19 @@ async function getUserById(id: string): Promise<User> {
  * @param offset Pagination offset
  * @returns Paginated list of users
  */
-async function queryUsers(
-  user: LoosePartial<User>,
-  offset = 0,
+async function getAllUsers(
+  options: PaginationQuery = DEFAULT_PAGINATION,
 ): Promise<User[]> {
-  userServiceLogger.debug("queryUsers", { user, offset });
-  const wheres = queryModel(users, user);
+  const { limit, page } = options;
+  userServiceLogger.debug("getAllUsers", { options });
 
+  // TODO: Eventually respect peoples privacy
   return db.query.users.findMany({
-    limit: 10,
-    offset,
+    limit,
+    offset: (page - 1) * limit,
     columns: {
       password: false,
     },
-    ...(wheres.length > 0 && { where: and(...wheres) }), // TODO: fix this
   });
 }
 
@@ -90,7 +89,7 @@ async function createUser(createUserRequest: CreateUserRequest): Promise<User> {
 
     userServiceLogger.info("User created", { id: createdUser.id });
 
-    const { password, ...user } = createdUser; // Remove password from the returned user
+    const { password, ...user } = createdUser;
     return user;
   } catch (e) {
     // TODO: Abstract this out to a common constraint error handler
@@ -219,7 +218,7 @@ export async function changePassword(
 export const usersService = {
   createUser,
   getUserById,
-  queryUsers,
+  getAllUsers,
   updateUser,
   deleteUser,
   changePassword,

@@ -7,10 +7,11 @@ import {
   DeleteUserParamsSchema,
   GetUserParamsSchema,
   GetUserResponseSchema,
-  GetUsersRequestQueryParamsSchema,
   GetUsersResponseSchema,
+  PaginationQuerySchema,
   UpdateUserParamsSchema,
   UpdateUserRequestSchema,
+  withPagination,
 } from "@runner/api";
 import { usersService } from "./users.service.js";
 
@@ -54,29 +55,42 @@ usersApp.openapi(createUserRoute, async (c) => {
 /**
  * Query users
  */
-const queryUsersRoute = createRoute({
+const getAllUsers = createRoute({
   method: "get",
   path: "/",
   tags: [OPENAPI_TAG_USERS],
   request: {
-    query: GetUsersRequestQueryParamsSchema,
+    query: PaginationQuerySchema,
   },
   responses: {
     200: {
       content: {
         "application/json": {
-          schema: GetUsersResponseSchema,
+          schema: withPagination(GetUsersResponseSchema),
         },
       },
-      description: "Query users",
+      description: "Get all users",
     },
   },
 });
 
-usersApp.openapi(queryUsersRoute, async (c) => {
+usersApp.openapi(getAllUsers, async (c) => {
   const params = c.req.valid("query");
-  const users = await usersService.queryUsers(params);
-  return c.json(users, 200);
+  const users = await usersService.getAllUsers(params);
+  return c.json(
+    {
+      data: users,
+      success: true,
+      pagination: {
+        limit: params.limit,
+        page: params.page,
+        nextPage: params.page + 1,
+        prevPage: params.page - 1,
+        total: users.length,
+      },
+    } as const,
+    200,
+  );
 });
 
 /**
