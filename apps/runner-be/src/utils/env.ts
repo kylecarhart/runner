@@ -32,3 +32,6 @@ const EnvSchema = z.object({
 
 export const Env = EnvSchema.parse(process.env);
 export type Env = z.infer<typeof EnvSchema>;
+
+/** Helper to check if environment is development */
+export const isDevelopment = Env.NODE_ENV === "development";

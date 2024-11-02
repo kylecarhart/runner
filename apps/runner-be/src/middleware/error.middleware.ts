@@ -1,4 +1,4 @@
-import type { Context, Next } from "hono";
+import type { Context, ErrorHandler } from "hono";
 import { StatusCodes } from "http-status-codes";
 import { ZodError } from "zod";
 import { ApplicationError } from "../errors/ApplicationError.js";
@@ -8,28 +8,24 @@ import { logger } from "../utils/logger.js";
  * Error middleware
  * @returns Error middleware
  */
-export const errorMiddleware = () => async (c: Context, next: Next) => {
-  try {
-    return await next();
-  } catch (err) {
-    // Application specific error
-    if (err instanceof ApplicationError) {
-      return handleApplicationError(c, err);
-    }
-
-    // Request validation error
-    if (err instanceof ZodError) {
-      return handleZodError(c, err);
-    }
-
-    // Unhandled error
-    if (err instanceof Error) {
-      return handleError(c, err);
-    }
-
-    // Unknown error
-    return handleUnknownError(c, err);
+export const errorMiddleware: () => ErrorHandler = () => (err, c) => {
+  // Application specific error
+  if (err instanceof ApplicationError) {
+    return handleApplicationError(c, err);
   }
+
+  // Request validation error
+  if (err instanceof ZodError) {
+    return handleZodError(c, err);
+  }
+
+  // Unhandled error
+  if (err instanceof Error) {
+    return handleError(c, err);
+  }
+
+  // Unknown error
+  return handleUnknownError(c, err);
 };
 
 /**
