@@ -3,6 +3,7 @@ import type {
   CreateUserRequest,
   UpdateUserRequest,
 } from "@runner/api";
+import type { LoosePartial } from "@runner/utils";
 import * as argon2 from "argon2";
 import { and, eq } from "drizzle-orm";
 import postgres from "postgres";
@@ -47,7 +48,10 @@ async function getUserById(id: string): Promise<User> {
  * @param offset Pagination offset
  * @returns Paginated list of users
  */
-async function queryUsers(user: Partial<User>, offset = 0): Promise<User[]> {
+async function queryUsers(
+  user: LoosePartial<User>,
+  offset = 0,
+): Promise<User[]> {
   userServiceLogger.debug("queryUsers", { user, offset });
   const wheres = queryModel(users, user);
 
@@ -202,13 +206,6 @@ export async function changePassword(
       `Incorrect old password on change password request for user ${id}.`,
     );
   }
-
-  // TODO: Check if the new password is the same as the old password
-  // if (password === oldPassword) {
-  //   throw new ApplicationError({
-  //     apiMessage: "New password cannot be the same as old password.",
-  //   });
-  // }
 
   // Hash and update password
   const hashedPassword = await argon2.hash(password);

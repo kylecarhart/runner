@@ -3,6 +3,7 @@ import {
   ChangePasswordParamsSchema,
   ChangePasswordRequestSchema,
   CreateUserRequestSchema,
+  CreateUserResponseSchema,
   DeleteUserParamsSchema,
   GetUserParamsSchema,
   GetUserResponseSchema,
@@ -36,7 +37,7 @@ const createUserRoute = createRoute({
     200: {
       content: {
         "application/json": {
-          schema: GetUserResponseSchema,
+          schema: CreateUserResponseSchema,
         },
       },
       description: "Create a new user",
@@ -153,12 +154,7 @@ const deleteUserRoute = createRoute({
     params: DeleteUserParamsSchema,
   },
   responses: {
-    200: {
-      content: {
-        "application/json": {
-          schema: GetUserResponseSchema,
-        },
-      },
+    204: {
       description: "Delete a user",
     },
   },
@@ -166,8 +162,8 @@ const deleteUserRoute = createRoute({
 
 usersApp.openapi(deleteUserRoute, async (c) => {
   const { id } = c.req.valid("param");
-  const deletedUser = await usersService.deleteUser(id);
-  return c.json(deletedUser, 200);
+  await usersService.deleteUser(id);
+  return c.body(null, 204);
 });
 
 /**
@@ -188,12 +184,7 @@ const changePasswordRoute = createRoute({
     },
   },
   responses: {
-    200: {
-      content: {
-        "application/json": {
-          schema: GetUserResponseSchema,
-        },
-      },
+    204: {
       description: "Change user password",
     },
   },
@@ -203,5 +194,5 @@ usersApp.openapi(changePasswordRoute, async (c) => {
   const { id } = c.req.valid("param");
   const changePasswordRequest = c.req.valid("json");
   await usersService.changePassword(id, changePasswordRequest);
-  return c.json({ success: true, message: `User ${id} password changed.` });
+  return c.body(null, 204);
 });

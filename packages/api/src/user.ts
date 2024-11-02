@@ -79,6 +79,7 @@ export const CreateUserRequestSchema = SelectUserSchema.omit({
     path: ["confirmPassword"],
   });
 export type CreateUserRequest = z.infer<typeof CreateUserRequestSchema>;
+export const CreateUserResponseSchema = GetUserResponseSchema;
 
 /**
  * Update a user
@@ -93,6 +94,7 @@ export const UpdateUserRequestSchema = SelectUserSchema.omit({
   updatedAt: true,
 });
 export type UpdateUserRequest = z.infer<typeof UpdateUserRequestSchema>;
+export const UpdateUserResponseSchema = GetUserResponseSchema;
 
 /**
  * Change a user's password
@@ -105,13 +107,20 @@ export const ChangePasswordRequestSchema = SelectUserSchema.pick({
     oldPassword: z.string(),
     confirmPassword: z.string(),
   })
+  // TODO: Look into super refinement
   .refine((schema) => schema.password === schema.confirmPassword, {
     message: "Passwords don't match",
     path: ["confirmPassword"],
+  })
+  .refine((schema) => schema.password !== schema.oldPassword, {
+    message: "New password cannot be the same as old password.",
+    path: ["password"],
   });
 export type ChangePasswordRequest = z.infer<typeof ChangePasswordRequestSchema>;
+export const ChangePasswordResponseSchema = GetUserResponseSchema;
 
 /**
  * Delete a user
  */
 export const DeleteUserParamsSchema = SelectUserSchema.pick({ id: true });
+export const DeleteUserResponseSchema = GetUserResponseSchema;
