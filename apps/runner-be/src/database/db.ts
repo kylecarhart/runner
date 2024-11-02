@@ -1,11 +1,11 @@
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
-import * as events from "../events/events.schema.ts";
-import * as participants from "../participants/participants.schema.ts";
-import * as races from "../races/races.schema.ts";
-import * as results from "../results/results.schema.ts";
-import * as users from "../users/users.schema.ts";
-import { Env } from "../utils/env.ts";
+import * as events from "../events/events.schema.js";
+import * as participants from "../participants/participants.schema.js";
+import * as races from "../races/races.schema.js";
+import * as results from "../results/results.schema.js";
+import * as users from "../users/users.schema.js";
+import { Env } from "../utils/env.js";
 
 // Connect to your database using the Connection Pooler for serverless environments, and the Direct Connection for long-running servers.
 const client = postgres({

@@ -1,5 +1,5 @@
 import winston from "winston";
-import { Env } from "./env.ts";
+import { Env } from "./env.js";
 
 const { combine, timestamp, printf, colorize, json } = winston.format;
 
@@ -18,7 +18,7 @@ export const logger = winston.createLogger({
 });
 
 // Console logger
-if (process.env.NODE_ENV !== "production") {
+if (Env.NODE_ENV !== "production") {
   logger.add(
     new winston.transports.Console({
       format: combine(colorize({ all: true }), timestamp(), customFormat),

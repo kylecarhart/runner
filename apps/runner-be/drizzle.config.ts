@@ -4,8 +4,8 @@ import { defineConfig } from "drizzle-kit";
 config(); // Load environment variables
 
 export default defineConfig({
-  // schema: ["./src/users/users.schema.ts", "./src/events/events.schema.ts"],
-  schema: "./src/**/*.schema.ts",
+  // schema: ["./src/users/users.schema", "./src/events/events.schema"],
+  schema: "./src/**/*.schema",
   out: "./drizzle",
   dialect: "postgresql",
   dbCredentials: {

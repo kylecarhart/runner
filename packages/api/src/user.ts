@@ -1,5 +1,8 @@
 import { z } from "zod";
 
+/**
+ * Password schema
+ */
 const PasswordSchema = z
   .string()
   .min(8, "Password must be at least 8 characters")
@@ -17,6 +20,9 @@ const PasswordSchema = z
     },
   );
 
+/**
+ * Select user schema
+ */
 export const SelectUserSchema = z.object({
   id: z.string().uuid(),
   firstName: z.string().min(1, "First name is required").max(64),
@@ -35,7 +41,31 @@ export const SelectUserSchema = z.object({
   updatedAt: z.string(),
 });
 
-// Create
+/**
+ * Get a single user
+ */
+export const GetUserParamsSchema = SelectUserSchema.pick({ id: true });
+export const GetUserResponseSchema = SelectUserSchema.omit({
+  password: true,
+})
+  .strict()
+  .openapi("User");
+
+/**
+ * Get many users
+ */
+export const GetUsersRequestQueryParamsSchema = SelectUserSchema.partial().omit(
+  {
+    id: true,
+    password: true,
+    email: true,
+  },
+);
+export const GetUsersResponseSchema = z.array(GetUserResponseSchema);
+
+/**
+ * Create a new user
+ */
 export const CreateUserRequestSchema = SelectUserSchema.omit({
   id: true,
   createdAt: true,
@@ -50,23 +80,9 @@ export const CreateUserRequestSchema = SelectUserSchema.omit({
   });
 export type CreateUserRequest = z.infer<typeof CreateUserRequestSchema>;
 
-// Read
-export const GetUserParamsSchema = SelectUserSchema.pick({ id: true });
-export const GetUserResponseSchema = SelectUserSchema.omit({
-  password: true,
-})
-  .strict()
-  .openapi({ ref: "User" });
-export const GetUsersRequestQueryParamsSchema = SelectUserSchema.partial().omit(
-  {
-    id: true,
-    password: true,
-    email: true,
-  },
-);
-export const GetUsersResponseSchema = z.array(GetUserResponseSchema);
-
-// Update
+/**
+ * Update a user
+ */
 export const UpdateUserParamsSchema = SelectUserSchema.pick({ id: true });
 export const UpdateUserRequestSchema = SelectUserSchema.omit({
   id: true,
@@ -78,7 +94,9 @@ export const UpdateUserRequestSchema = SelectUserSchema.omit({
 });
 export type UpdateUserRequest = z.infer<typeof UpdateUserRequestSchema>;
 
-// Change password
+/**
+ * Change a user's password
+ */
 export const ChangePasswordParamsSchema = SelectUserSchema.pick({ id: true });
 export const ChangePasswordRequestSchema = SelectUserSchema.pick({
   password: true,
@@ -93,5 +111,7 @@ export const ChangePasswordRequestSchema = SelectUserSchema.pick({
   });
 export type ChangePasswordRequest = z.infer<typeof ChangePasswordRequestSchema>;
 
-// Delete
+/**
+ * Delete a user
+ */
 export const DeleteUserParamsSchema = SelectUserSchema.pick({ id: true });

@@ -1,4 +1,5 @@
-import { ErrorResponse } from "@runner/api";
+import type { ErrorResponse } from "@runner/api";
+import type { StatusCode } from "hono/utils/http-status";
 import { StatusCodes } from "http-status-codes";
 
 /**
@@ -10,7 +11,7 @@ interface ApplicationErrorParams {
   /** Message to be logged, defaults to `apiMessage` */
   logMessage?: string;
   /** HTTP status code */
-  httpStatusCode?: StatusCodes;
+  httpStatusCode?: StatusCode;
   /** Application specific error code */
   code: string;
   /** Additional data related to the error */
@@ -24,7 +25,7 @@ export abstract class ApplicationError extends Error {
   apiMessage: string;
   logMessage: string;
   code: string;
-  httpStatusCode: StatusCodes;
+  httpStatusCode: StatusCode;
   data: unknown;
 
   constructor({

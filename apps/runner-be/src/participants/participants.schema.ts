@@ -1,8 +1,8 @@
 import { relations } from "drizzle-orm";
 import { pgTable, uuid } from "drizzle-orm/pg-core";
-import { withBaseSchema } from "../database/base.schema.ts";
-import { races } from "../races/races.schema.ts";
-import { users } from "../users/users.schema.ts";
+import { withBaseSchema } from "../database/base.schema.js";
+import { races } from "../races/races.schema.js";
+import { users } from "../users/users.schema.js";
 
 export const participants = pgTable(
   "participants",

@@ -12,7 +12,8 @@ TODO:
 - Add common response schema for success and failure.
 - Add feature toggles. (so i can dynamically turn off response validation)
 
-- Read through https://github.com/koajs/koa/wiki for popular koa middlware, utils, etc...
+- Read through https://github.com/koajs/koa/wiki for popular koa middlware,
+  utils, etc...
 - Add openapi spec
 - Add swagger-ui
 - Add tests

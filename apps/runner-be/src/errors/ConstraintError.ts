@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import { ApplicationError } from "./ApplicationError.ts";
+import { ApplicationError } from "./ApplicationError.js";
 
 /**
  * When a constraint is violated in the database.

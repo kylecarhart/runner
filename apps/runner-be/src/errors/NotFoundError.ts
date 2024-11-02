@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import { ApplicationError } from "./ApplicationError.ts";
+import { ApplicationError } from "./ApplicationError.js";
 
 /**
  * When a resource is not found in the database.

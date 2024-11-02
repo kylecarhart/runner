@@ -1,8 +1,0 @@
-{
-  "workspace": ["apps/runner", "apps/runner-be", "packages/api"],
-  "nodeModulesDir": "auto",
-  "compilerOptions": {
-    "lib": ["dom", "esnext"]
-  },
-  "$schema": "https://deno.land/x/deno/cli/schemas/config-file.v1.json"
-}

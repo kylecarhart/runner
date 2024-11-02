@@ -6,18 +6,18 @@ import type {
 import * as argon2 from "argon2";
 import { and, eq } from "drizzle-orm";
 import postgres from "postgres";
-import { db } from "../database/db.ts";
-import { AuthenticationError } from "../errors/AuthenticationError.ts";
-import { ConstraintError } from "../errors/ConstraintError.ts";
-import { NotFoundError } from "../errors/NotFoundError.ts";
-import { queryModel } from "../utils/drizzle.ts";
-import { logger } from "../utils/logger.ts";
+import { db } from "../database/db.js";
+import { AuthenticationError } from "../errors/AuthenticationError.js";
+import { ConstraintError } from "../errors/ConstraintError.js";
+import { NotFoundError } from "../errors/NotFoundError.js";
+import { queryModel } from "../utils/drizzle.js";
+import { logger } from "../utils/logger.js";
 import {
   INDEX_UNIQUE_EMAIL,
   INDEX_UNIQUE_USERNAME,
   type User,
   users,
-} from "./users.schema.ts";
+} from "./users.schema.js";
 
 const userServiceLogger = logger.child({ service: "users" });
 
@@ -73,15 +73,20 @@ async function createUser(createUserRequest: CreateUserRequest): Promise<User> {
     const hashedPassword = await argon2.hash(createUserRequest.password);
 
     // TODO: Ideally I don't ever want the password returned from the db.
-    const { password, ...user } = (
+    const createdUser = (
       await db
         .insert(users)
         .values({ ...createUserRequest, password: hashedPassword })
         .returning()
-    )[0];
+    ).at(0);
 
-    userServiceLogger.info("User created", { id: user.id });
+    if (!createdUser) {
+      throw new Error("Failed to create user."); // TODO: Replace with custom error
+    }
 
+    userServiceLogger.info("User created", { id: createdUser.id });
+
+    const { password, ...user } = createdUser; // Remove password from the returned user
     return user;
   } catch (e) {
     // TODO: Abstract this out to a common constraint error handler
@@ -152,16 +157,21 @@ async function updateUser(
 /**
  * Delete a user
  * @param id User id
+ * @returns Deleted user
  */
-async function deleteUser(id: string): Promise<void> {
+async function deleteUser(id: string): Promise<User> {
   userServiceLogger.debug("deleteUser", { id });
-  const user = (await db.delete(users).where(eq(users.id, id)).returning())[0];
+  const deletedUser = (
+    await db.delete(users).where(eq(users.id, id)).returning()
+  ).at(0);
 
-  if (!user) {
+  if (!deletedUser) {
     throw new NotFoundError("User", { id });
   }
 
   userServiceLogger.info("User deleted", { id });
+  const { password, ...user } = deletedUser;
+  return user;
 }
 
 /**

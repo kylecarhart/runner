@@ -1,7 +1,7 @@
-import "zod-openapi/extend";
+import { extendZodWithOpenApi } from "@asteasolutions/zod-to-openapi";
+import { z } from "zod";
 
-export * from "./openapi.ts";
-export { document } from "./openapi.ts";
-export * from "./response.ts";
-export * from "./user.ts";
+extendZodWithOpenApi(z);
 
+export * from "./response.js";
+export * from "./user.js";
