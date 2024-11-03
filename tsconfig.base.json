@@ -1,6 +1,7 @@
 {
   "extends": "@tsconfig/strictest/tsconfig.json",
   "compilerOptions": {
+    "lib": ["ESNext"],
     "noUnusedLocals": false, // Mostly OK
     "noUnusedParameters": false, // Mostly OK
     "noPropertyAccessFromIndexSignature": false // Mostly annoying
