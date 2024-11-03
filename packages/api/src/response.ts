@@ -1,12 +1,13 @@
 import { z, ZodSchema } from "zod";
 
-const PaginationSchema = z.object({
+export const PaginationSchema = z.object({
   limit: z.number(),
   page: z.number(),
-  nextPage: z.number(),
-  prevPage: z.number(),
+  nextPage: z.number().nullable(),
+  prevPage: z.number().nullable(),
   total: z.number(), // Total number of records
 });
+export type Pagination = z.infer<typeof PaginationSchema>;
 
 export const SuccessResponseSchema = z.object({
   success: z.literal(true),
@@ -27,7 +28,7 @@ export type ErrorResponse = z.infer<typeof ErrorResponseSchema>;
 export function withSuccess<T extends ZodSchema>(schema: T) {
   return SuccessResponseSchema.extend({
     data: schema,
-  });
+  }).openapi("SuccessResponse");
 }
 
 /**

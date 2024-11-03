@@ -9,7 +9,9 @@ export const results = pgTable(
     participantId: uuid("participantId")
       .notNull()
       .references(() => participants.id),
-    time: integer("time"), // milliseconds, null is DNF
+    clockTime: integer("clockTime"), // milliseconds, null is DNF
+    chipTime: integer("chipTime"), // milliseconds, null is DNF
+    place: integer("place"),
   }),
 );
 

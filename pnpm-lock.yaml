@@ -27,17 +27,17 @@ importers:
   apps/runner-be:
     dependencies:
       '@dotenvx/dotenvx':
-        specifier: ^1.14.1
-        version: 1.21.0
+        specifier: ^1.21.1
+        version: 1.21.1
       '@hono/node-server':
-        specifier: ^1.13.2
-        version: 1.13.2(hono@4.6.7)
+        specifier: ^1.13.4
+        version: 1.13.4(hono@4.6.8)
       '@hono/swagger-ui':
         specifier: ^0.4.1
-        version: 0.4.1(hono@4.6.7)
+        version: 0.4.1(hono@4.6.8)
       '@hono/zod-openapi':
         specifier: ^0.16.4
-        version: 0.16.4(hono@4.6.7)(zod@3.23.8)
+        version: 0.16.4(hono@4.6.8)(zod@3.23.8)
       '@runner/api':
         specifier: workspace:*
         version: link:../../packages/api
@@ -46,34 +46,34 @@ importers:
         version: link:../../packages/utils
       '@scalar/hono-api-reference':
         specifier: ^0.5.158
-        version: 0.5.158(hono@4.6.7)
+        version: 0.5.158(hono@4.6.8)
       argon2:
         specifier: ^0.41.1
         version: 0.41.1
       drizzle-orm:
-        specifier: ^0.33.0
-        version: 0.33.0(postgres@3.4.5)
+        specifier: ^0.36.0
+        version: 0.36.0(postgres@3.4.5)
       drizzle-zod:
         specifier: ^0.5.1
-        version: 0.5.1(drizzle-orm@0.33.0(postgres@3.4.5))(zod@3.23.8)
+        version: 0.5.1(drizzle-orm@0.36.0(postgres@3.4.5))(zod@3.23.8)
       hono:
-        specifier: ^4.6.7
-        version: 4.6.7
+        specifier: ^4.6.8
+        version: 4.6.8
       http-status-codes:
         specifier: ^2.3.0
         version: 2.3.0
       postgres:
-        specifier: ^3.4.4
+        specifier: ^3.4.5
         version: 3.4.5
+      tiny-invariant:
+        specifier: ^1.3.3
+        version: 1.3.3
       winston:
-        specifier: ^3.14.2
-        version: 3.15.0
+        specifier: ^3.16.0
+        version: 3.16.0
       zod:
         specifier: ^3.23.8
         version: 3.23.8
-      zod-openapi:
-        specifier: ^3.0.1
-        version: 3.1.1(zod@3.23.8)
     devDependencies:
       '@eslint/js':
         specifier: ^9.11.0
@@ -91,8 +91,8 @@ importers:
         specifier: ^7.0.3
         version: 7.0.3
       drizzle-kit:
-        specifier: ^0.24.2
-        version: 0.24.2
+        specifier: ^0.27.1
+        version: 0.27.1
       eslint:
         specifier: ^9.11.0
         version: 9.13.0
@@ -100,10 +100,10 @@ importers:
         specifier: ^15.2.10
         version: 15.2.10
       tsx:
-        specifier: ^4.19.1
+        specifier: ^4.19.2
         version: 4.19.2
       typescript:
-        specifier: ^5.6.2
+        specifier: ^5.6.3
         version: 5.6.3
       typescript-eslint:
         specifier: ^8.6.0
@@ -159,12 +159,12 @@ packages:
   '@dabh/diagnostics@2.0.3':
     resolution: {integrity: sha512-hrlQOIi7hAfzsMqlGSFyVucrx38O+j6wiGOf//H2ecvIEqYN4ADBSS2iLMh5UFyDunCNniUIPk/q3riFv45xRA==}
 
-  '@dotenvx/dotenvx@1.21.0':
-    resolution: {integrity: sha512-tbVWzE20ENwex7VOqTX2PiDP68v4SurAOsFHXMiNNCXYzpOXEje/M8lmMr+a8xKCfkhAmO1L+XhsPL7FDyfx4w==}
+  '@dotenvx/dotenvx@1.21.1':
+    resolution: {integrity: sha512-ER9oBUtcFgDB/hwhJ0eg7xvR/8EtXkFm8J6nGo0rvLLMZKBpmvMtgTIQ8hDSjnboOaELOdUXTpa7WgoRZR6g3A==}
     hasBin: true
 
-  '@drizzle-team/brocli@0.10.1':
-    resolution: {integrity: sha512-AHy0vjc+n/4w/8Mif+w86qpppHuF3AyXbcWW+R/W7GNA3F5/p2nuhlkCJaTXSLZheB4l1rtHzOfr9A7NwoR/Zg==}
+  '@drizzle-team/brocli@0.10.2':
+    resolution: {integrity: sha512-z33Il7l5dKjUgGULTqBsQBQwckHh5AbIuxhdsIxDDiZAzBOrZO6q9ogcWC65kU382AfynTfgNumVcNIjuIua6w==}
 
   '@ecies/ciphers@0.2.0':
     resolution: {integrity: sha512-dqQk3HbyuXSdflgRMrXjEcCohKeBZQl2rm0lOcYnEC4Oue90irVMwVJ0GiM/nhjP0zzGimH8mVFF/pOzQcv+Lg==}
@@ -772,8 +772,8 @@ packages:
     resolution: {integrity: sha512-HFZ4Mp26nbWk9d/BpvP0YNL6W4UoZF0VFcTw/aPPA8RpOxeFQgK+ClABGgAUXs9Y/RGX/l1vOmrqz1MQt9MNuw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@hono/node-server@1.13.2':
-    resolution: {integrity: sha512-0w8nEmAyx0Ul0CQp8BL2VtAG4YVdpzXd/mvvM+l0G5Oq22pUyHS+KeFFPSY+czLOF5NAiV3MUNPD1n14Ol5svg==}
+  '@hono/node-server@1.13.4':
+    resolution: {integrity: sha512-3tW9lC0+2mRmoGUEnq0d8Pi3SToWjg8flM9Z+h5Aamy23jjpiFr7n3/HLqXve6EudOsgN2tG2hZusqzNYVRmRw==}
     engines: {node: '>=18.14.1'}
     peerDependencies:
       hono: ^4
@@ -1232,17 +1232,18 @@ packages:
     resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
     engines: {node: '>=12'}
 
-  drizzle-kit@0.24.2:
-    resolution: {integrity: sha512-nXOaTSFiuIaTMhS8WJC2d4EBeIcN9OSt2A2cyFbQYBAZbi7lRsVGJNqDpEwPqYfJz38yxbY/UtbvBBahBfnExQ==}
+  drizzle-kit@0.27.1:
+    resolution: {integrity: sha512-4BNA0T2blN+jW5wSwhtc+FIlCMuxYSMWCnYYdOBi5rttwq8aVXRUid0d0NCzcBKtZQSPZGAUxy+TXr7Q1OgEug==}
     hasBin: true
 
-  drizzle-orm@0.33.0:
-    resolution: {integrity: sha512-SHy72R2Rdkz0LEq0PSG/IdvnT3nGiWuRk+2tXZQ90GVq/XQhpCzu/EFT3V2rox+w8MlkBQxifF8pCStNYnERfA==}
+  drizzle-orm@0.36.0:
+    resolution: {integrity: sha512-6BETYPdKSR7cDHC0ZfqZk2VrKJ8n/Rfd3ajFPsAbc69gi87nwZ6oBA2wUGMELHA0tQE4kUKN0Ds00LUZQ6Z69A==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
       '@cloudflare/workers-types': '>=3'
-      '@electric-sql/pglite': '>=0.1.1'
-      '@libsql/client': '*'
+      '@electric-sql/pglite': '>=0.2.0'
+      '@libsql/client': '>=0.10.0'
+      '@libsql/client-wasm': '>=0.10.0'
       '@neondatabase/serverless': '>=0.1'
       '@op-engineering/op-sqlite': '>=2'
       '@opentelemetry/api': ^1.4.1
@@ -1275,6 +1276,8 @@ packages:
       '@electric-sql/pglite':
         optional: true
       '@libsql/client':
+        optional: true
+      '@libsql/client-wasm':
         optional: true
       '@neondatabase/serverless':
         optional: true
@@ -1540,8 +1543,8 @@ packages:
     resolution: {integrity: sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==}
     engines: {node: '>=8'}
 
-  hono@4.6.7:
-    resolution: {integrity: sha512-wX4ZbOnzfNO61hUjuQbJ7OPGs1fWXXVVJ8VTPDb2Ls/x9HjCbVTm80Je6VTHMz5n5RGDtBgV9d9ZFZxBqx56ng==}
+  hono@4.6.8:
+    resolution: {integrity: sha512-f+2Ec9JAzabT61pglDiLJcF/DjiSefZkjCn9bzm1cYLGkD5ExJ3Jnv93ax9h0bn7UPLHF81KktoyjdQfWI2n1Q==}
     engines: {node: '>=16.9.0'}
 
   hookable@5.5.3:
@@ -2041,6 +2044,9 @@ packages:
   thenify@3.3.1:
     resolution: {integrity: sha512-RVZSIV5IG10Hk3enotrhvz0T9em6cyHBLkH/YAZuKqd8hRkKhSfCGIcP2KUY0EPxndzANBmNllzWPwak+bheSw==}
 
+  tiny-invariant@1.3.3:
+    resolution: {integrity: sha512-+FbBPE1o9QAYvviau/qC5SE3caw21q3xkvWKBtja5vgqOWIHHJ3ioaq1VPfn/Szqctz2bU/oYeKd9/z5BL+PVg==}
+
   tinyexec@0.3.1:
     resolution: {integrity: sha512-WiCJLEECkO18gwqIp6+hJg0//p23HXp4S+gGtAKu3mI2F2/sXC4FvHvXvB0zJVVaTPhx1/tOwdbRsa1sOBIKqQ==}
 
@@ -2143,8 +2149,8 @@ packages:
     resolution: {integrity: sha512-qxSTKswC6llEMZKgCQdaWgDuMJQnhuvF5f2Nk3SNXc4byfQ+voo2mX1Px9dkNOuR8p0KAjfPG29PuYUSIb+vSA==}
     engines: {node: '>= 12.0.0'}
 
-  winston@3.15.0:
-    resolution: {integrity: sha512-RhruH2Cj0bV0WgNL+lOfoUBI4DVfdUNjVnJGVovWZmrcKtrFTTRzgXYK2O9cymSGjrERCtaAeHwMNnUWXlwZow==}
+  winston@3.16.0:
+    resolution: {integrity: sha512-xz7+cyGN5M+4CmmD4Npq1/4T+UZaz7HaeTlAruFUTjk79CNMq+P6H30vlE4z0qfqJ01VHYQwd7OZo03nYm/+lg==}
     engines: {node: '>= 12.0.0'}
 
   word-wrap@1.2.5:
@@ -2175,12 +2181,6 @@ packages:
   zhead@2.2.4:
     resolution: {integrity: sha512-8F0OI5dpWIA5IGG5NHUg9staDwz/ZPxZtvGVf01j7vHqSyZ0raHY+78atOVxRqb73AotX22uV1pXt3gYSstGag==}
 
-  zod-openapi@3.1.1:
-    resolution: {integrity: sha512-jn5udnrGTAmTY7nj/E6ggKBsqIi9Vzj5u0RQpDyOOpzmz2ijcBssSeEjnQFbriqG2PY2JJBP5Gi4umRrhVxghQ==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      zod: ^3.21.4
-
   zod@3.23.8:
     resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
 
@@ -2199,7 +2199,7 @@ snapshots:
       enabled: 2.0.0
       kuler: 2.0.0
 
-  '@dotenvx/dotenvx@1.21.0':
+  '@dotenvx/dotenvx@1.21.1':
     dependencies:
       commander: 11.1.0
       dotenv: 16.4.5
@@ -2211,7 +2211,7 @@ snapshots:
       picomatch: 4.0.2
       which: 4.0.0
 
-  '@drizzle-team/brocli@0.10.1': {}
+  '@drizzle-team/brocli@0.10.2': {}
 
   '@ecies/ciphers@0.2.0(@noble/ciphers@1.0.0)':
     dependencies:
@@ -2545,24 +2545,24 @@ snapshots:
     dependencies:
       levn: 0.4.1
 
-  '@hono/node-server@1.13.2(hono@4.6.7)':
+  '@hono/node-server@1.13.4(hono@4.6.8)':
     dependencies:
-      hono: 4.6.7
+      hono: 4.6.8
 
-  '@hono/swagger-ui@0.4.1(hono@4.6.7)':
+  '@hono/swagger-ui@0.4.1(hono@4.6.8)':
     dependencies:
-      hono: 4.6.7
+      hono: 4.6.8
 
-  '@hono/zod-openapi@0.16.4(hono@4.6.7)(zod@3.23.8)':
+  '@hono/zod-openapi@0.16.4(hono@4.6.8)(zod@3.23.8)':
     dependencies:
       '@asteasolutions/zod-to-openapi': 7.2.0(zod@3.23.8)
-      '@hono/zod-validator': 0.3.0(hono@4.6.7)(zod@3.23.8)
-      hono: 4.6.7
+      '@hono/zod-validator': 0.3.0(hono@4.6.8)(zod@3.23.8)
+      hono: 4.6.8
       zod: 3.23.8
 
-  '@hono/zod-validator@0.3.0(hono@4.6.7)(zod@3.23.8)':
+  '@hono/zod-validator@0.3.0(hono@4.6.8)(zod@3.23.8)':
     dependencies:
-      hono: 4.6.7
+      hono: 4.6.8
       zod: 3.23.8
 
   '@humanfs/core@0.19.0': {}
@@ -2681,10 +2681,10 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.24.2':
     optional: true
 
-  '@scalar/hono-api-reference@0.5.158(hono@4.6.7)':
+  '@scalar/hono-api-reference@0.5.158(hono@4.6.8)':
     dependencies:
       '@scalar/types': 0.0.18
-      hono: 4.6.7
+      hono: 4.6.8
 
   '@scalar/openapi-types@0.1.4': {}
 
@@ -2957,22 +2957,22 @@ snapshots:
 
   dotenv@16.4.5: {}
 
-  drizzle-kit@0.24.2:
+  drizzle-kit@0.27.1:
     dependencies:
-      '@drizzle-team/brocli': 0.10.1
+      '@drizzle-team/brocli': 0.10.2
       '@esbuild-kit/esm-loader': 2.6.5
       esbuild: 0.19.12
       esbuild-register: 3.6.0(esbuild@0.19.12)
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.33.0(postgres@3.4.5):
+  drizzle-orm@0.36.0(postgres@3.4.5):
     optionalDependencies:
       postgres: 3.4.5
 
-  drizzle-zod@0.5.1(drizzle-orm@0.33.0(postgres@3.4.5))(zod@3.23.8):
+  drizzle-zod@0.5.1(drizzle-orm@0.36.0(postgres@3.4.5))(zod@3.23.8):
     dependencies:
-      drizzle-orm: 0.33.0(postgres@3.4.5)
+      drizzle-orm: 0.36.0(postgres@3.4.5)
       zod: 3.23.8
 
   eastasianwidth@0.2.0: {}
@@ -3292,7 +3292,7 @@ snapshots:
 
   has-flag@4.0.0: {}
 
-  hono@4.6.7: {}
+  hono@4.6.8: {}
 
   hookable@5.5.3: {}
 
@@ -3734,6 +3734,8 @@ snapshots:
     dependencies:
       any-promise: 1.3.0
 
+  tiny-invariant@1.3.3: {}
+
   tinyexec@0.3.1: {}
 
   tinyglobby@0.2.10:
@@ -3839,7 +3841,7 @@ snapshots:
       readable-stream: 4.5.2
       triple-beam: 1.4.1
 
-  winston@3.15.0:
+  winston@3.16.0:
     dependencies:
       '@colors/colors': 1.6.0
       '@dabh/diagnostics': 2.0.3
@@ -3878,9 +3880,5 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   zhead@2.2.4: {}
-
-  zod-openapi@3.1.1(zod@3.23.8):
-    dependencies:
-      zod: 3.23.8
 
   zod@3.23.8: {}

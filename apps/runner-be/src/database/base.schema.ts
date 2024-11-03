@@ -1,6 +1,6 @@
-import { pgTable, timestamp, uuid } from "drizzle-orm/pg-core";
+import { PgColumnBuilderBase, timestamp, uuid } from "drizzle-orm/pg-core";
 
-type PgTableColumns = Parameters<typeof pgTable>[1];
+type PgTableColumns = Record<string, PgColumnBuilderBase>;
 
 const idColumn = {
   id: uuid("id").defaultRandom().primaryKey(),

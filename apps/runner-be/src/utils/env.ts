@@ -17,7 +17,9 @@ const EnvSchema = z.object({
   PORT: z.coerce.number(),
   // Database
   DB_HOST: z.string(),
-  DB_PORT: z.coerce.number(),
+  DB_PORT_TRANSACTION: z.coerce.number(),
+  DB_PORT_SESSION: z.coerce.number(),
+  DB_PORT: z.coerce.number(), // TODO: Not sure if I want to keep this
   DB_USER: z.string(),
   DB_PASSWORD: z.string(),
   DB_NAME: z.string(),

@@ -13,6 +13,7 @@ import {
   UpdateUserRequestSchema,
   withPagination,
 } from "@runner/api";
+import { paginationResponse } from "../../utils/response.js";
 import { usersService } from "./users.service.js";
 
 export const usersApp = new OpenAPIHono();
@@ -46,6 +47,7 @@ const createUserRoute = createRoute({
   },
 });
 
+// TODO: We may need to chain these for RPC: https://hono.dev/docs/guides/best-practices
 usersApp.openapi(createUserRoute, async (c) => {
   const createUserRequest = c.req.valid("json");
   const newUser = await usersService.createUser(createUserRequest);
@@ -76,22 +78,9 @@ const getAllUsers = createRoute({
 
 usersApp.openapi(getAllUsers, async (c) => {
   const params = c.req.valid("query");
-  const users = await usersService.getAllUsers(params);
-  return c.json(
-    {
-      data: users,
-      success: true,
-      pagination: {
-        // TODO: Fill this in with actual data
-        limit: params.limit,
-        page: params.page,
-        nextPage: params.page + 1,
-        prevPage: params.page - 1,
-        total: users.length,
-      },
-    } as const,
-    200,
-  );
+  const { data, pagination } = await usersService.getAllUsers(params);
+
+  return paginationResponse(c, data, pagination);
 });
 
 /**

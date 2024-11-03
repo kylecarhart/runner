@@ -1,18 +1,21 @@
 import {
   DEFAULT_PAGINATION,
+  Pagination,
   type ChangePasswordRequest,
   type CreateUserRequest,
   type PaginationQuery,
   type UpdateUserRequest,
 } from "@runner/api";
 import * as argon2 from "argon2";
-import { eq } from "drizzle-orm";
+import { count, eq } from "drizzle-orm";
 import postgres from "postgres";
+import invariant from "tiny-invariant";
 import { db } from "../../database/db.js";
 import { AuthenticationError } from "../../errors/AuthenticationError.js";
 import { ConstraintError } from "../../errors/ConstraintError.js";
 import { NotFoundError } from "../../errors/NotFoundError.js";
 import { logger } from "../../utils/logger.js";
+import { paginationHelper } from "../../utils/response.js";
 import {
   INDEX_UNIQUE_EMAIL,
   INDEX_UNIQUE_USERNAME,
@@ -42,6 +45,11 @@ async function getUserById(id: string): Promise<User> {
   return user;
 }
 
+interface DataWithPagination<T> {
+  data: T;
+  pagination: Pagination;
+}
+
 /**
  * Query users with pagination
  * @param user User fields to search
@@ -50,18 +58,26 @@ async function getUserById(id: string): Promise<User> {
  */
 async function getAllUsers(
   options: PaginationQuery = DEFAULT_PAGINATION,
-): Promise<User[]> {
+): Promise<DataWithPagination<User[]>> {
   const { limit, page } = options;
   userServiceLogger.debug("getAllUsers", { options });
 
-  // TODO: Eventually respect peoples privacy
-  return db.query.users.findMany({
+  // TODO: Eventually respect peoples privacy to not show up
+  const total = (await db.select({ count: count() }).from(users)).at(0)?.count;
+  invariant(total !== undefined, "Total users count is undefined.");
+
+  const data = await db.query.users.findMany({
     limit,
     offset: (page - 1) * limit,
     columns: {
       password: false,
     },
   });
+
+  return {
+    data,
+    pagination: paginationHelper({ page, limit, total }),
+  };
 }
 
 /**

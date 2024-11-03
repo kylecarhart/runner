@@ -1,5 +1,5 @@
 import type { InferSelectModel } from "drizzle-orm";
-import { pgTable, text, uniqueIndex } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
 import { withBaseSchema } from "../../database/base.schema.js";
 import { lower } from "../../utils/drizzle.js";
 
@@ -11,9 +11,10 @@ export const users = pgTable(
   withBaseSchema({
     firstName: text("firstName").notNull(),
     lastName: text("lastName").notNull(),
-    username: text("username").notNull().unique(INDEX_UNIQUE_USERNAME),
+    username: text("username").notNull(),
     email: text("email").notNull(),
     password: text("password").notNull(),
+    dob: timestamp("dob", { withTimezone: true, mode: "string" }),
   }),
   (table) => ({
     /** @see https://orm.drizzle.team/learn/guides/unique-case-insensitive-email */
