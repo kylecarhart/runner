@@ -1,4 +1,9 @@
 import { z } from "zod";
+import {
+  SuccessResponseSchema,
+  withPaginationSchema,
+  withSuccessSchema,
+} from "./response.js";
 
 /**
  * Password schema
@@ -42,27 +47,37 @@ export const SelectUserSchema = z.object({
 });
 
 /**
- * Get a single user
+ * IMPORTANT: We never want to return the password.
  */
-export const GetUserParamsSchema = SelectUserSchema.pick({ id: true });
-export const GetUserResponseSchema = SelectUserSchema.omit({
+export const UserSchema = SelectUserSchema.omit({
   password: true,
 })
   .strict()
   .openapi("User");
 
 /**
+ * Get a single user
+ */
+export const GetUserParamsSchema = SelectUserSchema.pick({ id: true });
+export const GetUserResponseSchema =
+  withSuccessSchema(UserSchema).openapi("GetUserResponse");
+
+/**
  * Get many users
  */
-export const GetUsersResponseSchema = z.array(GetUserResponseSchema);
+export const GetUsersResponseSchema = withPaginationSchema(
+  z.array(UserSchema),
+).openapi("GetUsersResponse");
 
 /**
  * Create a new user
  */
-export const CreateUserRequestSchema = SelectUserSchema.omit({
-  id: true,
-  createdAt: true,
-  updatedAt: true,
+export const CreateUserRequestSchema = SelectUserSchema.pick({
+  firstName: true,
+  lastName: true,
+  username: true,
+  email: true,
+  password: true,
 })
   .extend({
     confirmPassword: z.string(),
@@ -72,22 +87,20 @@ export const CreateUserRequestSchema = SelectUserSchema.omit({
     path: ["confirmPassword"],
   });
 export type CreateUserRequest = z.infer<typeof CreateUserRequestSchema>;
-export const CreateUserResponseSchema = GetUserResponseSchema;
+export const CreateUserResponseSchema =
+  withSuccessSchema(UserSchema).openapi("CreateUserResponse");
 
 /**
  * Update a user
  */
 export const UpdateUserParamsSchema = SelectUserSchema.pick({ id: true });
-export const UpdateUserRequestSchema = SelectUserSchema.omit({
-  id: true,
-  username: true, // TODO: Do we ever want a person to be able to change their username?
-  email: true, // TODO: Changing email will require a confirmation.
-  password: true,
-  createdAt: true,
-  updatedAt: true,
-});
+export const UpdateUserRequestSchema = SelectUserSchema.pick({
+  firstName: true,
+  lastName: true,
+}).partial();
 export type UpdateUserRequest = z.infer<typeof UpdateUserRequestSchema>;
-export const UpdateUserResponseSchema = GetUserResponseSchema;
+export const UpdateUserResponseSchema =
+  withSuccessSchema(UserSchema).openapi("UpdateUserResponse");
 
 /**
  * Change a user's password
@@ -110,10 +123,10 @@ export const ChangePasswordRequestSchema = SelectUserSchema.pick({
     path: ["password"],
   });
 export type ChangePasswordRequest = z.infer<typeof ChangePasswordRequestSchema>;
-export const ChangePasswordResponseSchema = GetUserResponseSchema;
+export const ChangePasswordResponseSchema = SuccessResponseSchema;
 
 /**
  * Delete a user
  */
 export const DeleteUserParamsSchema = SelectUserSchema.pick({ id: true });
-export const DeleteUserResponseSchema = GetUserResponseSchema;
+export const DeleteUserResponseSchema = SuccessResponseSchema;

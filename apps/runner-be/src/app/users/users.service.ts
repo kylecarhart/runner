@@ -6,6 +6,7 @@ import {
   type PaginationQuery,
   type UpdateUserRequest,
 } from "@runner/api";
+import { stripUndefined } from "@runner/utils";
 import * as argon2 from "argon2";
 import { count, eq } from "drizzle-orm";
 import postgres from "postgres";
@@ -140,13 +141,11 @@ async function updateUser(
   try {
     userServiceLogger.debug("updateUser", updateUserRequest);
 
+    const fields = stripUndefined(updateUserRequest); // Remove undefined values
+
     // TODO: Ideally I don't ever want the password returned from the db.
     const updatedUser = (
-      await db
-        .update(users)
-        .set(updateUserRequest)
-        .where(eq(users.id, id))
-        .returning()
+      await db.update(users).set(fields).where(eq(users.id, id)).returning()
     )[0];
 
     if (!updatedUser) {

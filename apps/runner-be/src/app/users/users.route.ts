@@ -2,18 +2,18 @@ import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
 import {
   ChangePasswordParamsSchema,
   ChangePasswordRequestSchema,
+  ChangePasswordResponseSchema,
   CreateUserRequestSchema,
   CreateUserResponseSchema,
   DeleteUserParamsSchema,
+  DeleteUserResponseSchema,
   GetUserParamsSchema,
   GetUserResponseSchema,
   GetUsersResponseSchema,
   PaginationQuerySchema,
   UpdateUserParamsSchema,
   UpdateUserRequestSchema,
-  withPagination,
 } from "@runner/api";
-import { paginationResponse } from "../../utils/response.js";
 import { usersService } from "./users.service.js";
 
 export const usersApp = new OpenAPIHono();
@@ -51,13 +51,20 @@ const createUserRoute = createRoute({
 usersApp.openapi(createUserRoute, async (c) => {
   const createUserRequest = c.req.valid("json");
   const newUser = await usersService.createUser(createUserRequest);
-  return c.json(newUser, 200);
+
+  return c.json(
+    {
+      success: true,
+      data: newUser,
+    } as const,
+    200,
+  );
 });
 
 /**
  * Query users
  */
-const getAllUsers = createRoute({
+const getUsers = createRoute({
   method: "get",
   path: "/",
   tags: [OPENAPI_TAG_USERS],
@@ -68,7 +75,7 @@ const getAllUsers = createRoute({
     200: {
       content: {
         "application/json": {
-          schema: withPagination(GetUsersResponseSchema),
+          schema: GetUsersResponseSchema,
         },
       },
       description: "Get all users",
@@ -76,11 +83,18 @@ const getAllUsers = createRoute({
   },
 });
 
-usersApp.openapi(getAllUsers, async (c) => {
+usersApp.openapi(getUsers, async (c) => {
   const params = c.req.valid("query");
   const { data, pagination } = await usersService.getAllUsers(params);
 
-  return paginationResponse(c, data, pagination);
+  return c.json(
+    {
+      success: true,
+      data,
+      pagination,
+    } as const,
+    200,
+  );
 });
 
 /**
@@ -108,7 +122,13 @@ const getUserRoute = createRoute({
 usersApp.openapi(getUserRoute, async (c) => {
   const { id } = c.req.valid("param");
   const user = await usersService.getUserById(id);
-  return c.json(user, 200);
+  return c.json(
+    {
+      success: true,
+      data: user,
+    } as const,
+    200,
+  );
 });
 
 /**
@@ -144,7 +164,13 @@ usersApp.openapi(updateUserRoute, async (c) => {
   const { id } = c.req.valid("param");
   const updateUserRequest = c.req.valid("json");
   const updatedUser = await usersService.updateUser(id, updateUserRequest);
-  return c.json(updatedUser, 200);
+  return c.json(
+    {
+      success: true,
+      data: updatedUser,
+    } as const,
+    200,
+  );
 });
 
 /**
@@ -158,7 +184,12 @@ const deleteUserRoute = createRoute({
     params: DeleteUserParamsSchema,
   },
   responses: {
-    204: {
+    200: {
+      content: {
+        "application/json": {
+          schema: DeleteUserResponseSchema,
+        },
+      },
       description: "Delete a user",
     },
   },
@@ -167,7 +198,13 @@ const deleteUserRoute = createRoute({
 usersApp.openapi(deleteUserRoute, async (c) => {
   const { id } = c.req.valid("param");
   await usersService.deleteUser(id);
-  return c.body(null, 204);
+  return c.json(
+    {
+      success: true,
+      message: "User deleted successfully",
+    } as const,
+    200,
+  );
 });
 
 /**
@@ -188,7 +225,12 @@ const changePasswordRoute = createRoute({
     },
   },
   responses: {
-    204: {
+    200: {
+      content: {
+        "application/json": {
+          schema: ChangePasswordResponseSchema,
+        },
+      },
       description: "Change user password",
     },
   },
@@ -197,6 +239,14 @@ const changePasswordRoute = createRoute({
 usersApp.openapi(changePasswordRoute, async (c) => {
   const { id } = c.req.valid("param");
   const changePasswordRequest = c.req.valid("json");
+
   await usersService.changePassword(id, changePasswordRequest);
-  return c.body(null, 204);
+
+  return c.json(
+    {
+      success: true,
+      message: "Password changed successfully",
+    } as const,
+    200,
+  );
 });
