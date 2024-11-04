@@ -1,15 +1,15 @@
 import { relations } from "drizzle-orm";
-import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { pgTable } from "drizzle-orm/pg-core";
 import { withBaseSchema } from "../../database/base.schema.js";
 import { events } from "../events/events.schema.js";
 
-export const races = pgTable(
-  "races",
+export const races = pgTable("races", (c) =>
   withBaseSchema({
-    name: text("name").notNull(),
-    type: text("type").notNull(),
-    date: timestamp("date", { mode: "string" }).notNull(),
-    eventId: uuid("eventId")
+    name: c.text().notNull(),
+    type: c.text().notNull(),
+    date: c.timestamp({ mode: "string" }).notNull(),
+    eventId: c
+      .uuid()
       .references(() => events.id)
       .notNull(),
   }),

@@ -30,8 +30,16 @@ const PasswordSchema = z
  */
 export const SelectUserSchema = z.object({
   id: z.string().uuid(),
-  firstName: z.string().min(1, "First name is required").max(64),
-  lastName: z.string().min(1, "Last name is required").max(64),
+  firstName: z
+    .string()
+    .min(1, "First name is required")
+    .max(64)
+    .openapi({ example: "Kyle" }),
+  lastName: z
+    .string()
+    .min(1, "Last name is required")
+    .max(64)
+    .openapi({ example: "Carhart" }),
   username: z
     .string()
     .min(3, "Username must be at least 3 characters")
@@ -39,9 +47,14 @@ export const SelectUserSchema = z.object({
     .regex(/^[a-zA-Z0-9_-]+$/, {
       message:
         "Username can only contain letters, numbers, underscores, and hyphens",
-    }),
-  email: z.string().email("Email is not valid"),
-  password: PasswordSchema,
+    })
+    .openapi({ example: "kcarhart" }),
+  email: z
+    .string()
+    .email("Email is not valid")
+    .openapi({ example: "kyle@example.com" }),
+  password: PasswordSchema.openapi({ example: "!Password123" }),
+  dob: z.string().datetime(),
   createdAt: z.string(),
   updatedAt: z.string(),
 });
@@ -77,10 +90,11 @@ export const CreateUserRequestSchema = SelectUserSchema.pick({
   lastName: true,
   username: true,
   email: true,
+  dob: true,
   password: true,
 })
   .extend({
-    confirmPassword: z.string(),
+    confirmPassword: z.string().openapi({ example: "!Password123" }),
   })
   .refine((schema) => schema.password === schema.confirmPassword, {
     message: "Passwords don't match",
@@ -106,12 +120,11 @@ export const UpdateUserResponseSchema =
  * Change a user's password
  */
 export const ChangePasswordParamsSchema = SelectUserSchema.pick({ id: true });
-export const ChangePasswordRequestSchema = SelectUserSchema.pick({
-  password: true,
-})
-  .extend({
-    oldPassword: z.string(),
-    confirmPassword: z.string(),
+export const ChangePasswordRequestSchema = z
+  .object({
+    oldPassword: z.string().openapi({ example: "!Password123" }),
+    password: PasswordSchema.openapi({ example: "!Password1234" }),
+    confirmPassword: z.string().openapi({ example: "!Password1234" }),
   })
   // TODO: Look into super refinement
   .refine((schema) => schema.password === schema.confirmPassword, {

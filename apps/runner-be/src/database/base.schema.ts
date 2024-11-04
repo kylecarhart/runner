@@ -3,17 +3,17 @@ import { PgColumnBuilderBase, timestamp, uuid } from "drizzle-orm/pg-core";
 type PgTableColumns = Record<string, PgColumnBuilderBase>;
 
 const idColumn = {
-  id: uuid("id").defaultRandom().primaryKey(),
+  id: uuid().defaultRandom().primaryKey(),
 } satisfies PgTableColumns;
 
 const auditColumns = {
-  createdAt: timestamp("createdAt", {
+  createdAt: timestamp({
     withTimezone: true,
     mode: "string",
   })
     .defaultNow()
     .notNull(),
-  updatedAt: timestamp("updatedAt", {
+  updatedAt: timestamp({
     withTimezone: true,
     mode: "string",
   })

@@ -34,7 +34,7 @@ export const errorMiddleware: () => ErrorHandler = () => (err, c) => {
  * @param err Application error
  */
 function handleApplicationError(c: Context, err: ApplicationError) {
-  logger.error(err.logMessage);
+  logger.error(err.stack);
   return c.json(err.getResponseBody(), err.httpStatusCode);
 }
 

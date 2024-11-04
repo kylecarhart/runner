@@ -1,28 +1,29 @@
 import { relations } from "drizzle-orm";
-import { integer, pgTable, text, uuid } from "drizzle-orm/pg-core";
+import { pgTable } from "drizzle-orm/pg-core";
 import { withBaseSchema } from "../../database/base.schema.js";
 import { races } from "../races/races.schema.js";
 import { users } from "../users/users.schema.js";
 
-export const participants = pgTable(
-  "participants",
+export const participants = pgTable("participants", (c) =>
   withBaseSchema({
-    userId: uuid("userId")
+    userId: c
+      .uuid()
       .notNull()
       .references(() => users.id),
-    raceId: uuid("raceId")
+    raceId: c
+      .uuid()
       .notNull()
       .references(() => races.id),
 
-    bib: text("bib"),
+    bib: c.text(),
 
     // Even though these can change over time, we want to know what they were
     // when they participated
-    age: integer("age"),
-    city: text("city"),
-    state: text("state"),
-    county: text("county"),
-    gender: text("gender"),
+    age: c.integer(),
+    city: c.text(),
+    state: c.text(),
+    county: c.text(),
+    gender: c.text(),
   }),
 );
 
