@@ -8,9 +8,8 @@ import {
 } from "@runner/api";
 import { stripUndefined } from "@runner/utils";
 import * as argon2 from "argon2";
-import { count, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import postgres from "postgres";
-import invariant from "tiny-invariant";
 import { db } from "../../database/db.js";
 import { AuthenticationError } from "../../errors/AuthenticationError.js";
 import { ConstraintError } from "../../errors/ConstraintError.js";
@@ -64,9 +63,7 @@ async function getAllUsers(
   userServiceLogger.debug("getAllUsers", { options });
 
   // TODO: Eventually respect peoples privacy to not show up
-  const total = (await db.select({ count: count() }).from(users)).at(0)?.count;
-  invariant(total !== undefined, "Total users count is undefined.");
-
+  const total = await db.$count(users);
   const data = await db.query.users.findMany({
     limit,
     offset: (page - 1) * limit,
