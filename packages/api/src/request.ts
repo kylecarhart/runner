@@ -2,7 +2,7 @@ import { z } from "zod";
 
 // TODO: Read https://dev.to/pragativerma18/unlocking-the-power-of-api-pagination-best-practices-and-strategies-4b49
 export const PaginationQuerySchema = z.object({
-  limit: z.coerce.number().max(100).optional().default(10),
+  limit: z.coerce.number().min(1).max(50).optional().default(10),
   page: z.coerce.number().min(1).optional().default(1),
   sortBy: z.string().optional().default("id"),
   sortOrder: z.enum(["asc", "desc"]).optional().default("desc"),
