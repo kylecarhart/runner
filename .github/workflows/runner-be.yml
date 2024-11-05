@@ -6,12 +6,12 @@ name: Node.js CI
 on:
   push:
     branches: ["main"]
-    paths:
-      - apps/runner-be/**
+    # paths:
+    #   - apps/runner-be/**
   pull_request:
     branches: ["main"]
-    paths:
-      - apps/runner-be/**
+    # paths:
+    #   - apps/runner-be/**
 
 jobs:
   build:
