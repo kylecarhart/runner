@@ -12,7 +12,8 @@
     "type-check": "tsc --noEmit",
     "db:migrate": "pnpm build && drizzle-kit generate",
     "db:push": "pnpm build && drizzle-kit push",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vitest",
+    "coverage": "vitest run --coverage",
     "pre-commit": "lint-staged && pnpm type-check"
   },
   "keywords": [],
@@ -23,13 +24,15 @@
     "@tsconfig/node20": "^20.1.4",
     "@types/eslint__js": "^8.42.3",
     "@types/node": "^20.17.1",
+    "@vitest/coverage-v8": "2.1.4",
     "cross-env": "^7.0.3",
     "drizzle-kit": "^0.27.1",
     "eslint": "^9.11.0",
     "lint-staged": "^15.2.10",
     "tsx": "^4.19.2",
     "typescript": "^5.6.3",
-    "typescript-eslint": "^8.6.0"
+    "typescript-eslint": "^8.6.0",
+    "vitest": "^2.1.4"
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^1.21.1",

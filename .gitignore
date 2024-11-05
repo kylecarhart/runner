@@ -1,9 +1,12 @@
 # Packages
-node_modules
+node_modules/
 
 # Build files
-dist
-build
+dist/
+build/
 
 # Environment variables
 .env
+
+# Test
+coverage/
