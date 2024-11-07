@@ -39,7 +39,7 @@ export async function getUserById(id: string): Promise<User> {
     columns: { password: false },
   });
 
-  invariant(user, new NotFoundError("User", { id }));
+  invariant(user, new NotFoundError("User not found."));
 
   userServiceLogger.info("User found", { id });
   return user;
@@ -132,7 +132,7 @@ export async function updateUser(
         .returning(withoutPassword)
     ).at(0);
 
-    invariant(updatedUser, new NotFoundError("User", { id }));
+    invariant(updatedUser, new NotFoundError("User not found."));
 
     userServiceLogger.info("User updated", { id });
 
@@ -155,7 +155,7 @@ export async function deleteUser(id: string): Promise<void> {
     await db.delete(users).where(eq(users.id, id)).returning({ id: users.id })
   ).at(0);
 
-  invariant(deletedUser, new NotFoundError("User", { id }));
+  invariant(deletedUser, new NotFoundError("User not found."));
 
   userServiceLogger.info("User deleted", { id });
 }
@@ -177,7 +177,7 @@ export async function changePassword(
     where: eq(users.id, id),
   });
 
-  invariant(user, new NotFoundError("User", { id }));
+  invariant(user, new NotFoundError("User not found."));
 
   // Check if old password is correct
   const isOldPasswordMatch = await argon2.verify(user.password, oldPassword);

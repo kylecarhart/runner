@@ -5,9 +5,9 @@ import { ApplicationError } from "./ApplicationError.js";
  * When a resource is not found in the database.
  */
 export class NotFoundError extends ApplicationError {
-  constructor(name: string, model: { id: string; [key: string]: unknown }) {
+  constructor(message: string) {
     super({
-      apiMessage: `${name} with id ${model.id} not found`,
+      apiMessage: message,
       httpStatusCode: StatusCodes.NOT_FOUND,
       code: "NOT_FOUND_ERROR", // TODO: Come back and put these codes somewhere together
     });
