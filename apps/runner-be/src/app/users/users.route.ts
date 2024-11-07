@@ -14,6 +14,8 @@ import {
   UpdateUserParamsSchema,
   UpdateUserRequestSchema,
 } from "@runner/api";
+import { requestBodyJson, responseBodyJson } from "../../utils/openapi.js";
+import { data, pagination, success } from "../../utils/response.js";
 import { usersService } from "./users.service.js";
 
 export const usersApp = new OpenAPIHono();
@@ -25,25 +27,13 @@ const OPENAPI_TAG_USERS = "Users";
 const createUserRoute = createRoute({
   method: "post",
   path: "/",
+  summary: "Create a new user",
   tags: [OPENAPI_TAG_USERS],
   request: {
-    body: {
-      content: {
-        "application/json": {
-          schema: CreateUserRequestSchema,
-        },
-      },
-    },
+    body: requestBodyJson("The user to create", CreateUserRequestSchema),
   },
   responses: {
-    200: {
-      content: {
-        "application/json": {
-          schema: CreateUserResponseSchema,
-        },
-      },
-      description: "Create a new user",
-    },
+    200: responseBodyJson("Create a new user", CreateUserResponseSchema),
   },
 });
 
@@ -51,14 +41,7 @@ const createUserRoute = createRoute({
 usersApp.openapi(createUserRoute, async (c) => {
   const createUserRequest = c.req.valid("json");
   const newUser = await usersService.createUser(createUserRequest);
-
-  return c.json(
-    {
-      success: true,
-      data: newUser,
-    } as const,
-    200,
-  );
+  return data(c, 200, newUser);
 });
 
 /**
@@ -67,34 +50,21 @@ usersApp.openapi(createUserRoute, async (c) => {
 const getUsers = createRoute({
   method: "get",
   path: "/",
+  summary: "Get a paginated list of all users",
   tags: [OPENAPI_TAG_USERS],
   request: {
     query: PaginationQuerySchema,
   },
   responses: {
-    200: {
-      content: {
-        "application/json": {
-          schema: GetUsersResponseSchema,
-        },
-      },
-      description: "Get all users",
-    },
+    200: responseBodyJson("Get all users", GetUsersResponseSchema),
   },
 });
 
 usersApp.openapi(getUsers, async (c) => {
   const params = c.req.valid("query");
-  const { data, pagination } = await usersService.getAllUsers(params);
-
-  return c.json(
-    {
-      success: true,
-      data,
-      pagination,
-    } as const,
-    200,
-  );
+  const { data: users, pagination: paginationData } =
+    await usersService.getAllUsers(params);
+  return pagination(c, 200, users, paginationData);
 });
 
 /**
@@ -103,32 +73,20 @@ usersApp.openapi(getUsers, async (c) => {
 const getUserRoute = createRoute({
   method: "get",
   path: "/{id}",
+  summary: "Get a specific user by their ID",
   tags: [OPENAPI_TAG_USERS],
   request: {
     params: GetUserParamsSchema,
   },
   responses: {
-    200: {
-      content: {
-        "application/json": {
-          schema: GetUserResponseSchema,
-        },
-      },
-      description: "Retrieve the user",
-    },
+    200: responseBodyJson("Retrieve the user", GetUserResponseSchema),
   },
 });
 
 usersApp.openapi(getUserRoute, async (c) => {
   const { id } = c.req.valid("param");
   const user = await usersService.getUserById(id);
-  return c.json(
-    {
-      success: true,
-      data: user,
-    } as const,
-    200,
-  );
+  return data(c, 200, user);
 });
 
 /**
@@ -137,26 +95,14 @@ usersApp.openapi(getUserRoute, async (c) => {
 const updateUserRoute = createRoute({
   method: "patch",
   path: "/{id}",
+  summary: "Update a user's information",
   tags: [OPENAPI_TAG_USERS],
   request: {
     params: UpdateUserParamsSchema,
-    body: {
-      content: {
-        "application/json": {
-          schema: UpdateUserRequestSchema,
-        },
-      },
-    },
+    body: requestBodyJson("Update user information", UpdateUserRequestSchema),
   },
   responses: {
-    200: {
-      content: {
-        "application/json": {
-          schema: GetUserResponseSchema,
-        },
-      },
-      description: "Update user information",
-    },
+    200: responseBodyJson("Update user information", GetUserResponseSchema),
   },
 });
 
@@ -164,13 +110,7 @@ usersApp.openapi(updateUserRoute, async (c) => {
   const { id } = c.req.valid("param");
   const updateUserRequest = c.req.valid("json");
   const updatedUser = await usersService.updateUser(id, updateUserRequest);
-  return c.json(
-    {
-      success: true,
-      data: updatedUser,
-    } as const,
-    200,
-  );
+  return data(c, 200, updatedUser);
 });
 
 /**
@@ -179,32 +119,20 @@ usersApp.openapi(updateUserRoute, async (c) => {
 const deleteUserRoute = createRoute({
   method: "delete",
   path: "/{id}",
+  summary: "Delete a user by their ID",
   tags: [OPENAPI_TAG_USERS],
   request: {
     params: DeleteUserParamsSchema,
   },
   responses: {
-    200: {
-      content: {
-        "application/json": {
-          schema: DeleteUserResponseSchema,
-        },
-      },
-      description: "Delete a user",
-    },
+    200: responseBodyJson("Delete a user", DeleteUserResponseSchema),
   },
 });
 
 usersApp.openapi(deleteUserRoute, async (c) => {
   const { id } = c.req.valid("param");
   await usersService.deleteUser(id);
-  return c.json(
-    {
-      success: true,
-      message: "User deleted successfully",
-    } as const,
-    200,
-  );
+  return success(c, 200, "User deleted successfully");
 });
 
 /**
@@ -213,40 +141,20 @@ usersApp.openapi(deleteUserRoute, async (c) => {
 const changePasswordRoute = createRoute({
   method: "patch",
   path: "/{id}/password",
+  summary: "Change a user's password",
   tags: [OPENAPI_TAG_USERS],
   request: {
     params: ChangePasswordParamsSchema,
-    body: {
-      content: {
-        "application/json": {
-          schema: ChangePasswordRequestSchema,
-        },
-      },
-    },
+    body: requestBodyJson("Change user password", ChangePasswordRequestSchema),
   },
   responses: {
-    200: {
-      content: {
-        "application/json": {
-          schema: ChangePasswordResponseSchema,
-        },
-      },
-      description: "Change user password",
-    },
+    200: responseBodyJson("Change user password", ChangePasswordResponseSchema),
   },
 });
 
 usersApp.openapi(changePasswordRoute, async (c) => {
   const { id } = c.req.valid("param");
   const changePasswordRequest = c.req.valid("json");
-
   await usersService.changePassword(id, changePasswordRequest);
-
-  return c.json(
-    {
-      success: true,
-      message: "Password changed successfully",
-    } as const,
-    200,
-  );
+  return success(c, 200, "Password changed successfully");
 });

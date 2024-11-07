@@ -1,27 +1,80 @@
 import { Pagination } from "@runner/api";
+import { Context } from "hono";
+import { StatusCode } from "hono/utils/http-status";
 
 // TODO: These helpers need more time in the oven
 
-// type JSONRespondReturn = Context["json"]
+/**
+ * Returns a success response with an optional message
+ * @param c - Hono Context object
+ * @param status - HTTP status code
+ * @param message - Optional success message
+ * @returns JSON response with success flag and optional message
+ */
+export function success<U extends StatusCode>(
+  c: Context,
+  status: U,
+  message?: string,
+) {
+  return c.json(
+    {
+      success: true,
+      ...(message && { message }),
+    } as const,
+    status,
+  );
+}
 
 /**
- * Creates a successful response with the provided data.
+ * Returns a success response containing data and an optional message
  * @param c - Hono Context object
+ * @param status - HTTP status code
  * @param data - Data to be included in the response
- * @returns JSON response with success status and data
+ * @param message - Optional success message
+ * @returns JSON response with success flag, data, and optional message
  */
-// export function successResponse<T>(
-//   c: Context,
-//   data?: T,
-// ): T extends undefined ? { success: true } : { success: true; data: T } {
-//   return c.json(
-//     {
-//       success: true,
-//       data,
-//     },
-//     200,
-//   );
-// }
+export function data<T, U extends StatusCode>(
+  c: Context,
+  status: U,
+  data: T,
+  message?: string,
+) {
+  return c.json(
+    {
+      success: true,
+      data,
+      ...(message && { message }),
+    } as const,
+    status,
+  );
+}
+
+/**
+ * Returns a paginated response containing data, pagination metadata, and an optional message
+ * @param c - Hono Context object
+ * @param status - HTTP status code
+ * @param data - Data to be included in the response
+ * @param pagination - Pagination object containing page, total, and limit
+ * @param message - Optional success message
+ * @returns JSON response with success flag, data, pagination info, and optional message
+ */
+export function pagination<T, U extends StatusCode>(
+  c: Context,
+  status: U,
+  data: T,
+  pagination: Pick<Pagination, "page" | "total" | "limit">,
+  message?: string,
+) {
+  return c.json(
+    {
+      success: true,
+      data,
+      pagination: paginationHelper(pagination),
+      ...(message && { message }),
+    } as const,
+    status,
+  );
+}
 
 /**
  * Calculates pagination metadata including next and previous page numbers.
@@ -40,37 +93,3 @@ export function paginationHelper(
     prevPage: pagination.page === 1 ? null : pagination.page - 1,
   };
 }
-
-/**
- * Creates a paginated response with the provided data and pagination metadata.
- * @param c - Hono Context object
- * @param data - Data to be included in the response
- * @param pagination - Pagination metadata
- * @returns JSON response with success status, data, and pagination info
- */
-// export function paginationResponse<T>(
-//   c: Context,
-//   data: T,
-//   pagination: Pagination,
-// ) {
-//   return c.json(
-//     {
-//       success: true,
-//       data,
-//       pagination,
-//     },
-//     200,
-//   );
-// }
-
-/**
- * Creates an error response object.
- * @param data - Error data to be included in the response
- * @returns Object with success status and error data
- */
-// export function ErrorResponse<T>(data: T) {
-//   return {
-//     success: true,
-//     data,
-//   };
-// }

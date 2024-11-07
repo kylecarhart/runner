@@ -1,4 +1,4 @@
-import { z, ZodObject, ZodSchema } from "zod";
+import { z, ZodSchema } from "zod";
 
 export const PaginationSchema = z.object({
   limit: z.number(),
@@ -27,9 +27,7 @@ export type ErrorResponse = z.infer<typeof ErrorResponseSchema>;
 /**
  * Wrap a schema in a success response
  */
-export function withSuccessSchema<T extends ZodSchema>(
-  schema: T,
-): ZodObject<(typeof SuccessResponseSchema)["shape"]> {
+export function withSuccessSchema<T extends ZodSchema>(schema: T) {
   return SuccessResponseSchema.extend({
     data: schema,
   }).openapi("SuccessResponse");

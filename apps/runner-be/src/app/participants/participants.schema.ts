@@ -4,6 +4,9 @@ import { withBaseSchema } from "../../database/base.schema.js";
 import { races } from "../races/races.schema.js";
 import { users } from "../users/users.schema.js";
 
+/**
+ * A participant is a user that has registered for a race.
+ */
 export const participants = pgTable("participants", (c) =>
   withBaseSchema({
     userId: c
