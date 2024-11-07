@@ -1,4 +1,4 @@
-import type { InferSelectModel } from "drizzle-orm";
+import { getTableColumns, type InferSelectModel } from "drizzle-orm";
 import { pgTable, uniqueIndex } from "drizzle-orm/pg-core";
 import { withBaseSchema } from "../../database/base.schema.js";
 import { lower } from "../../utils/drizzle.js";
@@ -17,14 +17,31 @@ export const users = pgTable(
       password: c.text().notNull(),
       dob: c.timestamp({ withTimezone: true, mode: "string" }).notNull(),
     }),
-  (table) => ({
-    /** @see https://orm.drizzle.team/learn/guides/unique-case-insensitive-email */
-    emailUniqueIndex: uniqueIndex(INDEX_UNIQUE_EMAIL).on(lower(table.email)),
-    usernameUniqueIndex: uniqueIndex(INDEX_UNIQUE_USERNAME).on(
-      lower(table.username),
-    ),
-  }),
+  // TODO: Double check this usage, changed because pgTable returning just an object was deprecated
+  (table) => [
+    {
+      /** @see https://orm.drizzle.team/learn/guides/unique-case-insensitive-email */
+      emailUniqueIndex: uniqueIndex(INDEX_UNIQUE_EMAIL).on(lower(table.email)),
+      usernameUniqueIndex: uniqueIndex(INDEX_UNIQUE_USERNAME).on(
+        lower(table.username),
+      ),
+    },
+  ],
 );
+
+/**
+ * A helper that excludes the password field from user queries. Used with
+ * Drizzle's `returning()` to ensure passwords are never sent to clients.
+ *
+ * @example
+ * await db
+ *   .insert(users)
+ *   .values({ ...createUserRequest, password: hashedPassword })
+ *   .returning(withoutPassword);
+ */
+export const withoutPassword = Object.fromEntries(
+  Object.entries(getTableColumns(users)).filter(([key]) => key !== "password"),
+) as Omit<(typeof users)["_"]["columns"], "password">;
 
 export type UserWithPassword = InferSelectModel<typeof users>;
 export type User = Omit<UserWithPassword, "password">;

@@ -20,6 +20,7 @@ import {
   INDEX_UNIQUE_EMAIL,
   INDEX_UNIQUE_USERNAME,
   users,
+  withoutPassword,
   type User,
 } from "./users.schema.js";
 
@@ -94,7 +95,7 @@ async function createUser(createUserRequest: CreateUserRequest): Promise<User> {
       await db
         .insert(users)
         .values({ ...createUserRequest, password: hashedPassword })
-        .returning()
+        .returning(withoutPassword)
     ).at(0);
 
     if (!createdUser) {
@@ -103,8 +104,7 @@ async function createUser(createUserRequest: CreateUserRequest): Promise<User> {
 
     userServiceLogger.info("User created", { id: createdUser.id });
 
-    const { password, ...user } = createdUser;
-    return user;
+    return createdUser;
   } catch (e) {
     // TODO: Abstract this out to a common constraint error handler
     if (e instanceof postgres.PostgresError) {
@@ -140,10 +140,13 @@ async function updateUser(
 
     const fields = stripUndefined(updateUserRequest); // Remove undefined values
 
-    // TODO: Ideally I don't ever want the password returned from the db.
     const updatedUser = (
-      await db.update(users).set(fields).where(eq(users.id, id)).returning()
-    )[0];
+      await db
+        .update(users)
+        .set(fields)
+        .where(eq(users.id, id))
+        .returning(withoutPassword)
+    ).at(0);
 
     if (!updatedUser) {
       throw new NotFoundError("User", { id });
@@ -151,8 +154,7 @@ async function updateUser(
 
     userServiceLogger.info("User updated", { id });
 
-    const { password, ...user } = updatedUser;
-    return user;
+    return updatedUser;
   } catch (e) {
     // TODO: Abstract this out to a common constraint error handler
     if (e instanceof postgres.PostgresError) {
@@ -177,7 +179,7 @@ async function updateUser(
 async function deleteUser(id: string): Promise<User> {
   userServiceLogger.debug("deleteUser", { id });
   const deletedUser = (
-    await db.delete(users).where(eq(users.id, id)).returning()
+    await db.delete(users).where(eq(users.id, id)).returning(withoutPassword)
   ).at(0);
 
   if (!deletedUser) {
@@ -185,8 +187,7 @@ async function deleteUser(id: string): Promise<User> {
   }
 
   userServiceLogger.info("User deleted", { id });
-  const { password, ...user } = deletedUser;
-  return user;
+  return deletedUser;
 }
 
 /**
