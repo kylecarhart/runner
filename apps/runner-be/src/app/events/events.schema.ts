@@ -14,16 +14,8 @@ export const events = pgTable("events", (c) =>
       .uuid()
       .notNull()
       .references(() => users.id),
-    startDate: c
-      .timestamp({
-        withTimezone: true,
-        mode: "string",
-      })
-      .notNull(),
-    endDate: c.timestamp({
-      withTimezone: true,
-      mode: "string",
-    }),
+    startDate: c.timestamp({ withTimezone: true, mode: "string" }).notNull(),
+    endDate: c.timestamp({ withTimezone: true, mode: "string" }),
     status: c.text().notNull(), // "draft", "published", "completed"
   }),
 );

@@ -8,7 +8,7 @@ import { logger } from "../utils/logger.js";
  * Error middleware
  * @returns Error middleware
  */
-export const errorMiddleware: () => ErrorHandler = () => (err, c) => {
+export const errorHandler: () => ErrorHandler = () => (err, c) => {
   // Application specific error
   if (err instanceof ApplicationError) {
     return handleApplicationError(c, err);
