@@ -16,7 +16,14 @@ import {
 } from "@runner/api";
 import { requestBodyJson, responseBodyJson } from "../../utils/openapi.js";
 import { data, pagination, success } from "../../utils/response.js";
-import { usersService } from "./users.service.js";
+import {
+  changePassword,
+  createUser,
+  deleteUser,
+  getAllUsers,
+  getUserById,
+  updateUser,
+} from "./users.service.js";
 
 export const usersApp = new OpenAPIHono();
 const OPENAPI_TAG_USERS = "Users";
@@ -40,7 +47,7 @@ const createUserRoute = createRoute({
 // TODO: We may need to chain these for RPC: https://hono.dev/docs/guides/best-practices
 usersApp.openapi(createUserRoute, async (c) => {
   const createUserRequest = c.req.valid("json");
-  const newUser = await usersService.createUser(createUserRequest);
+  const newUser = await createUser(createUserRequest);
   return data(c, 200, newUser);
 });
 
@@ -62,8 +69,7 @@ const getUsers = createRoute({
 
 usersApp.openapi(getUsers, async (c) => {
   const params = c.req.valid("query");
-  const { data: users, pagination: paginationData } =
-    await usersService.getAllUsers(params);
+  const { data: users, pagination: paginationData } = await getAllUsers(params);
   return pagination(c, 200, users, paginationData);
 });
 
@@ -85,7 +91,7 @@ const getUserRoute = createRoute({
 
 usersApp.openapi(getUserRoute, async (c) => {
   const { id } = c.req.valid("param");
-  const user = await usersService.getUserById(id);
+  const user = await getUserById(id);
   return data(c, 200, user);
 });
 
@@ -109,7 +115,7 @@ const updateUserRoute = createRoute({
 usersApp.openapi(updateUserRoute, async (c) => {
   const { id } = c.req.valid("param");
   const updateUserRequest = c.req.valid("json");
-  const updatedUser = await usersService.updateUser(id, updateUserRequest);
+  const updatedUser = await updateUser(id, updateUserRequest);
   return data(c, 200, updatedUser);
 });
 
@@ -131,7 +137,7 @@ const deleteUserRoute = createRoute({
 
 usersApp.openapi(deleteUserRoute, async (c) => {
   const { id } = c.req.valid("param");
-  await usersService.deleteUser(id);
+  await deleteUser(id);
   return success(c, 200, "User deleted successfully");
 });
 
@@ -155,6 +161,6 @@ const changePasswordRoute = createRoute({
 usersApp.openapi(changePasswordRoute, async (c) => {
   const { id } = c.req.valid("param");
   const changePasswordRequest = c.req.valid("json");
-  await usersService.changePassword(id, changePasswordRequest);
+  await changePassword(id, changePasswordRequest);
   return success(c, 200, "Password changed successfully");
 });

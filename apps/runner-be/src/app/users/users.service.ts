@@ -9,17 +9,16 @@ import {
 import { stripUndefined } from "@runner/utils";
 import * as argon2 from "argon2";
 import { eq } from "drizzle-orm";
-import postgres from "postgres";
 import { db } from "../../database/db.js";
 import { AuthenticationError } from "../../errors/AuthenticationError.js";
-import { ConstraintError } from "../../errors/ConstraintError.js";
 import { NotFoundError } from "../../errors/NotFoundError.js";
+import { handlePostgresConstraintError } from "../../utils/error.js";
+import { invariant } from "../../utils/invariant.js";
 import { logger } from "../../utils/logger.js";
 import { paginationHelper } from "../../utils/response.js";
 import {
-  INDEX_UNIQUE_EMAIL,
-  INDEX_UNIQUE_USERNAME,
   users,
+  UsersErrorMap,
   withoutPassword,
   type User,
 } from "./users.schema.js";
@@ -32,17 +31,17 @@ const userServiceLogger = logger.child({ service: "users" });
  * @returns User
  * @throws NotFoundError if user is not found.
  */
-async function getUserById(id: string): Promise<User> {
+export async function getUserById(id: string): Promise<User> {
   userServiceLogger.debug("getUserById", { id });
+
   const user = await db.query.users.findFirst({
     where: eq(users.id, id),
     columns: { password: false },
   });
 
-  if (!user) {
-    throw new NotFoundError("User", { id });
-  }
+  invariant(user, new NotFoundError("User", { id }));
 
+  userServiceLogger.info("User found", { id });
   return user;
 }
 
@@ -57,7 +56,7 @@ interface DataWithPagination<T> {
  * @param offset Pagination offset
  * @returns Paginated list of users
  */
-async function getAllUsers(
+export async function getAllUsers(
   options: PaginationQuery = DEFAULT_PAGINATION,
 ): Promise<DataWithPagination<User[]>> {
   const { limit, page } = options;
@@ -84,13 +83,14 @@ async function getAllUsers(
  * @param createUserRequest User fields
  * @returns Created user
  */
-async function createUser(createUserRequest: CreateUserRequest): Promise<User> {
+export async function createUser(
+  createUserRequest: CreateUserRequest,
+): Promise<User> {
   try {
     userServiceLogger.debug("createUser", createUserRequest);
 
     const hashedPassword = await argon2.hash(createUserRequest.password);
 
-    // TODO: Ideally I don't ever want the password returned from the db.
     const createdUser = (
       await db
         .insert(users)
@@ -98,29 +98,13 @@ async function createUser(createUserRequest: CreateUserRequest): Promise<User> {
         .returning(withoutPassword)
     ).at(0);
 
-    if (!createdUser) {
-      throw new Error("Failed to create user."); // TODO: Replace with custom error
-    }
+    invariant(createdUser, "Failed to create user.");
 
     userServiceLogger.info("User created", { id: createdUser.id });
 
     return createdUser;
   } catch (e) {
-    // TODO: Abstract this out to a common constraint error handler
-    if (e instanceof postgres.PostgresError) {
-      if (e.constraint_name === INDEX_UNIQUE_USERNAME) {
-        throw new ConstraintError(
-          "Username already exists.",
-          e.constraint_name,
-        );
-      } else if (e.constraint_name === INDEX_UNIQUE_EMAIL) {
-        throw new ConstraintError(
-          "Email already exists.",
-          e.constraint_name,
-          createUserRequest,
-        );
-      }
-    }
+    handlePostgresConstraintError(e, UsersErrorMap);
     throw e;
   }
 }
@@ -131,7 +115,7 @@ async function createUser(createUserRequest: CreateUserRequest): Promise<User> {
  * @param updateUserRequest User fields to update
  * @returns Updated user
  */
-async function updateUser(
+export async function updateUser(
   id: string,
   updateUserRequest: UpdateUserRequest,
 ): Promise<User> {
@@ -148,25 +132,13 @@ async function updateUser(
         .returning(withoutPassword)
     ).at(0);
 
-    if (!updatedUser) {
-      throw new NotFoundError("User", { id });
-    }
+    invariant(updatedUser, new NotFoundError("User", { id }));
 
     userServiceLogger.info("User updated", { id });
 
     return updatedUser;
   } catch (e) {
-    // TODO: Abstract this out to a common constraint error handler
-    if (e instanceof postgres.PostgresError) {
-      if (e.constraint_name === INDEX_UNIQUE_USERNAME) {
-        throw new ConstraintError(
-          "Username already exists.",
-          e.constraint_name,
-        );
-      } else if (e.constraint_name === INDEX_UNIQUE_EMAIL) {
-        throw new ConstraintError("Email already exists.", e.constraint_name);
-      }
-    }
+    handlePostgresConstraintError(e, UsersErrorMap);
     throw e;
   }
 }
@@ -176,18 +148,16 @@ async function updateUser(
  * @param id User id
  * @returns Deleted user
  */
-async function deleteUser(id: string): Promise<User> {
+export async function deleteUser(id: string): Promise<void> {
   userServiceLogger.debug("deleteUser", { id });
+
   const deletedUser = (
-    await db.delete(users).where(eq(users.id, id)).returning(withoutPassword)
+    await db.delete(users).where(eq(users.id, id)).returning({ id: users.id })
   ).at(0);
 
-  if (!deletedUser) {
-    throw new NotFoundError("User", { id });
-  }
+  invariant(deletedUser, new NotFoundError("User", { id }));
 
   userServiceLogger.info("User deleted", { id });
-  return deletedUser;
 }
 
 /**
@@ -207,12 +177,11 @@ export async function changePassword(
     where: eq(users.id, id),
   });
 
-  if (!user) {
-    throw new NotFoundError("User", { id });
-  }
+  invariant(user, new NotFoundError("User", { id }));
 
   // Check if old password is correct
   const isOldPasswordMatch = await argon2.verify(user.password, oldPassword);
+
   if (!isOldPasswordMatch) {
     throw new AuthenticationError(
       `Incorrect old password on change password request for user ${id}.`,
@@ -225,14 +194,6 @@ export async function changePassword(
     .update(users)
     .set({ password: hashedPassword })
     .where(eq(users.id, id));
-  userServiceLogger.info("Password changed", { id });
-}
 
-export const usersService = {
-  createUser,
-  getUserById,
-  getAllUsers,
-  updateUser,
-  deleteUser,
-  changePassword,
-};
+  userServiceLogger.info("Password changed successfully", { id });
+}
