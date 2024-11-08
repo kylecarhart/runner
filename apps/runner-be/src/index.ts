@@ -2,10 +2,7 @@ import { serve } from "@hono/node-server";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { cors } from "hono/cors";
 import { secureHeaders } from "hono/secure-headers";
-import passport from "passport";
-import { Strategy as LocalStrategy } from "passport-local";
 import { usersApp } from "./app/users/users.route.js";
-import { authenticateUser } from "./auth/auth.service.js";
 import { errorHandler } from "./handlers/error.handler.js";
 import { loggerMiddleware } from "./middleware/logger.middleware.js";
 import { Env, isDevelopment } from "./utils/env.js";
@@ -33,16 +30,6 @@ app.route("/api/v1", v1); // V1 routes
 if (isDevelopment) {
   bootstrapOpenApi(app);
 }
-
-passport.use(
-  new LocalStrategy(function (username, password, done) {
-    authenticateUser(username, password)
-      .then((user) => done(null, user))
-      .catch((e) => done(e));
-  }),
-);
-
-app.use(passport.authenticate("local", { failureRedirect: "/login" }));
 
 /** Serve application */
 serve({ fetch: app.fetch, port: Env.PORT }, (info) => {
