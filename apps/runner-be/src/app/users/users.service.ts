@@ -7,8 +7,11 @@ import {
   type UpdateUserRequest,
 } from "@runner/api";
 import { stripUndefined } from "@runner/utils";
-import * as argon2 from "argon2";
 import { eq } from "drizzle-orm";
+import {
+  hashPassword,
+  verifyPassword,
+} from "../../auth/password/password.service.js";
 import { db } from "../../database/db.js";
 import { AuthenticationError } from "../../errors/AuthenticationError.js";
 import { NotFoundError } from "../../errors/NotFoundError.js";
@@ -89,7 +92,7 @@ export async function createUser(
   try {
     userServiceLogger.debug("createUser", createUserRequest);
 
-    const hashedPassword = await argon2.hash(createUserRequest.password);
+    const hashedPassword = await hashPassword(createUserRequest.password);
 
     const createdUser = (
       await db
@@ -180,7 +183,7 @@ export async function changePassword(
   invariant(user, new NotFoundError("User not found."));
 
   // Check if old password is correct
-  const isOldPasswordMatch = await argon2.verify(user.password, oldPassword);
+  const isOldPasswordMatch = await verifyPassword(oldPassword, user.password);
 
   if (!isOldPasswordMatch) {
     throw new AuthenticationError(
@@ -189,7 +192,7 @@ export async function changePassword(
   }
 
   // Hash and update password
-  const hashedPassword = await argon2.hash(password);
+  const hashedPassword = await hashPassword(password);
   await db
     .update(users)
     .set({ password: hashedPassword })
