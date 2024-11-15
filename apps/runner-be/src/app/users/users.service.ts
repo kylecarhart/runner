@@ -26,7 +26,7 @@ import {
   type User,
 } from "./users.schema.js";
 
-const userServiceLogger = logger.child({ service: "users" });
+const usersLogger = () => logger().child({ service: "users" });
 
 /**
  * Get user by id.
@@ -35,16 +35,16 @@ const userServiceLogger = logger.child({ service: "users" });
  * @throws NotFoundError if user is not found.
  */
 export async function getUserById(id: string): Promise<User> {
-  userServiceLogger.debug("getUserById", { id });
+  usersLogger().debug("getUserById", { id });
 
-  const user = await db.query.users.findFirst({
+  const user = await db().query.users.findFirst({
     where: eq(users.id, id),
     columns: { password: false },
   });
 
   invariant(user, new NotFoundError("User not found."));
 
-  userServiceLogger.info("User found", { id });
+  usersLogger().info("User found", { id });
   return user;
 }
 
@@ -63,11 +63,11 @@ export async function getAllUsers(
   options: PaginationQuery = DEFAULT_PAGINATION,
 ): Promise<DataWithPagination<User[]>> {
   const { limit, page } = options;
-  userServiceLogger.debug("getAllUsers", { options });
+  usersLogger().debug("getAllUsers", { options });
 
   // TODO: Eventually respect peoples privacy to not show up
-  const total = await db.$count(users);
-  const data = await db.query.users.findMany({
+  const total = await db().$count(users);
+  const data = await db().query.users.findMany({
     limit,
     offset: (page - 1) * limit,
     columns: {
@@ -90,12 +90,12 @@ export async function createUser(
   createUserRequest: CreateUserRequest,
 ): Promise<User> {
   try {
-    userServiceLogger.debug("createUser", createUserRequest);
+    usersLogger().debug("createUser", createUserRequest);
 
     const hashedPassword = await hashPassword(createUserRequest.password);
 
     const createdUser = (
-      await db
+      await db()
         .insert(users)
         .values({ ...createUserRequest, password: hashedPassword })
         .returning(withoutPassword)
@@ -103,7 +103,7 @@ export async function createUser(
 
     invariant(createdUser, "Failed to create user.");
 
-    userServiceLogger.info("User created", { id: createdUser.id });
+    usersLogger().info("User created", { id: createdUser.id });
 
     return createdUser;
   } catch (e) {
@@ -123,12 +123,12 @@ export async function updateUser(
   updateUserRequest: UpdateUserRequest,
 ): Promise<User> {
   try {
-    userServiceLogger.debug("updateUser", updateUserRequest);
+    usersLogger().debug("updateUser", updateUserRequest);
 
     const fields = stripUndefined(updateUserRequest); // Remove undefined values
 
     const updatedUser = (
-      await db
+      await db()
         .update(users)
         .set(fields)
         .where(eq(users.id, id))
@@ -137,7 +137,7 @@ export async function updateUser(
 
     invariant(updatedUser, new NotFoundError("User not found."));
 
-    userServiceLogger.info("User updated", { id });
+    usersLogger().info("User updated", { id });
 
     return updatedUser;
   } catch (e) {
@@ -152,15 +152,15 @@ export async function updateUser(
  * @returns Deleted user
  */
 export async function deleteUser(id: string): Promise<void> {
-  userServiceLogger.debug("deleteUser", { id });
+  usersLogger().debug("deleteUser", { id });
 
   const deletedUser = (
-    await db.delete(users).where(eq(users.id, id)).returning({ id: users.id })
+    await db().delete(users).where(eq(users.id, id)).returning({ id: users.id })
   ).at(0);
 
   invariant(deletedUser, new NotFoundError("User not found."));
 
-  userServiceLogger.info("User deleted", { id });
+  usersLogger().info("User deleted", { id });
 }
 
 /**
@@ -172,11 +172,11 @@ export async function changePassword(
   id: string,
   changePasswordRequest: ChangePasswordRequest,
 ): Promise<void> {
-  userServiceLogger.debug("changePassword", { id });
+  usersLogger().debug("changePassword", { id });
   const { oldPassword, password } = changePasswordRequest;
 
   // Get the user with password
-  const user = await db.query.users.findFirst({
+  const user = await db().query.users.findFirst({
     where: eq(users.id, id),
   });
 
@@ -193,10 +193,10 @@ export async function changePassword(
 
   // Hash and update password
   const hashedPassword = await hashPassword(password);
-  await db
+  await db()
     .update(users)
     .set({ password: hashedPassword })
     .where(eq(users.id, id));
 
-  userServiceLogger.info("Password changed successfully", { id });
+  usersLogger().info("Password changed successfully", { id });
 }

@@ -1,27 +1,22 @@
-import winston from "winston";
+import { getContext } from "hono/context-storage";
+import { Logger, pino } from "pino";
+import { HonoEnv } from "../index.js";
 import { Env } from "./env.js";
 
-const { combine, timestamp, printf, colorize, json } = winston.format;
-
-const customFormat = printf(({ level, message, timestamp, ...meta }) => {
-  return `${timestamp} ${level}: ${message} ${
-    Object.keys(meta).length ? JSON.stringify(meta) : ""
-  }`;
-});
-
-export const logger = winston.createLogger({
-  level: Env.LOG_LEVEL,
-  format: json(),
-  transports: [
-    // Your file transports can remain here if needed
-  ],
-});
-
-// Console logger
-if (Env.NODE_ENV !== "production") {
-  logger.add(
-    new winston.transports.Console({
-      format: combine(colorize({ all: true }), timestamp(), customFormat),
-    }),
-  );
+/**
+ * Create a logger. This should only be used once in the app.
+ * @param env - Environment variables
+ * @returns Logger
+ */
+export function createLogger(env: Env): Logger {
+  return pino({
+    browser: { asObject: true },
+    level: env.LOG_LEVEL,
+  });
 }
+
+/**
+ * Logger from context.
+ * @returns Logger
+ */
+export const logger = () => getContext<HonoEnv>().var.logger;

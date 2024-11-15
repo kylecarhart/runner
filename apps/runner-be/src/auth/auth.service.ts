@@ -4,9 +4,10 @@ import { User, users } from "../app/users/users.schema.js";
 import { db } from "../database/db.js";
 import { logger } from "../utils/logger.js";
 
-const authServiceLogger = logger.child({
-  service: "auth",
-});
+const authLogger = () =>
+  logger().child({
+    service: "auth",
+  });
 
 /**
  * Authenticate user by username and password. Used with passport.js.
@@ -18,10 +19,10 @@ export async function authenticateUser(
   username: string,
   password: string,
 ): Promise<User | false> {
-  authServiceLogger.debug("authenticateUser", { username });
+  authLogger().debug("authenticateUser", { username });
 
   // Find user to authenticate
-  const userToAuthenticate = await db.query.users.findFirst({
+  const userToAuthenticate = await db().query.users.findFirst({
     where: eq(users.username, username),
   });
   if (!userToAuthenticate) {
@@ -37,7 +38,7 @@ export async function authenticateUser(
     return false;
   }
 
-  authServiceLogger.info("User authenticated", { username });
+  authLogger().info("User authenticated", { username });
 
   const { password: _, ...user } = userToAuthenticate; // Remove password from user
   return user;

@@ -6,15 +6,15 @@ import { swaggerUI } from "@hono/swagger-ui";
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { apiReference } from "@scalar/hono-api-reference";
 import { ZodSchema } from "zod";
-import { Env } from "./env.js";
+import { HonoEnv } from "../index.js";
 
 /**
  * Bootstraps OpenAPI documentation and UI endpoints for the application
  * @param app - The OpenAPIHono application instance
  */
-export const bootstrapOpenApi = (app: OpenAPIHono) => {
+export const bootstrapOpenApi = (app: OpenAPIHono<HonoEnv>) => {
   // OpenAPI documentation
-  app.doc(Env.PATH_OPENAPI, {
+  app.doc(PATH_OPENAPI, {
     openapi: "3.1.0",
     info: {
       version: "1.0.0",
@@ -23,14 +23,14 @@ export const bootstrapOpenApi = (app: OpenAPIHono) => {
   });
 
   // Swagger UI
-  app.get(Env.PATH_SWAGGER, swaggerUI({ url: Env.PATH_OPENAPI }));
+  app.get(PATH_SWAGGER, swaggerUI({ url: PATH_OPENAPI }));
 
   // TODO: Evaluate scalar as an alternative to swagger UI
   app.get(
-    Env.PATH_SCALAR,
+    PATH_SCALAR,
     apiReference({
       spec: {
-        url: Env.PATH_OPENAPI,
+        url: PATH_OPENAPI,
       },
     }),
   );

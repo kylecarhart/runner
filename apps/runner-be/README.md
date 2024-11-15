@@ -1,7 +1,21 @@
 # Backend Application for Runner
 
-Things to remember:
+## Development
 
-- Koa will automatically set status to 200 or 204 depending on what you set
-  ctx.body to.
-  - https://github.com/koajs/koa/blob/master/docs/api/response.md#responsebody-1
+```bash
+pnpm install
+pnpm dev
+```
+
+## Environment/Secrets
+
+```properties
+# .dev.vars
+DB_USER=""
+DB_PASSWORD=""
+```
+
+## Globals
+
+Globals are replaced by esbuild during build time. They are defined in `wrangler.toml` under `[define]`.
+See [Cloudflare Workers - Build time constants with Wrangler](https://kian.org.uk/cloudflare-workers-build-time-constants-with-wrangler/) for more information.

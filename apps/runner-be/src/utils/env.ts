@@ -1,7 +1,7 @@
-import { config } from "@dotenvx/dotenvx";
+import { env as envAdapter } from "hono/adapter";
+import { getContext } from "hono/context-storage";
 import { z } from "zod";
-
-config(); // Load environment variables
+import { HonoEnv } from "../index.js";
 
 /**
  * Schema that validates environment variables for safe usage.
@@ -9,7 +9,7 @@ config(); // Load environment variables
  */
 const EnvSchema = z.object({
   // Environment
-  NODE_ENV: z.enum(["development", "production"]),
+  ENVIRONMENT: z.enum(["development", "production"]),
   LOG_LEVEL: z
     .enum(["error", "warn", "info", "http", "verbose", "debug", "silly"])
     .default("info"),
@@ -19,7 +19,6 @@ const EnvSchema = z.object({
   DB_HOST: z.string(),
   DB_PORT_TRANSACTION: z.coerce.number(),
   DB_PORT_SESSION: z.coerce.number(),
-  DB_PORT: z.coerce.number(), // TODO: Not sure if I want to keep this
   DB_USER: z.string(),
   DB_PASSWORD: z.string(),
   DB_NAME: z.string(),
@@ -32,8 +31,20 @@ const EnvSchema = z.object({
   JWT_SECRET: z.string(),
 });
 
-export const Env = EnvSchema.parse(process.env);
-export type Env = z.infer<typeof EnvSchema>;
+/**
+ * Environment from context.
+ * @see https://hono.dev/docs/helpers/adapter
+ * @returns Environment
+ */
+export const env = () => envAdapter(getContext<HonoEnv>());
 
-/** Helper to check if environment is development */
-export const isDevelopment = Env.NODE_ENV === "development";
+/**
+ * Check if development environment. Must be used within app context.
+ * @returns True if development environment, false otherwise
+ */
+export function isDevelopment() {
+  return env().ENVIRONMENT === "development";
+}
+
+// export const Env = EnvSchema.parse(process.env);
+export type Env = z.infer<typeof EnvSchema>;

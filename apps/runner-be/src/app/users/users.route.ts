@@ -14,6 +14,7 @@ import {
   UpdateUserParamsSchema,
   UpdateUserRequestSchema,
 } from "@runner/api";
+import { HonoEnv } from "../../index.js";
 import { requestBodyJson, responseBodyJson } from "../../utils/openapi.js";
 import { data, pagination, success } from "../../utils/response.js";
 import {
@@ -25,7 +26,7 @@ import {
   updateUser,
 } from "./users.service.js";
 
-export const usersApp = new OpenAPIHono();
+export const usersApp = new OpenAPIHono<HonoEnv>();
 const OPENAPI_TAG_USERS = "Users";
 
 /**
