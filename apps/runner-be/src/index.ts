@@ -31,7 +31,6 @@ app.use(cors()); // CORS
 /** App Middleware */
 app.use(loggerMiddleware()); // Logger
 app.use(dbMiddleware()); // Database
-bootstrapOpenApi(app);
 
 /** Root Handlers */
 app.onError(errorHandler()); // Error handling
@@ -42,6 +41,7 @@ v1.route("/users", usersApp);
 
 /** Bootstrap */
 app.route("/api/v1", v1); // V1 routes
+bootstrapOpenApi(app);
 
 /** Serve application */
 export default app;
