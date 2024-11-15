@@ -19,6 +19,7 @@ export const bootstrapOpenApi = (app: OpenAPIHono<HonoEnv>) => {
     info: {
       version: "1.0.0",
       title: "Runner API",
+      description: "Backend API for the Runner application",
     },
   });
 
