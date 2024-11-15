@@ -2,12 +2,12 @@
   "name": "@runner/utils",
   "version": "1.0.0",
   "description": "Utility functions",
-  "main": "src/index.js",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
   "type": "module",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  }
 }

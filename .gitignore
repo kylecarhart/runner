@@ -10,3 +10,7 @@ build/
 
 # Test
 coverage/
+
+# Cloudflare
+.wrangler/
+.dev.vars
