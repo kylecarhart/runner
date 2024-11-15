@@ -1,8 +1,8 @@
 #:schema node_modules/wrangler/config-schema.json
 name = "runner-be"
 main = "src/index.ts"
-compatibility_date = "2024-11-12"
-compatibility_flags = ["nodejs_compat_v2"]
+compatibility_date = "2024-11-15"
+compatibility_flags = ["nodejs_compat"]
 
 [vars]
 # Environment
