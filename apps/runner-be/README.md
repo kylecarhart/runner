@@ -13,7 +13,7 @@ Create a `.env` file in the root of the project with the following content. Do n
 
 ```properties
 # Environment
-ENVIRONMENT=development
+NODE_ENV=development
 LOG_LEVEL=info
 
 # Server

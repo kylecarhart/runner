@@ -5,7 +5,7 @@ compatibility_date = "2024-11-15"
 compatibility_flags = [ "nodejs_compat" ]
 
 [vars]
-ENVIRONMENT = "development"
+NODE_ENV = "development"
 LOG_LEVEL = "info"
 PORT = "3000"
 DB_HOST = "aws-0-us-east-1.pooler.supabase.com"

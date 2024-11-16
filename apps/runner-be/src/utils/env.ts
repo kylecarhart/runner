@@ -7,9 +7,9 @@ import { HonoEnv } from "../index.js";
  * Schema that validates environment variables for safe usage.
  * Log level is set to "info" by default.
  */
-const EnvSchema = z.object({
+export const EnvSchema = z.object({
   // Environment
-  ENVIRONMENT: z.enum(["development", "production"]),
+  NODE_ENV: z.enum(["development", "production"]),
   LOG_LEVEL: z
     .enum(["error", "warn", "info", "http", "verbose", "debug", "silly"])
     .default("info"),
@@ -23,12 +23,9 @@ const EnvSchema = z.object({
   DB_PASSWORD: z.string(),
   DB_NAME: z.string(),
   // OpenAPI
-  PATH_DOCS: z.string(),
   PATH_SWAGGER: z.string(),
   PATH_SCALAR: z.string(),
   PATH_OPENAPI: z.string(),
-  // Auth
-  JWT_SECRET: z.string(),
 });
 
 /**
@@ -43,7 +40,7 @@ export const env = () => envAdapter(getContext<HonoEnv>());
  * @returns True if development environment, false otherwise
  */
 export function isDevelopment() {
-  return env().ENVIRONMENT === "development";
+  return env().NODE_ENV === "development";
 }
 
 // export const Env = EnvSchema.parse(process.env);
