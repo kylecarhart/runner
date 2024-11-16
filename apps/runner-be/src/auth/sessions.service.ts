@@ -4,10 +4,10 @@ import {
   encodeHexLowerCase,
 } from "@oslojs/encoding";
 import { eq } from "drizzle-orm";
-import { Context } from "hono";
 import { deleteCookie, getCookie, setCookie } from "hono/cookie";
-import { User, users } from "../app/users/users.schema.js";
+import { User, users, withoutPassword } from "../app/users/users.schema.js";
 import { db } from "../database/db.js";
+import { HonoContext } from "../index.js";
 import { isDevelopment } from "../utils/env.js";
 import { days } from "../utils/ms.js";
 import { Session, sessions } from "./sessions.schema.js";
@@ -66,7 +66,7 @@ export async function validateSessionToken(
 
   // Query for session and user
   const results = await db()
-    .select({ user: users, session: sessions })
+    .select({ user: withoutPassword, session: sessions })
     .from(sessions)
     .innerJoin(users, eq(sessions.userId, users.id))
     .where(eq(sessions.id, sessionId));
@@ -120,7 +120,7 @@ export type SessionValidationResult =
  * @param c - The Hono context
  * @returns The session cookie value or undefined if not found
  */
-export function getSessionCookie(c: Context): string | undefined {
+export function getSessionCookie(c: HonoContext): string | undefined {
   return getCookie(c, "session");
 }
 
@@ -130,7 +130,11 @@ export function getSessionCookie(c: Context): string | undefined {
  * @param token - The session token
  * @param session - The session object
  */
-export function setSessionCookie(c: Context, token: string, session: Session) {
+export function setSessionCookie(
+  c: HonoContext,
+  token: string,
+  session: Session,
+) {
   setCookie(c, "session", token, {
     httpOnly: true,
     sameSite: "lax",
@@ -144,7 +148,7 @@ export function setSessionCookie(c: Context, token: string, session: Session) {
  * Deletes the session cookie
  * @param c - The Hono context
  */
-export function deleteSessionCookie(c: Context) {
+export function deleteSessionCookie(c: HonoContext) {
   deleteCookie(c, "session", {
     httpOnly: true,
     sameSite: "lax",

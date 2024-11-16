@@ -1,6 +1,6 @@
 import { Pagination } from "@runner/api";
-import { Context } from "hono";
 import { StatusCode } from "hono/utils/http-status";
+import { HonoContext } from "../index.js";
 
 // TODO: These helpers need more time in the oven
 
@@ -12,7 +12,7 @@ import { StatusCode } from "hono/utils/http-status";
  * @returns JSON response with success flag and optional message
  */
 export function success<U extends StatusCode>(
-  c: Context,
+  c: HonoContext,
   status: U,
   message?: string,
 ) {
@@ -34,7 +34,7 @@ export function success<U extends StatusCode>(
  * @returns JSON response with success flag, data, and optional message
  */
 export function data<T, U extends StatusCode>(
-  c: Context,
+  c: HonoContext,
   status: U,
   data: T,
   message?: string,
@@ -59,7 +59,7 @@ export function data<T, U extends StatusCode>(
  * @returns JSON response with success flag, data, pagination info, and optional message
  */
 export function pagination<T, U extends StatusCode>(
-  c: Context,
+  c: HonoContext,
   status: U,
   data: T,
   pagination: Pick<Pagination, "page" | "total" | "limit">,

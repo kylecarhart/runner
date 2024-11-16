@@ -47,6 +47,10 @@ const signIn = createRoute({
 });
 
 authApp.openapi(signIn, async (c) => {
+  if (c.var.user) {
+    return c.json({ error: "Already signed in" }, 400);
+  }
+
   const { email, password } = c.req.valid("json");
 
   // Check that user exists and password is correct

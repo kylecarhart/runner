@@ -1,32 +1,31 @@
-import type { Context, ErrorHandler } from "hono";
+import type { ErrorHandler } from "hono";
 import { StatusCodes } from "http-status-codes";
 import { ZodError } from "zod";
 import { ApplicationError } from "../errors/ApplicationError.js";
-import { HonoEnv } from "../index.js";
-import { logger } from "../utils/logger.js";
+import { HonoContext, HonoEnv } from "../index.js";
 
 /**
- * Error middleware
+ * Error middleware that handles application specific and unknown errors.
  * @returns Error middleware
  */
 export const errorHandler: () => ErrorHandler<HonoEnv> = () => (err, c) => {
   // Application specific error
   if (err instanceof ApplicationError) {
-    return handleApplicationError(c, err);
+    return handleApplicationError(err, c);
   }
 
   // Request validation error
   if (err instanceof ZodError) {
-    return handleZodError(c, err);
+    return handleZodError(err, c);
   }
 
   // Unhandled error
   if (err instanceof Error) {
-    return handleError(c, err);
+    return handleError(err, c);
   }
 
   // Unknown error
-  return handleUnknownError(c, err);
+  return handleUnknownError(err, c);
 };
 
 /**
@@ -34,8 +33,9 @@ export const errorHandler: () => ErrorHandler<HonoEnv> = () => (err, c) => {
  * @param c Koa context
  * @param err Application error
  */
-function handleApplicationError(c: Context, err: ApplicationError) {
-  logger().error(err.stack);
+function handleApplicationError(err: ApplicationError, c: HonoContext) {
+  const { logger } = c.var;
+  logger.error(err.stack);
   return c.json(err.getResponseBody(), err.httpStatusCode);
 }
 
@@ -44,8 +44,9 @@ function handleApplicationError(c: Context, err: ApplicationError) {
  * @param c Koa context
  * @param err Zod validation error
  */
-function handleZodError(c: Context, err: ZodError) {
-  logger().warn(err.flatten());
+function handleZodError(err: ZodError, c: HonoContext) {
+  const { logger } = c.var;
+  logger.warn(err.flatten());
   return c.json(
     {
       success: false,
@@ -62,8 +63,9 @@ function handleZodError(c: Context, err: ZodError) {
  * @param c Koa context
  * @param err Error
  */
-function handleError(c: Context, err: Error) {
-  logger().error(err.stack);
+function handleError(err: Error, c: HonoContext) {
+  const { logger } = c.var;
+  logger.error(err.stack);
   return c.json(
     {
       success: false,
@@ -78,8 +80,9 @@ function handleError(c: Context, err: Error) {
  * Catch all for anything thrown that is not an instance of Error.
  * @param c Koa context
  */
-function handleUnknownError(c: Context, err: unknown) {
-  logger().error(`Error of unknown type was thrown: ${err}`);
+function handleUnknownError(err: unknown, c: HonoContext) {
+  const { logger } = c.var;
+  logger.error(`Error of unknown type was thrown: ${err}`);
   return c.json(
     {
       success: false,
