@@ -66,6 +66,10 @@ const processEnvFile = () => {
     main: "src/index.ts",
     compatibility_date: "2024-11-15",
     compatibility_flags: ["nodejs_compat"],
+    observability: {
+      enabled: true,
+    },
+    upload_source_maps: true,
     vars,
     define: defines,
   };
