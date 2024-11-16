@@ -4,8 +4,11 @@ import {
   encodeHexLowerCase,
 } from "@oslojs/encoding";
 import { eq } from "drizzle-orm";
+import { Context } from "hono";
+import { deleteCookie, getCookie, setCookie } from "hono/cookie";
 import { User, users } from "../app/users/users.schema.js";
 import { db } from "../database/db.js";
+import { isDevelopment } from "../utils/env.js";
 import { days } from "../utils/ms.js";
 import { Session, sessions } from "./sessions.schema.js";
 
@@ -111,3 +114,42 @@ export async function invalidateSession(sessionId: string): Promise<void> {
 export type SessionValidationResult =
   | { session: Session; user: User }
   | { session: null; user: null };
+
+/**
+ * Gets the session cookie from the context
+ * @param c - The Hono context
+ * @returns The session cookie value or undefined if not found
+ */
+export function getSessionCookie(c: Context): string | undefined {
+  return getCookie(c, "session");
+}
+
+/**
+ * Sets the session cookie
+ * @param c - The Hono context
+ * @param token - The session token
+ * @param session - The session object
+ */
+export function setSessionCookie(c: Context, token: string, session: Session) {
+  setCookie(c, "session", token, {
+    httpOnly: true,
+    sameSite: "lax",
+    expires: session.expiresAt,
+    path: "/",
+    secure: isDevelopment() ? false : true,
+  });
+}
+
+/**
+ * Deletes the session cookie
+ * @param c - The Hono context
+ */
+export function deleteSessionCookie(c: Context) {
+  deleteCookie(c, "session", {
+    httpOnly: true,
+    sameSite: "lax",
+    maxAge: 0,
+    path: "/",
+    secure: isDevelopment() ? false : true,
+  });
+}

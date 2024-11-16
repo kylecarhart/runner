@@ -48,6 +48,22 @@ export async function getUserById(id: string): Promise<User> {
   return user;
 }
 
+/**
+ * Get user by email
+ * @param email User email
+ * @returns User or undefined if user is not found
+ */
+export async function getUserByEmail(email: string): Promise<User | undefined> {
+  usersLogger().debug("getUserByEmail", { email });
+
+  const user = await db().query.users.findFirst({
+    where: eq(users.email, email),
+    columns: { password: false },
+  });
+
+  return user;
+}
+
 interface DataWithPagination<T> {
   data: T;
   pagination: Pagination;

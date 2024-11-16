@@ -13,20 +13,20 @@ const authLogger = () =>
  * Authenticate user by username and password. Used with passport.js.
  * @param username Username
  * @param password Password
- * @returns User or false if authentication fails
+ * @returns User or undefined if authentication fails
  */
 export async function authenticateUser(
-  username: string,
+  email: string,
   password: string,
-): Promise<User | false> {
-  authLogger().debug("authenticateUser", { username });
+): Promise<User | undefined> {
+  authLogger().debug("authenticateUser", { email });
 
   // Find user to authenticate
   const userToAuthenticate = await db().query.users.findFirst({
-    where: eq(users.username, username),
+    where: eq(users.email, email),
   });
   if (!userToAuthenticate) {
-    return false;
+    return;
   }
 
   // Check if password is correct
@@ -35,10 +35,10 @@ export async function authenticateUser(
     userToAuthenticate.password,
   );
   if (!isPasswordMatch) {
-    return false;
+    return;
   }
 
-  authLogger().info("User authenticated", { username });
+  authLogger().info("User authenticated", { email });
 
   const { password: _, ...user } = userToAuthenticate; // Remove password from user
   return user;
