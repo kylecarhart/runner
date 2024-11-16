@@ -9,10 +9,28 @@ pnpm dev
 
 ## Environment/Secrets
 
+Create a `.env` file in the root of the project with the following content. Do not remove the `# SECRET` or `# DEFINE` comments. Run `pnpm run env` to generate the `wrangler.toml` and `.dev.vars` files.
+
 ```properties
-# .dev.vars
-DB_USER=""
-DB_PASSWORD=""
+# Environment
+ENVIRONMENT=development
+LOG_LEVEL=info
+
+# Server
+PORT=3000
+
+# Database
+DB_HOST=aws-0-us-east-1.pooler.supabase.com
+DB_PORT_TRANSACTION=6543
+DB_PORT_SESSION=5432
+DB_USER= # SECRET
+DB_PASSWORD= # SECRET
+DB_NAME=postgres
+
+# OpenAPI
+PATH_SWAGGER=/docs/swagger # DEFINE
+PATH_SCALAR=/docs/scalar # DEFINE
+PATH_OPENAPI=/docs/openapi.json # DEFINE
 ```
 
 ## Globals
