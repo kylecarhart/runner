@@ -8,6 +8,9 @@ upload_source_maps = true
 [observability]
 enabled = true
 
+[placement]
+mode = "smart"
+
 [vars]
 NODE_ENV = "development"
 LOG_LEVEL = "info"

@@ -69,6 +69,9 @@ const processEnvFile = () => {
     observability: {
       enabled: true,
     },
+    placement: {
+      mode: "smart",
+    },
     upload_source_maps: true,
     vars,
     define: defines,
