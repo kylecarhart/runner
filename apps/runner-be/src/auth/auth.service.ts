@@ -1,8 +1,8 @@
-import argon2 from "argon2";
 import { eq } from "drizzle-orm";
 import { User, users } from "../app/users/users.schema.js";
 import { db } from "../database/db.js";
 import { logger } from "../utils/logger.js";
+import { verifyPassword } from "./password/password.service.js";
 
 const authLogger = () =>
   logger().child({
@@ -30,9 +30,9 @@ export async function authenticateUser(
   }
 
   // Check if password is correct
-  const isPasswordMatch = await argon2.verify(
-    userToAuthenticate.password,
+  const isPasswordMatch = await verifyPassword(
     password,
+    userToAuthenticate.password,
   );
   if (!isPasswordMatch) {
     return false;

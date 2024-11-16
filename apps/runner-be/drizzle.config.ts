@@ -14,7 +14,7 @@ config(); // Load environment variables
  * @see https://github.com/drizzle-team/drizzle-orm/issues/819
  */
 export default defineConfig({
-  schema: "./dist/src/app/**/*.schema.js", // See above note
+  schema: "./dist/src/**/*.schema.js", // See above note
   out: "./drizzle",
   dialect: "postgresql",
   dbCredentials: {

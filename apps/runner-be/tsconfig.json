@@ -24,8 +24,7 @@
     /* Enable error reporting in type-checked JavaScript files. */
     "checkJs": false,
 
-    /* Disable emitting files from a compilation. */
-    "noEmit": true,
+    /* Output directory */
     "outDir": "./dist",
 
     /* Ensure that each file can be safely transpiled without relying on other imports. */
