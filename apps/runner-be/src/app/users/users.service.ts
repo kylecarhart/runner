@@ -15,6 +15,7 @@ import {
 import { db } from "../../database/db.js";
 import { AuthenticationError } from "../../errors/AuthenticationError.js";
 import { NotFoundError } from "../../errors/NotFoundError.js";
+import { lower } from "../../utils/drizzle.js";
 import { handlePostgresConstraintError } from "../../utils/error.js";
 import { invariant } from "../../utils/invariant.js";
 import { logger } from "../../utils/logger.js";
@@ -57,7 +58,7 @@ export async function getUserByEmail(email: string): Promise<User | undefined> {
   usersLogger().debug("getUserByEmail", { email });
 
   const user = await db().query.users.findFirst({
-    where: eq(users.email, email),
+    where: eq(lower(users.email), email.toLowerCase()),
     columns: { password: false },
   });
 
