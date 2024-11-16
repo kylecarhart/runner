@@ -1,7 +1,12 @@
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
-import { setCookie } from "hono/cookie";
 import { HonoEnv } from "../index.js";
 import { requestBodyJson } from "../utils/openapi.js";
+import { authenticateUser } from "./auth.service.js";
+import {
+  createSession,
+  generateSessionToken,
+  setSessionCookie,
+} from "./sessions.service.js";
 const OPENAPI_TAG_AUTH = "Auth";
 
 export const authApp = new OpenAPIHono<HonoEnv>();
@@ -42,23 +47,20 @@ const signIn = createRoute({
 });
 
 authApp.openapi(signIn, async (c) => {
-  // const { email, password } = c.req.valid("json");
+  const { email, password } = c.req.valid("json");
 
-  // const user = await authenticateUser(email, password);
+  // Check that user exists and password is correct
+  const user = await authenticateUser(email, password);
+  if (!user) {
+    return c.json({ error: "Invalid email or password" }, 401);
+  }
 
-  // if (!user) {
-  //   return c.json({ error: "Invalid email or password" }, 401);
-  // }
+  // Create session
+  const token = generateSessionToken();
+  const session = await createSession(token, user.id);
 
-  // const token = generateSessionToken();
-  // const session = await createSession(token, user.id);
-
-  // console.log(session);
-
-  // setSessionCookie(c, token, session);
-
-  setCookie(c, "fuck", "you");
-  console.log(c.res.headers);
+  // Set session cookie
+  setSessionCookie(c, token, session);
 
   return c.body("yup");
 });

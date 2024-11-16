@@ -1,6 +1,7 @@
 import { eq } from "drizzle-orm";
 import { User, users } from "../app/users/users.schema.js";
 import { db } from "../database/db.js";
+import { lower } from "../utils/drizzle.js";
 import { logger } from "../utils/logger.js";
 import { verifyPassword } from "./password/password.service.js";
 
@@ -10,8 +11,8 @@ const authLogger = () =>
   });
 
 /**
- * Authenticate user by username and password. Used with passport.js.
- * @param username Username
+ * Authenticate user by email and password.
+ * @param email Email
  * @param password Password
  * @returns User or undefined if authentication fails
  */
@@ -23,10 +24,10 @@ export async function authenticateUser(
 
   // Find user to authenticate
   const userToAuthenticate = await db().query.users.findFirst({
-    where: eq(users.email, email),
+    where: eq(lower(users.email), email.toLowerCase()),
   });
   if (!userToAuthenticate) {
-    return;
+    return; // User not found
   }
 
   // Check if password is correct
@@ -35,7 +36,7 @@ export async function authenticateUser(
     userToAuthenticate.password,
   );
   if (!isPasswordMatch) {
-    return;
+    return; // Password is incorrect
   }
 
   authLogger().info("User authenticated", { email });

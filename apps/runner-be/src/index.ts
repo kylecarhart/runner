@@ -33,8 +33,6 @@ app.use(
   cors({
     origin: "http://localhost:8787",
     credentials: true,
-    exposeHeaders: ["Set-Cookie"],
-    allowMethods: ["GET", "POST"],
   }),
 ); // CORS
 
