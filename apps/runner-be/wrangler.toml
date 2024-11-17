@@ -12,7 +12,6 @@ enabled = true
 mode = "smart"
 
 [vars]
-NODE_ENV = "development"
 LOG_LEVEL = "info"
 PORT = "3000"
 DB_HOST = "aws-0-us-east-1.pooler.supabase.com"
@@ -21,6 +20,7 @@ DB_PORT_SESSION = "5432"
 DB_NAME = "postgres"
 
 [define]
+NODE_ENV = '"development"'
 PATH_SWAGGER = '"/docs/swagger"'
 PATH_SCALAR = '"/docs/scalar"'
 PATH_OPENAPI = '"/docs/openapi.json"'

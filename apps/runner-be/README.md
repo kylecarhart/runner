@@ -13,7 +13,7 @@ Create a `.env` file in the root of the project with the following content. Do n
 
 ```properties
 # Environment
-NODE_ENV=development
+NODE_ENV=development # DEFINE
 LOG_LEVEL=info
 
 # Server
@@ -35,5 +35,5 @@ PATH_OPENAPI=/docs/openapi.json # DEFINE
 
 ## Globals
 
-Globals are replaced by esbuild during build time. They are defined in `wrangler.toml` under `[define]`.
+Globals are replaced by esbuild during build time, and are marked as `# DEFINE` in the `.env` file. They are defined in `wrangler.toml` under `[define]`.
 See [Cloudflare Workers - Build time constants with Wrangler](https://kian.org.uk/cloudflare-workers-build-time-constants-with-wrangler/) for more information.

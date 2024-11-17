@@ -36,11 +36,11 @@ export const EnvSchema = z.object({
 export const env = () => envAdapter(getContext<HonoEnv>());
 
 /**
- * Check if development environment. Must be used within app context.
+ * Check if development environment.
  * @returns True if development environment, false otherwise
  */
 export function isDevelopment() {
-  return env().NODE_ENV === "development";
+  return NODE_ENV === "development";
 }
 
 // export const Env = EnvSchema.parse(process.env);

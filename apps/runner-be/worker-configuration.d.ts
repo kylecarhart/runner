@@ -5,10 +5,12 @@ interface Env extends BaseEnv {}
 
 // Declare build-time constants for esbuild's define plugin
 declare global {
+  /** Environment */
+  const NODE_ENV: Env["NODE_ENV"];
   /** OpenAPI documentation path */
-  const PATH_OPENAPI: string;
+  const PATH_OPENAPI: Env["PATH_OPENAPI"];
   /** Swagger UI path */
-  const PATH_SWAGGER: string;
+  const PATH_SWAGGER: Env["PATH_SWAGGER"];
   /** Scalar API reference path */
-  const PATH_SCALAR: string;
+  const PATH_SCALAR: Env["PATH_SCALAR"];
 }
