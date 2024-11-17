@@ -34,7 +34,12 @@ const v1 = new OpenAPIHono<HonoEnv>();
 app.use(contextStorage()); // Context storage. See: https://hono.dev/docs/middleware/builtin/context-storage
 app.use(secureHeaders()); // Security headers
 app.use(csrf()); // CSRF protection
-app.use(cors()); // CORS
+app.use(
+  cors({
+    origin: "*",
+    maxAge: 3600, // 1 hour cache for browsers to not send preflight requests
+  }),
+); // CORS
 
 /** App Middleware */
 app.use(loggerMiddleware()); // Logger
