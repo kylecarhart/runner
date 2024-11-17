@@ -8,8 +8,8 @@ import {
 import { HonoEnv } from "../index.js";
 
 /**
- * Sessions middleware. Sets the session token cookie and user on the context.
- * @returns Hono middleware
+ * Sessions middleware that sets the session token cookie and user on the context.
+ * @returns Hono sessions middleware
  */
 export const sessionsMiddleware = () =>
   createMiddleware<HonoEnv>(async (c, next) => {

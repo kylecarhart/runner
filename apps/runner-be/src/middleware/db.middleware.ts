@@ -3,8 +3,8 @@ import { initDb } from "../database/db.js";
 import { HonoEnv } from "../index.js";
 
 /**
- * Database middleware
- * @returns Hono middleware
+ * Database middleware that initializes the database and sets it in the context.
+ * @returns Hono database middleware
  */
 export const dbMiddleware = () =>
   createMiddleware<HonoEnv>(async (c, next) => {

@@ -3,8 +3,8 @@ import { HonoEnv } from "../index.js";
 import { createLogger } from "../utils/logger.js";
 
 /**
- * Logger middleware
- * @returns Hono middleware
+ * Logger middleware that creates a logger and sets it in the context.
+ * @returns Hono logger middleware
  */
 export const loggerMiddleware = () =>
   createMiddleware<HonoEnv>(async (c, next) => {
