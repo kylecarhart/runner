@@ -14,6 +14,7 @@ mode = "smart"
 [vars]
 LOG_LEVEL = "info"
 PORT = "3000"
+ALLOWED_ORIGIN = "https://runner.carhart.dev"
 DB_HOST = "aws-0-us-east-1.pooler.supabase.com"
 DB_PORT_TRANSACTION = "6543"
 DB_PORT_SESSION = "5432"

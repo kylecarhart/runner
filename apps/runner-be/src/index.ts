@@ -1,7 +1,6 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { Context } from "hono";
 import { contextStorage } from "hono/context-storage";
-import { csrf } from "hono/csrf";
 import { secureHeaders } from "hono/secure-headers";
 import { Logger } from "pino";
 import { usersApp } from "./app/users/users.route.js";
@@ -10,6 +9,7 @@ import { authApp } from "./auth/auth.route.js";
 import { Database } from "./database/db.js";
 import { errorHandler } from "./handlers/error.handler.js";
 import { corsMiddleware } from "./middleware/cors.middleware.js";
+import { csrfMiddleware } from "./middleware/csrf.middleware.js";
 import { dbMiddleware } from "./middleware/db.middleware.js";
 import { loggerMiddleware } from "./middleware/logger.middleware.js";
 import { sessionsMiddleware } from "./middleware/sessions.middleware.js";
@@ -33,7 +33,7 @@ const v1 = new OpenAPIHono<HonoEnv>();
 /** Middleware */
 app.use(contextStorage()); // Context storage. See: https://hono.dev/docs/middleware/builtin/context-storage
 app.use(secureHeaders()); // Security headers
-app.use(csrf()); // CSRF protection
+app.use(csrfMiddleware()); // CSRF protection
 app.use(corsMiddleware()); // CORS
 
 /** App Middleware */

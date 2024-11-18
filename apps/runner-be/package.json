@@ -13,10 +13,11 @@
     "db:migrate": "pnpm build && drizzle-kit generate",
     "db:push": "pnpm build && drizzle-kit push",
     "deploy": "wrangler deploy",
-    "dev": "wrangler dev",
+    "dev": "pnpm run env && wrangler dev",
     "env": "tsx scripts/env.script.ts",
     "lint": "eslint .",
     "pre-commit": "lint-staged && pnpm type-check",
+    "start": "pnpm run dev",
     "test": "vitest",
     "type-check": "tsc --noEmit"
   },

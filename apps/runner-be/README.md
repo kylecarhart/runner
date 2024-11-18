@@ -18,6 +18,7 @@ LOG_LEVEL=info
 
 # Server
 PORT=3000
+ALLOWED_ORIGIN=https://runner.carhart.dev
 
 # Database
 DB_HOST=aws-0-us-east-1.pooler.supabase.com

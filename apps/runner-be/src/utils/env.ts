@@ -7,26 +7,29 @@ import { HonoEnv } from "../index.js";
  * Schema that validates environment variables for safe usage.
  * Log level is set to "info" by default.
  */
-export const EnvSchema = z.object({
-  // Environment
-  NODE_ENV: z.enum(["development", "production"]),
-  LOG_LEVEL: z
-    .enum(["error", "warn", "info", "http", "verbose", "debug", "silly"])
-    .default("info"),
-  // Server
-  PORT: z.coerce.number(),
-  // Database
-  DB_HOST: z.string(),
-  DB_PORT_TRANSACTION: z.coerce.number(),
-  DB_PORT_SESSION: z.coerce.number(),
-  DB_USER: z.string(),
-  DB_PASSWORD: z.string(),
-  DB_NAME: z.string(),
-  // OpenAPI
-  PATH_SWAGGER: z.string(),
-  PATH_SCALAR: z.string(),
-  PATH_OPENAPI: z.string(),
-});
+export const EnvSchema = z
+  .object({
+    // Environment
+    NODE_ENV: z.enum(["development", "production"]),
+    LOG_LEVEL: z
+      .enum(["error", "warn", "info", "http", "verbose", "debug", "silly"])
+      .default("info"),
+    // Server
+    PORT: z.coerce.number(),
+    ALLOWED_ORIGIN: z.string(),
+    // Database
+    DB_HOST: z.string(),
+    DB_PORT_TRANSACTION: z.coerce.number(),
+    DB_PORT_SESSION: z.coerce.number(),
+    DB_USER: z.string(),
+    DB_PASSWORD: z.string(),
+    DB_NAME: z.string(),
+    // OpenAPI
+    PATH_SWAGGER: z.string(),
+    PATH_SCALAR: z.string(),
+    PATH_OPENAPI: z.string(),
+  })
+  .strict();
 
 /**
  * Environment from context.

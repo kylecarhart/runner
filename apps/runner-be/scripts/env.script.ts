@@ -2,6 +2,7 @@ import { config } from "@dotenvx/dotenvx";
 import * as toml from "@iarna/toml";
 import * as fs from "fs";
 import * as path from "path";
+import { ZodError } from "zod";
 import { EnvSchema } from "../src/utils/env.js";
 
 const SECRET_MARKER = "# SECRET";
@@ -14,14 +15,26 @@ const WRANGLER_TOML_PATH = path.resolve(
 );
 
 /**
- * Check that the .env file is valid.
+ * Check that the .env file matches the EnvSchema.
  */
 const checkEnvFile = () => {
   const { parsed: env } = config();
   if (!env) {
     throw new Error("Failed to parse .env file");
   }
-  EnvSchema.parse(env);
+  try {
+    EnvSchema.parse(env);
+  } catch (error) {
+    if (error instanceof ZodError) {
+      error.issues.forEach((issue, index) => {
+        if (issue.code === "unrecognized_keys") {
+          error.issues[index]!.message =
+            `${issue.message}. Make sure to update \`utils/env.ts\` to include the new variable.`;
+        }
+      });
+    }
+    throw error;
+  }
 };
 
 /**
