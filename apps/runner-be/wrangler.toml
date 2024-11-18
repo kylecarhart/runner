@@ -21,7 +21,7 @@ DB_PORT_SESSION = "5432"
 DB_NAME = "postgres"
 
 [define]
-NODE_ENV = '"development"'
+NODE_ENV = '"production"'
 PATH_SWAGGER = '"/docs/swagger"'
 PATH_SCALAR = '"/docs/scalar"'
 PATH_OPENAPI = '"/docs/openapi.json"'
