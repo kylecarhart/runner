@@ -15,5 +15,7 @@ export const corsMiddleware = () =>
       credentials: true, // Allow cookies to be sent with requests
     });
 
+    // To access environment variables in middleware, we need to write it this way.
+    // https://github.com/honojs/hono/issues/895#issuecomment-1431012601
     return corsMiddleware(c, next);
   });
