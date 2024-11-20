@@ -15,7 +15,7 @@ import {
   UpdateUserRequestSchema,
 } from "@runner/api";
 import { HonoEnv } from "../../index.js";
-import { requestBodyJson, responseBodyJson } from "../../utils/openapi.js";
+import { contentJson } from "../../utils/openapi.js";
 import { data, pagination, success } from "../../utils/response.js";
 import {
   changePassword,
@@ -38,10 +38,10 @@ const createUserRoute = createRoute({
   summary: "Create a new user",
   tags: [OPENAPI_TAG_USERS],
   request: {
-    body: requestBodyJson("The user to create", CreateUserRequestSchema),
+    body: contentJson("The user to create", CreateUserRequestSchema),
   },
   responses: {
-    200: responseBodyJson("Create a new user", CreateUserResponseSchema),
+    200: contentJson("Create a new user", CreateUserResponseSchema),
   },
 });
 
@@ -64,7 +64,7 @@ const getUsers = createRoute({
     query: PaginationQuerySchema,
   },
   responses: {
-    200: responseBodyJson("Get all users", GetUsersResponseSchema),
+    200: contentJson("Get all users", GetUsersResponseSchema),
   },
 });
 
@@ -86,7 +86,7 @@ const getUserRoute = createRoute({
     params: GetUserParamsSchema,
   },
   responses: {
-    200: responseBodyJson("Retrieve the user", GetUserResponseSchema),
+    200: contentJson("Retrieve the user", GetUserResponseSchema),
   },
 });
 
@@ -106,10 +106,10 @@ const updateUserRoute = createRoute({
   tags: [OPENAPI_TAG_USERS],
   request: {
     params: UpdateUserParamsSchema,
-    body: requestBodyJson("Update user information", UpdateUserRequestSchema),
+    body: contentJson("Update user information", UpdateUserRequestSchema),
   },
   responses: {
-    200: responseBodyJson("Update user information", GetUserResponseSchema),
+    200: contentJson("Update user information", GetUserResponseSchema),
   },
 });
 
@@ -132,7 +132,7 @@ const deleteUserRoute = createRoute({
     params: DeleteUserParamsSchema,
   },
   responses: {
-    200: responseBodyJson("Delete a user", DeleteUserResponseSchema),
+    200: contentJson("Delete a user", DeleteUserResponseSchema),
   },
 });
 
@@ -152,10 +152,10 @@ const changePasswordRoute = createRoute({
   tags: [OPENAPI_TAG_USERS],
   request: {
     params: ChangePasswordParamsSchema,
-    body: requestBodyJson("Change user password", ChangePasswordRequestSchema),
+    body: contentJson("Change user password", ChangePasswordRequestSchema),
   },
   responses: {
-    200: responseBodyJson("Change user password", ChangePasswordResponseSchema),
+    200: contentJson("Change user password", ChangePasswordResponseSchema),
   },
 });
 

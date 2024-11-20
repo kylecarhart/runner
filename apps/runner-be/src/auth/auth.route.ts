@@ -1,6 +1,6 @@
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
 import { HonoEnv } from "../index.js";
-import { requestBodyJson } from "../utils/openapi.js";
+import { contentJson } from "../utils/openapi.js";
 import { authenticateUser } from "./auth.service.js";
 import {
   createSession,
@@ -20,7 +20,7 @@ const signIn = createRoute({
   summary: "",
   tags: [OPENAPI_TAG_AUTH],
   request: {
-    body: requestBodyJson(
+    body: contentJson(
       "Sign in",
       z.object({
         email: z.string().email(),
