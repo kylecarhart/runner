@@ -25,3 +25,6 @@ NODE_ENV = '"production"'
 PATH_SWAGGER = '"/docs/swagger"'
 PATH_SCALAR = '"/docs/scalar"'
 PATH_OPENAPI = '"/docs/openapi.json"'
+
+[assets]
+directory = "public"

@@ -80,14 +80,17 @@ const processEnvFile = () => {
     compatibility_date: "2024-11-15",
     compatibility_flags: ["nodejs_compat"],
     observability: {
-      enabled: true,
+      enabled: true, // https://developers.cloudflare.com/workers/observability/logs/workers-logs/
     },
     placement: {
-      mode: "smart",
+      mode: "smart", // https://developers.cloudflare.com/workers/configuration/smart-placement/
     },
-    upload_source_maps: true,
-    vars,
-    define: defines,
+    upload_source_maps: true, // https://developers.cloudflare.com/workers/observability/source-maps/
+    vars, // Environment variables
+    define: defines, // Build-time variables
+    assets: {
+      directory: "public", // Static assets
+    },
   };
 
   const AUTO_GENERATED_COMMENT =
