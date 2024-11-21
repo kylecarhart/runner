@@ -2,8 +2,6 @@ import { Pagination } from "@runner/api";
 import { StatusCode } from "hono/utils/http-status";
 import { HonoContext } from "../index.js";
 
-// TODO: These helpers need more time in the oven
-
 /**
  * Returns a success response with an optional message
  * @param c - Hono Context object
