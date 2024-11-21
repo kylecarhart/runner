@@ -1,3 +1,13 @@
 {
-  "typescript.preferences.importModuleSpecifierEnding": "js" // Required for ESM
+  // Typescript
+  "typescript.preferences.importModuleSpecifierEnding": "js", // Required for ESM
+  "typescript.preferences.useAliasesForRenames": false, // Don't use aliases for renames
+  "typescript.preferences.importModuleSpecifier": "shortest", // Use shortest path for imports
+
+  // Formatting
+  "editor.defaultFormatter": "esbenp.prettier-vscode", // Prettier for formatting
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "always", // Always run ESLint fix on save
+    "source.organizeImports": "never" // Always organize imports on save
+  }
 }
