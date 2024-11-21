@@ -6,7 +6,7 @@
   "license": "ISC",
   "author": "",
   "type": "module",
-  "main": "index.ts",
+  "main": "src/index.ts",
   "scripts": {
     "build": "tsc",
     "coverage": "vitest run --coverage",
