@@ -23,19 +23,19 @@
   },
   "dependencies": {
     "@asteasolutions/zod-to-openapi": "^7.2.0",
-    "@dotenvx/dotenvx": "^1.24.0",
+    "@dotenvx/dotenvx": "^1.24.2",
     "@hono/node-server": "^1.13.7",
     "@hono/swagger-ui": "^0.4.1",
-    "@hono/zod-openapi": "^0.17.0",
+    "@hono/zod-openapi": "^0.17.1",
     "@noble/hashes": "^1.5.0",
     "@oslojs/crypto": "^1.0.1",
     "@oslojs/encoding": "^1.1.0",
     "@runner/api": "workspace:*",
     "@runner/utils": "workspace:*",
-    "@scalar/hono-api-reference": "^0.5.159",
+    "@scalar/hono-api-reference": "^0.5.160",
     "drizzle-orm": "^0.36.3",
     "drizzle-zod": "^0.5.1",
-    "hono": "^4.6.10",
+    "hono": "^4.6.11",
     "http-status-codes": "^2.3.0",
     "pino": "^9.5.0",
     "postgres": "^3.4.5",
@@ -43,7 +43,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@cloudflare/vitest-pool-workers": "^0.5.28",
+    "@cloudflare/vitest-pool-workers": "^0.5.29",
     "@cloudflare/workers-types": "^4.20241112.0",
     "@eslint/js": "9.14.0",
     "@iarna/toml": "^2.2.5",
@@ -57,8 +57,8 @@
     "lint-staged": "^15.2.10",
     "tsx": "^4.19.2",
     "typescript": "^5.6.3",
-    "typescript-eslint": "^8.14.0",
+    "typescript-eslint": "^8.15.0",
     "vitest": "^2.1.5",
-    "wrangler": "^3.87.0"
+    "wrangler": "^3.88.0"
   }
 }
