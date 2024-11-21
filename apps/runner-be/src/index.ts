@@ -13,7 +13,7 @@ import { csrfMiddleware } from "./middleware/csrf.middleware.js";
 import { dbMiddleware } from "./middleware/db.middleware.js";
 import { loggerMiddleware } from "./middleware/logger.middleware.js";
 import { sessionsMiddleware } from "./middleware/sessions.middleware.js";
-import { Env } from "./utils/env.js";
+import { Env, isDevelopment } from "./utils/env.js";
 import { bootstrapOpenApi } from "./utils/openapi.js";
 
 // Hono env with CF bindings
@@ -51,7 +51,9 @@ v1.route("/auth", authApp);
 
 /** Bootstrap */
 app.route("/api/v1", v1); // V1 routes
-bootstrapOpenApi(app);
+if (isDevelopment()) {
+  bootstrapOpenApi(app); // Bootstrap OpenAPI only in development
+}
 
 /** Serve application */
 export default app;
