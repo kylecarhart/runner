@@ -162,6 +162,9 @@ importers:
       astro:
         specifier: ^4.16.13
         version: 4.16.13(@types/node@20.17.6)(rollup@4.27.3)(typescript@5.6.3)
+      hono:
+        specifier: ^4.6.11
+        version: 4.6.11
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -171,6 +174,10 @@ importers:
       typescript:
         specifier: ^5.6.3
         version: 5.6.3
+    devDependencies:
+      '@runner/runner-be':
+        specifier: workspace:*
+        version: link:../runner-be
 
   packages/api:
     dependencies:
