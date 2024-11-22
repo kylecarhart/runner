@@ -26,7 +26,6 @@ import {
   updateUser,
 } from "./users.service.js";
 
-export const usersApp = new OpenAPIHono<HonoEnv>();
 const OPENAPI_TAG_USERS = "Users";
 
 /**
@@ -45,13 +44,6 @@ const createUserRoute = createRoute({
   },
 });
 
-// TODO: We may need to chain these for RPC: https://hono.dev/docs/guides/best-practices
-usersApp.openapi(createUserRoute, async (c) => {
-  const createUserRequest = c.req.valid("json");
-  const newUser = await createUser(createUserRequest);
-  return data(c, 200, newUser);
-});
-
 /**
  * Query users
  */
@@ -68,12 +60,6 @@ const getUsers = createRoute({
   },
 });
 
-usersApp.openapi(getUsers, async (c) => {
-  const params = c.req.valid("query");
-  const { data: users, pagination: paginationData } = await getAllUsers(params);
-  return pagination(c, 200, users, paginationData);
-});
-
 /**
  * Get a user by ID
  */
@@ -88,12 +74,6 @@ const getUserRoute = createRoute({
   responses: {
     200: contentJson("Retrieve the user", GetUserResponseSchema),
   },
-});
-
-usersApp.openapi(getUserRoute, async (c) => {
-  const { id } = c.req.valid("param");
-  const user = await getUserById(id);
-  return data(c, 200, user);
 });
 
 /**
@@ -113,13 +93,6 @@ const updateUserRoute = createRoute({
   },
 });
 
-usersApp.openapi(updateUserRoute, async (c) => {
-  const { id } = c.req.valid("param");
-  const updateUserRequest = c.req.valid("json");
-  const updatedUser = await updateUser(id, updateUserRequest);
-  return data(c, 200, updatedUser);
-});
-
 /**
  * Delete a user
  */
@@ -134,12 +107,6 @@ const deleteUserRoute = createRoute({
   responses: {
     200: contentJson("Delete a user", DeleteUserResponseSchema),
   },
-});
-
-usersApp.openapi(deleteUserRoute, async (c) => {
-  const { id } = c.req.valid("param");
-  await deleteUser(id);
-  return success(c, 200, "User deleted successfully");
 });
 
 /**
@@ -159,9 +126,38 @@ const changePasswordRoute = createRoute({
   },
 });
 
-usersApp.openapi(changePasswordRoute, async (c) => {
-  const { id } = c.req.valid("param");
-  const changePasswordRequest = c.req.valid("json");
-  await changePassword(id, changePasswordRequest);
-  return success(c, 200, "Password changed successfully");
-});
+// TODO: We may need to chain these for RPC: https://hono.dev/docs/guides/best-practices
+export const usersApp = new OpenAPIHono<HonoEnv>()
+  .openapi(createUserRoute, async (c) => {
+    const createUserRequest = c.req.valid("json");
+    const newUser = await createUser(createUserRequest);
+    return data(c, 200, newUser);
+  })
+  .openapi(getUsers, async (c) => {
+    const params = c.req.valid("query");
+    const { data: users, pagination: paginationData } =
+      await getAllUsers(params);
+    return pagination(c, 200, users, paginationData);
+  })
+  .openapi(getUserRoute, async (c) => {
+    const { id } = c.req.valid("param");
+    const user = await getUserById(id);
+    return data(c, 200, user);
+  })
+  .openapi(updateUserRoute, async (c) => {
+    const { id } = c.req.valid("param");
+    const updateUserRequest = c.req.valid("json");
+    const updatedUser = await updateUser(id, updateUserRequest);
+    return data(c, 200, updatedUser);
+  })
+  .openapi(deleteUserRoute, async (c) => {
+    const { id } = c.req.valid("param");
+    await deleteUser(id);
+    return success(c, 200, "User deleted successfully");
+  })
+  .openapi(changePasswordRoute, async (c) => {
+    const { id } = c.req.valid("param");
+    const changePasswordRequest = c.req.valid("json");
+    await changePassword(id, changePasswordRequest);
+    return success(c, 200, "Password changed successfully");
+  });

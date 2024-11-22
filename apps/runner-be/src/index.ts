@@ -46,14 +46,16 @@ app.onError(errorHandler()); // Error handling
 app.get("/health", (c) => c.json({ status: "OK" })); // Health check
 
 /** V1 Handlers */
-v1.route("/users", usersApp);
-v1.route("/auth", authApp);
+const v1Routes = v1
+  .route("/users", usersApp) // User routes
+  .route("/auth", authApp); // Auth routes
 
 /** Bootstrap */
-app.route("/api/v1", v1); // V1 routes
+const appRoutes = app.route("/api/v1", v1Routes); // V1 routes
 if (isDevelopment()) {
   bootstrapOpenApi(app); // Bootstrap OpenAPI only in development
 }
 
 /** Serve application */
 export default app;
+export type AppType = typeof appRoutes;
