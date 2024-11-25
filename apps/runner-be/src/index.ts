@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { Context } from "hono";
 import { contextStorage } from "hono/context-storage";
