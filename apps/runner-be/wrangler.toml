@@ -22,9 +22,6 @@ DB_NAME = "postgres"
 
 [define]
 NODE_ENV = '"development"'
-PATH_SWAGGER = '"/docs/swagger"'
-PATH_SCALAR = '"/docs/scalar"'
-PATH_OPENAPI = '"/docs/openapi.json"'
 
 [assets]
 directory = "public"

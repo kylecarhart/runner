@@ -28,10 +28,6 @@ DB_USER= # SECRET
 DB_PASSWORD= # SECRET
 DB_NAME=postgres
 
-# OpenAPI
-PATH_SWAGGER=/docs/swagger # DEFINE
-PATH_SCALAR=/docs/scalar # DEFINE
-PATH_OPENAPI=/docs/openapi.json # DEFINE
 ```
 
 ## Globals

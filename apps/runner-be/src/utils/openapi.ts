@@ -8,6 +8,10 @@ import { apiReference } from "@scalar/hono-api-reference";
 import { ZodSchema } from "zod";
 import { HonoEnv } from "../index.js";
 
+const PATH_SWAGGER = "/docs/swagger";
+const PATH_SCALAR = "/docs/scalar";
+const PATH_OPENAPI = "/docs/openapi.json";
+
 /**
  * Bootstraps OpenAPI documentation and UI endpoints for the application
  * @param app - The OpenAPIHono application instance

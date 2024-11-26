@@ -24,10 +24,6 @@ export const EnvSchema = z
     DB_USER: z.string(),
     DB_PASSWORD: z.string(),
     DB_NAME: z.string(),
-    // OpenAPI
-    PATH_SWAGGER: z.string(),
-    PATH_SCALAR: z.string(),
-    PATH_OPENAPI: z.string(),
   })
   .strict();
 
