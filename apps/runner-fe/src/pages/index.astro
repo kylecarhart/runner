@@ -2,14 +2,17 @@
 import Layout from "../layouts/Layout.astro";
 import Card from "../components/Card.astro";
 import Button from "../components/Button.tsx";
-import { hc } from "hono/client";
-import type { AppType } from "@runner/runner-be";
+import { getUsers } from "../clients/v1Client";
+import { getUser } from "../clients/v1Client.ts";
 
-const client = hc<AppType>(`${import.meta.env.PUBLIC_API_URL}`);
-
-const res = await client.api.v1.users
-  .$get({ query: {} })
-  .then((res) => res.json());
+const users = await getUsers({ query: { page: "2", limit: "3" } }).then((res) =>
+  res.json(),
+);
+const user = await getUser({
+  param: {
+    id: "877a782c-6358-41a7-b694-f5d8c35e8ed6",
+  },
+}).then((res) => res.json());
 ---
 
 <Layout title="Welcome to Astro.">
@@ -70,7 +73,7 @@ const res = await client.api.v1.users
         body="Come say hi to our amazing Discord community. ❤️"
       />
       <Button client:load />
-      <pre>{JSON.stringify(res, null, 2)}</pre>
+      <pre>{JSON.stringify(users, null, 2)}</pre>
     </ul>
   </main>
 </Layout>

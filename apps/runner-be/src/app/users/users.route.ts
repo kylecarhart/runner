@@ -38,6 +38,7 @@ export const usersApp = new OpenAPIHono<HonoEnv>()
       path: "/",
       summary: "Create a new user",
       tags: [OPENAPI_TAG_USERS],
+      operationId: "createUser",
       request: {
         body: contentJson("The user to create", CreateUserRequestSchema),
       },
@@ -60,6 +61,7 @@ export const usersApp = new OpenAPIHono<HonoEnv>()
       path: "/",
       summary: "Get a paginated list of all users",
       tags: [OPENAPI_TAG_USERS],
+      operationId: "getUsers",
       request: {
         query: PaginationQuerySchema,
       },
@@ -82,6 +84,7 @@ export const usersApp = new OpenAPIHono<HonoEnv>()
       method: "get",
       path: "/{id}",
       summary: "Get a specific user by their ID",
+      operationId: "getUserById",
       tags: [OPENAPI_TAG_USERS],
       request: {
         params: GetUserParamsSchema,
@@ -105,6 +108,7 @@ export const usersApp = new OpenAPIHono<HonoEnv>()
       path: "/{id}",
       summary: "Update a user's information",
       tags: [OPENAPI_TAG_USERS],
+      operationId: "updateUser",
       request: {
         params: UpdateUserParamsSchema,
         body: contentJson("Update user information", UpdateUserRequestSchema),
@@ -129,6 +133,7 @@ export const usersApp = new OpenAPIHono<HonoEnv>()
       path: "/{id}",
       summary: "Delete a user by their ID",
       tags: [OPENAPI_TAG_USERS],
+      operationId: "deleteUser",
       request: {
         params: DeleteUserParamsSchema,
       },
@@ -151,6 +156,7 @@ export const usersApp = new OpenAPIHono<HonoEnv>()
       path: "/{id}/password",
       summary: "Change a user's password",
       tags: [OPENAPI_TAG_USERS],
+      operationId: "changeUserPassword",
       request: {
         params: ChangePasswordParamsSchema,
         body: contentJson("Change user password", ChangePasswordRequestSchema),
