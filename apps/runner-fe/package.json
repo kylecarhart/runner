@@ -4,9 +4,10 @@
   "type": "module",
   "scripts": {
     "astro": "astro",
-    "build": "astro check && astro build",
-    "dev": "astro dev",
+    "build": "pnpm run rpc-types && astro check && astro build",
+    "dev": "pnpm run rpc-types && astro dev",
     "preview": "astro preview",
+    "rpc-types": "pnpm run --filter runner-be emit-types",
     "start": "astro dev"
   },
   "dependencies": {

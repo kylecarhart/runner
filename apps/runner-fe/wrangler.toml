@@ -1,0 +1,11 @@
+name = "runner-fe"
+
+# Development
+[vars]
+NODE_ENV = "development"
+API_URL = "http://localhost:8787"
+
+# Production
+[env.production.vars]
+NODE_ENV = "production"
+API_URL = "https://api.runner.carhart.dev"

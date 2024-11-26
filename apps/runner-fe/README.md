@@ -52,3 +52,11 @@ All commands are run from the root of the project, from a terminal:
 ## 👀 Want to learn more?
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+
+## RPC
+
+In order to use RPC with the backend, you must generate the types first. The dev command will automatically run this for you on startup, but if you need to run it manually, you can use the following command:
+
+```sh
+pnpm run --filter runner-be emit-types
+```
