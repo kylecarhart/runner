@@ -8,6 +8,6 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode", // Prettier for formatting
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "always", // Always run ESLint fix on save
-    "source.organizeImports": "never" // Always organize imports on save
+    "source.organizeImports": "always" // Always organize imports on save
   }
 }
