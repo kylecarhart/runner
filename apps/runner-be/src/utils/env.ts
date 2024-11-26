@@ -10,7 +10,7 @@ import { HonoEnv } from "../index.js";
 export const EnvSchema = z
   .object({
     // Environment
-    NODE_ENV: z.enum(["development", "production"]),
+    NODE_ENV: z.enum(["dev", "prod"]),
     LOG_LEVEL: z
       .enum(["error", "warn", "info", "http", "verbose", "debug", "silly"])
       .default("info"),
@@ -38,8 +38,8 @@ export const env = () => envAdapter(getContext<HonoEnv>());
  * Check if development environment.
  * @returns True if development environment, false otherwise
  */
-export function isDevelopment() {
-  return NODE_ENV === "development";
+export function isDev() {
+  return NODE_ENV === "dev";
 }
 
 // export const Env = EnvSchema.parse(process.env);
