@@ -12,9 +12,9 @@ enabled = true
 mode = "smart"
 
 [vars]
-LOG_LEVEL = "info"
+LOG_LEVEL = "debug"
 PORT = "3000"
-ALLOWED_ORIGIN = "https://runner.carhart.dev"
+ALLOWED_ORIGIN = "http://localhost:4321"
 DB_HOST = "aws-0-us-east-1.pooler.supabase.com"
 DB_PORT_TRANSACTION = "6543"
 DB_PORT_SESSION = "5432"
@@ -25,3 +25,16 @@ NODE_ENV = '"development"'
 
 [assets]
 directory = "public"
+
+# Production
+[env.production.define]
+NODE_ENV = '"production"'
+
+[env.production.vars]
+LOG_LEVEL = "info"
+PORT = "3000"
+ALLOWED_ORIGIN = "https://runner.carhart.dev"
+DB_HOST = "aws-0-us-east-1.pooler.supabase.com"
+DB_PORT_TRANSACTION = "6543"
+DB_PORT_SESSION = "5432"
+DB_NAME = "postgres"
