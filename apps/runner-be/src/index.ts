@@ -3,7 +3,6 @@ import { OpenAPIHono } from "@hono/zod-openapi";
 import { Context } from "hono";
 import { contextStorage } from "hono/context-storage";
 import { secureHeaders } from "hono/secure-headers";
-import { Logger } from "pino";
 import { usersApp } from "./app/users/users.route.js";
 import { User } from "./app/users/users.schema.js";
 import { authApp } from "./auth/auth.route.js";
@@ -14,7 +13,8 @@ import { csrfMiddleware } from "./middleware/csrf.middleware.js";
 import { dbMiddleware } from "./middleware/db.middleware.js";
 import { loggerMiddleware } from "./middleware/logger.middleware.js";
 import { sessionsMiddleware } from "./middleware/sessions.middleware.js";
-import { Env, isDev } from "./utils/env.js";
+import { Env, isDevelopment } from "./utils/env.js";
+import { Logger } from "./utils/logger.js";
 import { bootstrapOpenApi } from "./utils/openapi.js";
 
 // Hono env with CF bindings
@@ -53,7 +53,7 @@ const v1Routes = v1
 
 /** Bootstrap */
 const appRoutes = app.route("/api/v1", v1Routes); // V1 routes
-if (isDev()) {
+if (isDevelopment()) {
   bootstrapOpenApi(app); // Bootstrap OpenAPI only in development
 }
 

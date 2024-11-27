@@ -19,7 +19,7 @@ directory = "public"
 name = "runner-be-dev"
 
 [env.dev.define]
-NODE_ENV = '"dev"'
+ENVIRONMENT = '"development"'
 
 [env.dev.vars]
 LOG_LEVEL = "debug"
@@ -35,7 +35,7 @@ DB_NAME = "postgres"
 name = "runner-be-prod"
 
 [env.prod.define]
-NODE_ENV = '"prod"'
+ENVIRONMENT = '"production"'
 
 [env.prod.vars]
 LOG_LEVEL = "info"

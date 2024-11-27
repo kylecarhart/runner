@@ -6,5 +6,5 @@ interface Env extends BaseEnv {}
 // Declare build-time constants for esbuild's define plugin
 declare global {
   /** Environment */
-  const NODE_ENV: Env["NODE_ENV"];
+  const ENVIRONMENT: Env["ENVIRONMENT"];
 }

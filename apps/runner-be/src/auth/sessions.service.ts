@@ -8,7 +8,7 @@ import { deleteCookie, getCookie, setCookie } from "hono/cookie";
 import { User, users, withoutPassword } from "../app/users/users.schema.js";
 import { db } from "../database/db.js";
 import { HonoContext } from "../index.js";
-import { isDev } from "../utils/env.js";
+import { isDevelopment } from "../utils/env.js";
 import { days } from "../utils/ms.js";
 import { Session, sessions } from "./sessions.schema.js";
 
@@ -140,7 +140,7 @@ export function setSessionCookie(
     sameSite: "lax",
     expires: session.expiresAt,
     path: "/",
-    secure: isDev() ? false : true,
+    secure: isDevelopment() ? false : true,
   });
 }
 
@@ -154,6 +154,6 @@ export function deleteSessionCookie(c: HonoContext) {
     sameSite: "lax",
     maxAge: 0,
     path: "/",
-    secure: isDev() ? false : true,
+    secure: isDevelopment() ? false : true,
   });
 }
