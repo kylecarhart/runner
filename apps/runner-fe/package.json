@@ -5,24 +5,27 @@
   "scripts": {
     "astro": "astro",
     "build": "pnpm run rpc-types && astro check && astro build",
+    "deploy": "astro build && wrangler pages deploy",
     "dev": "pnpm run rpc-types && astro dev",
-    "preview": "astro preview",
+    "preview": "astro build && wrangler pages dev",
     "rpc-types": "pnpm run --filter runner-be emit-types",
     "start": "astro dev"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
     "@astrojs/cloudflare": "^11.2.0",
-    "@astrojs/react": "^3.6.2",
+    "@astrojs/react": "^3.6.3",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
-    "astro": "^4.16.13",
-    "hono": "^4.6.11",
+    "astro": "^4.16.15",
+    "hono": "^4.6.12",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "typescript": "^5.6.3"
+    "typescript": "^5.7.2"
   },
   "devDependencies": {
-    "@runner/runner-be": "workspace:*"
+    "@cloudflare/workers-types": "^4.20241112.0",
+    "@runner/runner-be": "workspace:*",
+    "wrangler": "^3.91.0"
   }
 }
