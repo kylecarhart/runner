@@ -1,11 +1,11 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Card from "../components/Card.astro";
-import Button from "../components/Button.tsx";
 import { getUsers } from "../clients/v1Client";
 import { getUser } from "../clients/v1Client.ts";
+import Button from "../components/Button.tsx";
+import Card from "../components/Card.astro";
+import Layout from "../layouts/Layout.astro";
 
-const users = await getUsers({ query: { page: "2", limit: "3" } }).then((res) =>
+const users = await getUsers({ query: { page: 1, limit: 3 } }).then((res) =>
   res.json(),
 );
 const user = await getUser({

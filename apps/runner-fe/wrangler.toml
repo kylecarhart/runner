@@ -1,11 +1,16 @@
+#:schema node_modules/wrangler/config-schema.json
 name = "runner-fe"
+compatibility_date = "2024-11-12"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = "./dist"
 
-# Development
-[vars]
-NODE_ENV = "development"
-API_URL = "http://localhost:8787"
+# Preview ---------------------------------------------------------------------
+# [env.preview.vars]
+# PUBLIC_API_URL = "https://api.runner.carhart.dev"
 
-# Production
+# Production ------------------------------------------------------------------
 [env.production.vars]
+PUBLIC_API_URL = "https://api.runner.carhart.dev"
+
+[env.production.define]
 NODE_ENV = "production"
-API_URL = "https://api.runner.carhart.dev"
