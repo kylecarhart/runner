@@ -11,6 +11,3 @@ pages_build_output_dir = "./dist"
 # Production ------------------------------------------------------------------
 [env.production.vars]
 PUBLIC_API_URL = "https://api.runner.carhart.dev"
-
-[env.production.define]
-NODE_ENV = "production"
