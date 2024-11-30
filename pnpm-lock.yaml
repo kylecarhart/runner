@@ -168,6 +168,9 @@ importers:
       hono:
         specifier: ^4.6.12
         version: 4.6.12
+      lucide-astro:
+        specifier: ^0.462.0
+        version: 0.462.0(astro@4.16.15(@types/node@22.10.0)(rollup@4.27.4)(typescript@5.7.2))
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -3229,6 +3232,11 @@ packages:
 
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
+
+  lucide-astro@0.462.0:
+    resolution: {integrity: sha512-Y4ovkq3td6kbRPg1dhulA0ejhgl/A8bMPgiEm11jfX0jX1NoLG8+ICj2sOMlWpBiaFQS+6oWUEc/GwOpSy1EHw==}
+    peerDependencies:
+      astro: '>=2.7.1'
 
   magic-string@0.25.9:
     resolution: {integrity: sha512-RmF0AsMzgt25qzqqLc1+MbHmhdx0ojF2Fvs4XnOqz2ZOBXzzkEwc/dJQZCYHAn7v1jbVOjAZfK8msRn4BxO4VQ==}
@@ -7474,6 +7482,10 @@ snapshots:
   lru-cache@5.1.1:
     dependencies:
       yallist: 3.1.1
+
+  lucide-astro@0.462.0(astro@4.16.15(@types/node@22.10.0)(rollup@4.27.4)(typescript@5.7.2)):
+    dependencies:
+      astro: 4.16.15(@types/node@22.10.0)(rollup@4.27.4)(typescript@5.7.2)
 
   magic-string@0.25.9:
     dependencies:
