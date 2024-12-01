@@ -14,10 +14,15 @@ const baseConfig = {
       files: ["**/*.astro"],
       options: {
         parser: "astro",
-        plugins: ["prettier-plugin-astro"],
+        plugins: [
+          "prettier-plugin-astro",
+          "prettier-plugin-tailwindcss",
+          "prettier-plugin-astro-organize-imports", // MUST come last
+        ],
       },
     },
   ],
+  tailwindFunctions: ["clsx", "cva", "cn", "twMerge"], // Sort in these funcs
 };
 
 export default baseConfig;
