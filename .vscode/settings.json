@@ -1,13 +1,20 @@
 {
-  // Typescript
+  /** Typescript **************************************************************/
   "typescript.preferences.importModuleSpecifierEnding": "js", // Required for ESM
   "typescript.preferences.useAliasesForRenames": false, // Don't use aliases for renames
   "typescript.preferences.importModuleSpecifier": "shortest", // Use shortest path for imports
 
-  // Formatting
+  /** Formatting **************************************************************/
   "editor.defaultFormatter": "esbenp.prettier-vscode", // Prettier for formatting
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "always", // Always run ESLint fix on save
     "source.organizeImports": "always" // Always organize imports on save
-  }
+  },
+
+  /** Tailwind ***************************************************************/
+  // https://cva.style/docs/getting-started/installation#intellisense
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ]
 }
