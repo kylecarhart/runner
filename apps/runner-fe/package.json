@@ -18,16 +18,19 @@
     "@astrojs/tailwind": "^5.1.2",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
-    "astro": "^4.16.15",
+    "astro": "^4.16.16",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "hono": "^4.6.12",
     "lucide-astro": "^0.462.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "tailwind-merge": "^2.5.5",
     "tailwindcss": "^3.4.15",
     "typescript": "^5.7.2"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20241112.0",
+    "@cloudflare/workers-types": "^4.20241127.0",
     "@runner/runner-be": "workspace:*",
     "wrangler": "^3.91.0"
   }
