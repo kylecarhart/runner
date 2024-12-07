@@ -1,5 +1,6 @@
 # Runner Monorepo
 
+- TODO: Rate limiting
 - TODO: Evaluate Astro Frontend
 - TODO: Runner-be debug launch.json
 - TODO: Syncpack or pnpm overrides
@@ -10,5 +11,4 @@
 - TODO: Monitoring
 - TODO: Authentication
 - TODO: Authorization
-- TODO: Rate limiting
 - TODO: Caching

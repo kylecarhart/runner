@@ -24,6 +24,8 @@ export const EnvSchema = z
     DB_USER: z.string(),
     DB_PASSWORD: z.string(),
     DB_NAME: z.string(),
+    // Postmark
+    POSTMARK_SERVER_TOKEN: z.string(),
   })
   .strict();
 

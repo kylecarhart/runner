@@ -1,6 +1,7 @@
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
 import { CreateUserRequestSchema } from "@runner/api";
 import { createUser } from "../app/users/users.service.js";
+import { sendEmailConfirmation } from "../email/email.service.js";
 import { HonoEnv } from "../index.js";
 import { contentJson } from "../utils/openapi.js";
 import { data } from "../utils/response.js";
@@ -96,6 +97,11 @@ export const authApp = new OpenAPIHono<HonoEnv>()
 
       // Eventually we should send a confirmation email to the user
       const newUser = await createUser(createUserRequest);
+      const res = await sendEmailConfirmation(
+        createUserRequest.email,
+        "123456",
+      );
+
       return data(c, 200, newUser);
     },
   );

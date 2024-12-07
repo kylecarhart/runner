@@ -11,10 +11,10 @@ const FlagSchema = z.object({
 const FlagsSchema = z.record(z.string(), FlagSchema);
 
 const Flags = {
-  EXAMPLE_FLAG: {
-    id: "EXAMPLE_FLAG",
-    description: "This is an example flag.",
-    enabled: true,
+  EMAIL_CONFIRMATION: {
+    id: "EMAIL_CONFIRMATION",
+    description: "Require email confirmation for new accounts.",
+    enabled: false,
   },
 } as const satisfies z.infer<typeof FlagsSchema>;
 
