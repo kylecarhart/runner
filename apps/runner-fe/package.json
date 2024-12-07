@@ -1,6 +1,7 @@
 {
   "name": "@runner/runner-fe",
   "version": "1.0.0",
+  "author": "Kyle Carhart",
   "type": "module",
   "scripts": {
     "astro": "astro",

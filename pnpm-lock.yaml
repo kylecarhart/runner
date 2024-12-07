@@ -65,6 +65,9 @@ importers:
       '@runner/api':
         specifier: workspace:*
         version: link:../../packages/api
+      '@runner/postmark':
+        specifier: workspace:*
+        version: link:../../packages/postmark
       '@runner/utils':
         specifier: workspace:*
         version: link:../../packages/utils
@@ -245,6 +248,12 @@ importers:
       typescript-eslint:
         specifier: ^8.15.0
         version: 8.15.0(eslint@9.15.0(jiti@1.21.6))(typescript@5.6.3)
+
+  packages/postmark:
+    dependencies:
+      '@hey-api/client-fetch':
+        specifier: ^0.5.2
+        version: 0.5.2
 
   packages/utils: {}
 
@@ -1394,6 +1403,9 @@ packages:
   '@fastify/busboy@2.1.1':
     resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
     engines: {node: '>=14'}
+
+  '@hey-api/client-fetch@0.5.2':
+    resolution: {integrity: sha512-ix8MuuLTME5BWMQ8iCALqWflHtDyuoEwX0b77TQL+VgEXL89cYtjoHxE2bm2DYQQm8qDJXvTS6ju/D6wB6l6Hg==}
 
   '@hono/node-server@1.13.7':
     resolution: {integrity: sha512-kTfUMsoloVKtRA2fLiGSd9qBddmru9KadNyhJCwgKBxTiNkaAJEwkVN9KV/rS4HtmmNRtUh6P+YpmjRMl0d9vQ==}
@@ -5630,6 +5642,8 @@ snapshots:
       levn: 0.4.1
 
   '@fastify/busboy@2.1.1': {}
+
+  '@hey-api/client-fetch@0.5.2': {}
 
   '@hono/node-server@1.13.7(hono@4.6.12)':
     dependencies:

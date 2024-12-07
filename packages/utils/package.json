@@ -4,7 +4,7 @@
   "description": "Utility functions",
   "keywords": [],
   "license": "ISC",
-  "author": "",
+  "author": "Kyle Carhart",
   "type": "module",
   "main": "src/index.js",
   "scripts": {

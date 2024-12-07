@@ -4,7 +4,7 @@
   "description": "Runner monorepo",
   "keywords": [],
   "license": "ISC",
-  "author": "",
+  "author": "Kyle Carhart",
   "type": "module",
   "scripts": {
     "lint": "pnpm -r --bail run lint ",
