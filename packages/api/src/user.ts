@@ -54,7 +54,7 @@ export const SelectUserSchema = z.object({
     .email("Email is not valid")
     .openapi({ example: "kyle@example.com" }),
   password: PasswordSchema.openapi({ example: "!Password123" }),
-  dob: z.string().datetime(),
+  dob: z.string().datetime().nullable(),
   createdAt: z.string(),
   updatedAt: z.string(),
 });
@@ -84,22 +84,16 @@ export const GetUsersResponseSchema = withPaginationSchema(
 
 /**
  * Create a new user
+ * TODO: All we need is an email and password, user will finish setting up
+ * their profile later.
  */
 export const CreateUserRequestSchema = SelectUserSchema.pick({
   firstName: true,
   lastName: true,
   username: true,
   email: true,
-  dob: true,
   password: true,
-})
-  .extend({
-    confirmPassword: z.string().openapi({ example: "!Password123" }),
-  })
-  .refine((schema) => schema.password === schema.confirmPassword, {
-    message: "Passwords don't match",
-    path: ["confirmPassword"],
-  });
+});
 export type CreateUserRequest = z.infer<typeof CreateUserRequestSchema>;
 export const CreateUserResponseSchema =
   withSuccessSchema(UserSchema).openapi("CreateUserResponse");

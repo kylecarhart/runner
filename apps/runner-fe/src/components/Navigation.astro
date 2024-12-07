@@ -2,12 +2,14 @@
 import { APP_NAME } from "../constants/strings.ts";
 ---
 
-<nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b">
+<nav class="sticky top-0 z-50 border-b bg-white/90 backdrop-blur-md">
   <div
-    class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4"
+    class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8"
   >
     <div class="flex items-center">
-      <h1 class="text-2xl font-bold text-gray-900">{APP_NAME}</h1>
+      <h1 class="text-2xl font-bold text-gray-900">
+        <a href="/">{APP_NAME}</a>
+      </h1>
     </div>
     <ul class="flex items-center space-x-4">
       <li>
@@ -17,12 +19,12 @@ import { APP_NAME } from "../constants/strings.ts";
       <li><a href="#" class="text-gray-600 hover:text-gray-900">Support</a></li>
     </ul>
     <div>
-      <button
-        class="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800"
+      <a
+        href="/signup"
+        class="cursor-pointer rounded-md bg-black px-4 py-2 text-white hover:bg-gray-800"
+        >Sign up</a
       >
-        Sign up
-      </button>
-      <button class="text-black px-4 py-2 rounded-md"> Log In </button> 
+      <button class="rounded-md px-4 py-2 text-black"> Log In </button>
     </div>
   </div>
 </nav>

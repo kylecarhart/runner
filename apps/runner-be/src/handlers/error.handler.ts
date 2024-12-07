@@ -1,4 +1,5 @@
 import type { ErrorHandler } from "hono";
+import { HTTPException } from "hono/http-exception";
 import { StatusCodes } from "http-status-codes";
 import { ZodError } from "zod";
 import { ApplicationError } from "../errors/ApplicationError.js";
@@ -9,6 +10,11 @@ import { HonoContext, HonoEnv } from "../index.js";
  * @returns Error middleware
  */
 export const errorHandler: () => ErrorHandler<HonoEnv> = () => (err, c) => {
+  // Handle HTTP Exception Errors
+  if (err instanceof HTTPException) {
+    return c.text(err.message, err.status);
+  }
+
   // Application specific error
   if (err instanceof ApplicationError) {
     return handleApplicationError(err, c);

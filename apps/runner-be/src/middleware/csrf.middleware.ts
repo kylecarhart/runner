@@ -9,8 +9,14 @@ import { env, isDevelopment } from "../utils/env.js";
  */
 export const csrfMiddleware = () =>
   createMiddleware<HonoEnv>((c, next) => {
+    const origins = [env().ALLOWED_ORIGIN];
+
+    if (isDevelopment()) {
+      origins.push("http://localhost:4321"); // Add localhost if not in production
+    }
+
     const csrfMiddleware = csrf({
-      ...(!isDevelopment() && { origin: env().ALLOWED_ORIGIN }), // Strict CSRF protection only in production
+      origin: origins, // Allow requests from the allowed origin
     });
 
     return csrfMiddleware(c, next);

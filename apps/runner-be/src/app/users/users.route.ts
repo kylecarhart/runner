@@ -3,8 +3,6 @@ import {
   ChangePasswordParamsSchema,
   ChangePasswordRequestSchema,
   ChangePasswordResponseSchema,
-  CreateUserRequestSchema,
-  CreateUserResponseSchema,
   DeleteUserParamsSchema,
   DeleteUserResponseSchema,
   GetUserParamsSchema,
@@ -19,7 +17,6 @@ import { contentJson } from "../../utils/openapi.js";
 import { data, pagination, success } from "../../utils/response.js";
 import {
   changePassword,
-  createUser,
   deleteUser,
   getAllUsers,
   getUserById,
@@ -29,29 +26,6 @@ import {
 const OPENAPI_TAG_USERS = "Users";
 
 export const usersApp = new OpenAPIHono<HonoEnv>()
-  /**
-   * Create a new user
-   */
-  .openapi(
-    createRoute({
-      method: "post",
-      path: "/",
-      summary: "Create a new user",
-      tags: [OPENAPI_TAG_USERS],
-      operationId: "createUser",
-      request: {
-        body: contentJson("The user to create", CreateUserRequestSchema),
-      },
-      responses: {
-        200: contentJson("Create a new user", CreateUserResponseSchema),
-      },
-    }),
-    async (c) => {
-      const createUserRequest = c.req.valid("json");
-      const newUser = await createUser(createUserRequest);
-      return data(c, 200, newUser);
-    },
-  )
   /**
    * Query users
    */

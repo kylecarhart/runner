@@ -1,1 +1,27 @@
-<h1>Signup</h1>
+---
+import SignUpForm from "../components/SignUpForm.tsx";
+import Layout from "../layouts/Layout.astro";
+
+function handleSubmit(event: Event) {
+  event.preventDefault();
+  console.log("Submit");
+}
+---
+
+<Layout title="Signup">
+  <div class="grid h-screen items-center justify-center bg-slate-50">
+    <div
+      class="rounded-md border border-gray-200 p-12 sm:w-[500px] sm:bg-white sm:shadow-sm"
+    >
+      <div>
+        <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">
+          Sign up
+        </h1>
+        <p class="mt-2 text-sm text-gray-500">
+          Create an account to get up and running.
+        </p>
+      </div>
+      <SignUpForm client:load />
+    </div>
+  </div>
+</Layout>

@@ -16,16 +16,12 @@ export const users = pgTable(
       username: c.text().notNull(),
       email: c.text().notNull(),
       password: c.text().notNull(),
-      dob: c.timestamp({ withTimezone: true, mode: "string" }).notNull(),
+      dob: c.timestamp({ withTimezone: true, mode: "string" }),
     }),
   (table) => [
-    {
-      /** @see https://orm.drizzle.team/learn/guides/unique-case-insensitive-email */
-      emailUniqueIndex: uniqueIndex(INDEX_UNIQUE_EMAIL).on(lower(table.email)),
-      usernameUniqueIndex: uniqueIndex(INDEX_UNIQUE_USERNAME).on(
-        lower(table.username),
-      ),
-    },
+    /** @see https://orm.drizzle.team/learn/guides/unique-case-insensitive-email */
+    uniqueIndex(INDEX_UNIQUE_EMAIL).on(lower(table.email)),
+    uniqueIndex(INDEX_UNIQUE_USERNAME).on(lower(table.username)),
   ],
 );
 
