@@ -1,0 +1,15 @@
+{
+  "name": "@runner/postmark",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "author": "Kyle Carhart",
+  "main": "src/index.ts",
+  "scripts": {
+    "generate": "npx @hey-api/openapi-ts -i src/server.yml -o src/client -c @hey-api/client-fetch"
+  },
+  "dependencies": {
+    "@hey-api/client-fetch": "^0.5.2"
+  }
+}
