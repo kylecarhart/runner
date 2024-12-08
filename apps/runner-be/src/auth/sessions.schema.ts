@@ -6,11 +6,11 @@ export const INDEX_UNIQUE_USERNAME = "users_username_unique";
 export const INDEX_UNIQUE_EMAIL = "users_email_unique";
 
 export const sessions = pgTable("sessions", (c) => ({
-  id: text("id").primaryKey(),
-  userId: uuid("userId")
+  id: text().primaryKey(),
+  userId: uuid()
     .notNull()
     .references(() => users.id),
-  expiresAt: timestamp("expiresAt", {
+  expiresAt: timestamp({
     withTimezone: true,
     mode: "date",
   }).notNull(),
