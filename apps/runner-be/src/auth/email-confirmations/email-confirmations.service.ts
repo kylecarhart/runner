@@ -94,17 +94,25 @@ export async function confirmEmail(
 ): Promise<boolean> {
   logger().debug("Confirming email", { email, code });
 
-  // Check if code is valid
+  // Get user with email confirmation
   const userWithEmailConfirmation = await db().query.users.findFirst({
     with: { emailConfirmation: true },
     where: eq(lower(users.email), email.toLowerCase()), // Email matches
     columns: { password: false }, // Exclude password
   });
 
-  // Code doesn't match or expired
+  // Check if user with email exists
+  if (!userWithEmailConfirmation) {
+    return false;
+  }
+
+  const { emailConfirmation, ...user } = userWithEmailConfirmation;
+
+  // Check if user is confirmed, confirmation code is wrong, or is expired
   if (
-    userWithEmailConfirmation?.emailConfirmation?.code !== code ||
-    userWithEmailConfirmation?.emailConfirmation?.expiresAt < new Date()
+    user.confirmedAt ||
+    emailConfirmation?.code !== code ||
+    emailConfirmation?.expiresAt < new Date()
   ) {
     return false;
   }
@@ -113,18 +121,13 @@ export async function confirmEmail(
     // Delete the email confirmation
     await tx
       .delete(emailConfirmations)
-      .where(
-        eq(
-          emailConfirmations.id,
-          userWithEmailConfirmation.emailConfirmation.id,
-        ),
-      );
+      .where(eq(emailConfirmations.id, emailConfirmation.id));
 
     // Update the user to be confirmed
     await tx
       .update(users)
       .set({ confirmedAt: new Date().toISOString() })
-      .where(eq(users.id, userWithEmailConfirmation.id));
+      .where(eq(users.id, user.id));
   });
 
   return true;

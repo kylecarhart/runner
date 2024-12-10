@@ -1,5 +1,5 @@
+import type { CreateUserRequest } from "@runner/api";
 import { useForm } from "react-hook-form";
-import type { CreateUserRequest } from "../../../../packages/api/src/user.ts";
 import { signup } from "../clients/v1Client.ts";
 
 export default function SignUpForm() {
@@ -14,7 +14,7 @@ export default function SignUpForm() {
       }
 
       // Handle successful signup here
-      window.location.href = "/";
+      window.location.href = `/confirm-email?email=${encodeURIComponent(data.email)}`;
     } catch (error) {
       console.error(error);
       // Handle error here
@@ -27,7 +27,7 @@ export default function SignUpForm() {
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
+        {/* <div className="grid grid-cols-2 gap-4">
           <div>
             <label htmlFor="firstName" className="block text-sm text-gray-500">
               First Name
@@ -50,6 +50,17 @@ export default function SignUpForm() {
               className="block w-full rounded-md border border-gray-300 p-2"
             />
           </div>
+        </div> */}
+        <div>
+          <label htmlFor="email" className="block text-sm text-gray-500">
+            Email
+          </label>
+          <input
+            {...register("email")}
+            type="email"
+            id="email"
+            className="block w-full rounded-md border border-gray-300 p-2"
+          />
         </div>
         <div>
           <label htmlFor="username" className="block text-sm text-gray-500">
@@ -59,17 +70,6 @@ export default function SignUpForm() {
             {...register("username")}
             type="text"
             id="username"
-            className="block w-full rounded-md border border-gray-300 p-2"
-          />
-        </div>
-        <div>
-          <label htmlFor="email" className="block text-sm text-gray-500">
-            Email
-          </label>
-          <input
-            {...register("email")}
-            type="email"
-            id="email"
             className="block w-full rounded-md border border-gray-300 p-2"
           />
         </div>

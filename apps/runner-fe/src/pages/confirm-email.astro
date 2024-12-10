@@ -1,5 +1,5 @@
 ---
-import SignUpForm from "../components/SignUpForm.tsx";
+import ConfirmEmailForm from "../components/ConfirmEmailForm.tsx";
 import Layout from "../layouts/Layout.astro";
 ---
 
@@ -10,13 +10,14 @@ import Layout from "../layouts/Layout.astro";
     >
       <div>
         <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">
-          Sign up
+          Confirm Email
         </h1>
         <p class="mt-2 text-sm text-gray-500">
-          Lets get you up and running! Fill out the form below to get started.
+          Confirm your email address to complete the signup process. Enter the
+          code sent to your email.
         </p>
       </div>
-      <SignUpForm client:load />
+      <ConfirmEmailForm client:load />
     </div>
   </div>
 </Layout>

@@ -10,6 +10,7 @@ export const updateUser = v1Client.users[":id"].$patch;
 
 /** Auth */
 export const signup = v1Client.auth["sign-up"].$post;
+export const confirmEmail = v1Client.auth["confirm-email"].$post;
 
 // export function getUser(id: string) {
 //   return v1Client.users[":id"].$get({ param: { id } });

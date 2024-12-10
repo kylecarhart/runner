@@ -1,8 +1,8 @@
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
 import {
+  ConfirmEmailRequestSchema,
   CreateUserRequestSchema,
   CreateUserResponseSchema,
-  EmailConfirmationRequestSchema,
 } from "@runner/api";
 import { HonoEnv } from "../index.js";
 import { contentJson } from "../utils/openapi.js";
@@ -119,7 +119,7 @@ export const authApp = new OpenAPIHono<HonoEnv>()
       request: {
         body: contentJson(
           "The email and code to confirm",
-          EmailConfirmationRequestSchema,
+          ConfirmEmailRequestSchema,
         ),
       },
       responses: {
