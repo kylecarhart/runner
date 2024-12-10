@@ -1,7 +1,7 @@
 import { generateRandomString } from "@oslojs/crypto/random";
 import { CreateUserRequest } from "@runner/api";
 import { eq } from "drizzle-orm";
-import { users } from "../../app/users/users.schema.js";
+import { User, users, withoutPassword } from "../../app/users/users.schema.js";
 import { findUniqueUser } from "../../app/users/users.service.js";
 import { db } from "../../database/db.js";
 import { sendEmailConfirmation } from "../../email/email.service.js";
@@ -18,7 +18,9 @@ const EXPIRATION_TIME = hours(1);
  * Initialize a user signup
  * @param createUserRequest User to sign up
  */
-export async function initUserSignup(createUserRequest: CreateUserRequest) {
+export async function initUserSignup(
+  createUserRequest: CreateUserRequest,
+): Promise<User> {
   const { email, username, password } = createUserRequest;
   logger().info("Initializing user signup", { username, email });
 
@@ -31,24 +33,24 @@ export async function initUserSignup(createUserRequest: CreateUserRequest) {
   }
 
   // Create user and email confirmation in a transaction
-  const userId = await db().transaction(async (tx) => {
+  const user = await db().transaction(async (tx) => {
     // Create user
     logger().debug("Creating user.", { email, username });
     const hashedPassword = await hashPassword(password);
-    const userId = (
+    const user = (
       await tx
         .insert(users)
         .values({ email, username, password: hashedPassword })
-        .returning({ id: users.id })
-    ).at(0)?.id;
+        .returning(withoutPassword)
+    ).at(0);
 
-    invariant(userId, "Failed to create user.");
+    invariant(user, "Failed to create user.");
 
     // Create code and insert into db
-    logger().debug("Creating email confirmation", { userId });
+    logger().debug("Creating email confirmation", { userId: user.id });
     const code = getRandomEmailConfirmationCode();
     await tx.insert(emailConfirmations).values({
-      userId,
+      userId: user.id,
       code,
       expiresAt: new Date(Date.now() + EXPIRATION_TIME),
     });
@@ -57,10 +59,11 @@ export async function initUserSignup(createUserRequest: CreateUserRequest) {
     logger().debug("Sending email confirmation", { email, code });
     await sendEmailConfirmation(email, code);
 
-    return userId;
+    return user;
   });
 
-  logger().info("User signed up.", { userId });
+  logger().info("User signed up.", { userId: user.id });
+  return user;
 }
 
 /**

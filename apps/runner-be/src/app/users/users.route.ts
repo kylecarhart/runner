@@ -4,7 +4,6 @@ import {
   ChangePasswordRequestSchema,
   ChangePasswordResponseSchema,
   DeleteUserParamsSchema,
-  DeleteUserResponseSchema,
   GetUserParamsSchema,
   GetUserResponseSchema,
   GetUsersResponseSchema,
@@ -47,7 +46,7 @@ export const usersApp = new OpenAPIHono<HonoEnv>()
       const params = c.req.valid("query");
       const { data: users, pagination: paginationData } =
         await getAllUsers(params);
-      return pagination(c, 200, users, paginationData);
+      return pagination(c, 200, users, GetUsersResponseSchema, paginationData);
     },
   )
   /**
@@ -70,7 +69,7 @@ export const usersApp = new OpenAPIHono<HonoEnv>()
     async (c) => {
       const { id } = c.req.valid("param");
       const user = await getUserById(id);
-      return data(c, 200, user);
+      return data(c, 200, user, GetUserResponseSchema);
     },
   )
   /**
@@ -95,7 +94,7 @@ export const usersApp = new OpenAPIHono<HonoEnv>()
       const { id } = c.req.valid("param");
       const updateUserRequest = c.req.valid("json");
       const updatedUser = await updateUser(id, updateUserRequest);
-      return data(c, 200, updatedUser);
+      return data(c, 200, updatedUser, GetUserResponseSchema);
     },
   )
   /**
@@ -112,7 +111,7 @@ export const usersApp = new OpenAPIHono<HonoEnv>()
         params: DeleteUserParamsSchema,
       },
       responses: {
-        200: contentJson("Delete a user", DeleteUserResponseSchema),
+        200: { description: "User deleted successfully" },
       },
     }),
     async (c) => {

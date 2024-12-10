@@ -1,10 +1,12 @@
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
 import {
   CreateUserRequestSchema,
+  CreateUserResponseSchema,
   EmailConfirmationRequestSchema,
 } from "@runner/api";
 import { HonoEnv } from "../index.js";
 import { contentJson } from "../utils/openapi.js";
+import { data } from "../utils/response.js";
 import { authenticateUser } from "./auth.service.js";
 import {
   confirmEmail,
@@ -91,9 +93,7 @@ export const authApp = new OpenAPIHono<HonoEnv>()
         body: contentJson("The user to create", CreateUserRequestSchema),
       },
       responses: {
-        200: {
-          description: "Create a new user",
-        },
+        201: contentJson("User created", CreateUserResponseSchema),
       },
     }),
     async (c) => {
@@ -101,10 +101,9 @@ export const authApp = new OpenAPIHono<HonoEnv>()
       const createUserRequest = c.req.valid("json");
 
       // Create email confirmation entry
-      await initUserSignup(createUserRequest);
+      const user = await initUserSignup(createUserRequest);
 
-      c.status(200);
-      return c.body("OK");
+      return data(c, 201, user, CreateUserResponseSchema);
     },
   )
   /**

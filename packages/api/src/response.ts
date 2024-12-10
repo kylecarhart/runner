@@ -14,6 +14,7 @@ export const SuccessResponseSchema = z
     success: z.literal(true),
     message: z.string().optional(),
   })
+  .strict()
   .openapi("SuccessResponse");
 
 export const ErrorResponseSchema = z.object({

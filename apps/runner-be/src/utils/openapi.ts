@@ -58,5 +58,5 @@ export function contentJson<T extends ZodSchema>(
         schema,
       },
     },
-  } satisfies ZodRequestBody & ResponseConfig;
+  } as const satisfies ZodRequestBody & ResponseConfig;
 }

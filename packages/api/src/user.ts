@@ -56,7 +56,8 @@ export const SelectUserSchema = z.object({
     .email("Email is not valid")
     .openapi({ example: "kyle@example.com" }),
   password: PasswordSchema.openapi({ example: "!Password123" }),
-  dob: z.string().datetime().nullable(),
+  dob: z.string().nullable(),
+  confirmedAt: z.string().nullable(),
   createdAt: z.string(),
   updatedAt: z.string(),
 });
@@ -85,9 +86,7 @@ export const GetUsersResponseSchema = withPaginationSchema(
 ).openapi("GetUsersResponse");
 
 /**
- * Create a new user
- * TODO: All we need is an username, email, and password, user will finish
- * setting up their profile later.
+ * Create a basic, unconfirmed user
  */
 export const CreateUserRequestSchema = SelectUserSchema.pick({
   username: true,
