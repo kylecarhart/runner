@@ -1,5 +1,6 @@
-import { getTableColumns, type InferSelectModel } from "drizzle-orm";
+import { getTableColumns, relations, type InferSelectModel } from "drizzle-orm";
 import { pgTable, uniqueIndex } from "drizzle-orm/pg-core";
+import { emailConfirmations } from "../../auth/email-confirmations/email-confirmations.schema.js";
 import { withBaseSchema } from "../../database/base.schema.js";
 import { ConstraintError } from "../../errors/ConstraintError.js";
 import { lower } from "../../utils/drizzle.js";
@@ -11,12 +12,13 @@ export const users = pgTable(
   "users",
   (c) =>
     withBaseSchema({
-      firstName: c.text().notNull(),
-      lastName: c.text().notNull(),
+      firstName: c.text(),
+      lastName: c.text(),
       username: c.text().notNull(),
       email: c.text().notNull(),
       password: c.text().notNull(),
       dob: c.timestamp({ withTimezone: true, mode: "string" }),
+      confirmedAt: c.timestamp({ withTimezone: true, mode: "string" }),
     }),
   (table) => [
     /** @see https://orm.drizzle.team/learn/guides/unique-case-insensitive-email */
@@ -24,6 +26,13 @@ export const users = pgTable(
     uniqueIndex(INDEX_UNIQUE_USERNAME).on(lower(table.username)),
   ],
 );
+
+export const usersRelations = relations(users, ({ one }) => ({
+  emailConfirmation: one(emailConfirmations, {
+    fields: [users.id],
+    references: [emailConfirmations.userId],
+  }),
+}));
 
 /**
  * A helper that excludes the password field from user queries. Used with

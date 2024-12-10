@@ -34,11 +34,13 @@ export const SelectUserSchema = z.object({
     .string()
     .min(1, "First name is required")
     .max(64)
+    .nullable()
     .openapi({ example: "Kyle" }),
   lastName: z
     .string()
     .min(1, "Last name is required")
     .max(64)
+    .nullable()
     .openapi({ example: "Carhart" }),
   username: z
     .string()
@@ -60,7 +62,7 @@ export const SelectUserSchema = z.object({
 });
 
 /**
- * IMPORTANT: We never want to return the password.
+ * ! IMPORTANT: We never want to return the password.
  */
 export const UserSchema = SelectUserSchema.omit({
   password: true,
@@ -84,12 +86,10 @@ export const GetUsersResponseSchema = withPaginationSchema(
 
 /**
  * Create a new user
- * TODO: All we need is an email and password, user will finish setting up
- * their profile later.
+ * TODO: All we need is an username, email, and password, user will finish
+ * setting up their profile later.
  */
 export const CreateUserRequestSchema = SelectUserSchema.pick({
-  firstName: true,
-  lastName: true,
   username: true,
   email: true,
   password: true,

@@ -55,7 +55,7 @@ export class Logger {
     data: Record<string, unknown>,
   ): string {
     const time = new Date().toISOString();
-    const levelPadded = level.toUpperCase().padEnd(5);
+    const levelPadded = level.toUpperCase();
     const dataStr = Object.keys(data).length
       ? `\n${JSON.stringify(data, null, 2)}`
       : "";

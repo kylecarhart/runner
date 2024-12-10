@@ -1,11 +1,15 @@
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
-import { CreateUserRequestSchema } from "@runner/api";
-import { createUser } from "../app/users/users.service.js";
-import { sendEmailConfirmation } from "../email/email.service.js";
+import {
+  CreateUserRequestSchema,
+  EmailConfirmationRequestSchema,
+} from "@runner/api";
 import { HonoEnv } from "../index.js";
 import { contentJson } from "../utils/openapi.js";
-import { data } from "../utils/response.js";
 import { authenticateUser } from "./auth.service.js";
+import {
+  confirmEmail,
+  initUserSignup,
+} from "./email-confirmations/email-confirmations.service.js";
 import {
   createSession,
   generateSessionToken,
@@ -93,15 +97,49 @@ export const authApp = new OpenAPIHono<HonoEnv>()
       },
     }),
     async (c) => {
+      // TODO: Rate limit
       const createUserRequest = c.req.valid("json");
 
-      // Eventually we should send a confirmation email to the user
-      const newUser = await createUser(createUserRequest);
-      const res = await sendEmailConfirmation(
-        createUserRequest.email,
-        "123456",
-      );
+      // Create email confirmation entry
+      await initUserSignup(createUserRequest);
 
-      return data(c, 200, newUser);
+      c.status(200);
+      return c.body("OK");
+    },
+  )
+  /**
+   * Confirm email
+   */
+  .openapi(
+    createRoute({
+      method: "post",
+      path: "/confirm-email",
+      summary: "Confirm an email",
+      tags: [OPENAPI_TAG_AUTH],
+      operationId: "confirmEmail",
+      request: {
+        body: contentJson(
+          "The email and code to confirm",
+          EmailConfirmationRequestSchema,
+        ),
+      },
+      responses: {
+        200: {
+          description: "Email confirmed.",
+        },
+      },
+    }),
+    async (c) => {
+      // TODO: Rate limit
+      const { email, code } = c.req.valid("json");
+
+      // Confirm email
+      const isEmailConfirmed = await confirmEmail(email, code);
+      if (!isEmailConfirmed) {
+        return c.json({ error: "Invalid email or code" }, 400);
+      }
+
+      c.status(200);
+      return c.body("OK");
     },
   );

@@ -1,6 +1,6 @@
 import { Postmark } from "@runner/postmark";
 import { APP_NAME } from "@runner/utils";
-import { env } from "../utils/env.js";
+import { env, isDevelopment } from "../utils/env.js";
 import { logger } from "../utils/logger.js";
 
 const FROM_EMAIL = "noreply@carhart.dev";
@@ -15,7 +15,17 @@ const FROM_EMAIL = "noreply@carhart.dev";
 export async function sendEmailConfirmation(
   email: string,
   code: string,
-): Promise<boolean> {
+): Promise<void> {
+  // Skip sending emails in development
+  if (isDevelopment()) {
+    return logger().debug(
+      "Skipping sending email confirmation in development...",
+      { email, code },
+    );
+  }
+
+  logger().info("Sending email confirmation", { email, code });
+
   const res = await Postmark.sendEmailWithTemplate({
     headers: {
       "X-Postmark-Server-Token": env().POSTMARK_SERVER_TOKEN,
@@ -37,8 +47,8 @@ export async function sendEmailConfirmation(
     logger().error("Failed to send email confirmation", {
       error: res.error,
     });
-    return false;
+    throw res.error;
   }
 
-  return true;
+  logger().info("Email confirmation sent", { email });
 }
