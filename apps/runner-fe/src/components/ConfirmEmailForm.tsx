@@ -78,6 +78,15 @@ export default function ConfirmEmailForm() {
         {isSubmitting ? "Confirming Email..." : "Confirm Email"}
         {isSubmitting && <LoaderCircle className="w-4 h-4 animate-spin" />}
       </button>
+      <p className="text-sm text-gray-500 text-center">
+        If you don't receive the email, please check your spam folder, <br />
+        or{" "}
+        <a href="#" className="font-bold">
+          {/* TODO: Add a resend email button */}
+          click here
+        </a>{" "}
+        to resend the email.
+      </p>
     </form>
   );
 }
