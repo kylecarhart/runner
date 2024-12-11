@@ -18,7 +18,7 @@ export async function sendEmailConfirmation(
 ): Promise<void> {
   // Skip sending emails in development
   if (isDevelopment()) {
-    return logger().debug(
+    return logger().info(
       "Skipping sending email confirmation in development...",
       { email, code },
     );

@@ -22,7 +22,7 @@ export async function initUserSignup(
   createUserRequest: CreateUserRequest,
 ): Promise<User> {
   const { email, username, password } = createUserRequest;
-  logger().info("Initializing user signup", { username, email });
+  logger().info("Initializing user signup.", { username, email });
 
   // Check if email or username is already taken
   const uniqueUser = await findUniqueUser({ email, username });
@@ -47,7 +47,7 @@ export async function initUserSignup(
     invariant(user, "Failed to create user.");
 
     // Create code and insert into db
-    logger().debug("Creating email confirmation", { userId: user.id });
+    logger().debug("Creating email confirmation.", { userId: user.id });
     const code = getRandomEmailConfirmationCode();
     await tx.insert(emailConfirmations).values({
       userId: user.id,
@@ -56,13 +56,15 @@ export async function initUserSignup(
     });
 
     // Send the confirmation email
-    logger().debug("Sending email confirmation", { email, code });
+    logger().debug("Sending email confirmation.", { email, code });
     await sendEmailConfirmation(email, code);
 
     return user;
   });
 
-  logger().info("User signed up.", { userId: user.id });
+  logger().info("User created and confirmation email sent successfully.", {
+    userId: user.id,
+  });
   return user;
 }
 
