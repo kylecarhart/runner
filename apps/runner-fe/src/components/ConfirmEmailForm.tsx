@@ -1,27 +1,42 @@
-import type { ConfirmEmailRequest } from "@runner/api";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  ConfirmEmailRequestSchema,
+  type ConfirmEmailRequest,
+} from "@runner/api/src/index.js";
+import { LoaderCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { confirmEmail } from "../clients/v1Client.ts";
 
-export default function ConfirmEmailForm() {
-  const { register, handleSubmit } = useForm<ConfirmEmailRequest>();
-  const email = new URLSearchParams(document.location.search).get("email");
+interface Props {
+  email: string;
+}
 
+export default function ConfirmEmailForm() {
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm<ConfirmEmailRequest>({
+    resolver: zodResolver(ConfirmEmailRequestSchema),
+  });
+
+  const email = new URLSearchParams(document.location.search).get("email");
   if (!email) {
-    return <div>No email provided</div>;
+    return (window.location.href = "/signup");
   }
 
   const onSubmit = async (data: ConfirmEmailRequest) => {
     try {
       const response = await confirmEmail({ json: data });
-
       if (!response.ok) {
-        throw new Error("Email confirmation failed");
+        throw response;
       }
-
-      console.log(response);
     } catch (error) {
-      console.error(error);
-      // Handle error here
+      setError("root.serverError", {
+        type: "400",
+        message: "Failed to confirm email. Please try again.",
+      });
     }
   };
 
@@ -48,13 +63,23 @@ export default function ConfirmEmailForm() {
             id="code"
             className="block w-full rounded-md border border-gray-300 p-2"
           />
+          {errors.code?.message && (
+            <p className="text-red-500 text-sm">{errors.code?.message}.</p>
+          )}
+          {errors.root?.serverError && (
+            <p className="text-red-500 text-sm">
+              {errors.root?.serverError?.message}
+            </p>
+          )}
         </div>
       </div>
+
       <button
         type="submit"
-        className="rounded-md bg-black px-4 py-2 text-white"
+        className="rounded-md bg-black px-4 py-2 text-white flex items-center justify-center gap-2"
       >
-        Confirm Email
+        {isSubmitting ? "Confirming Email..." : "Confirm Email"}
+        {isSubmitting && <LoaderCircle className="w-4 h-4 animate-spin" />}
       </button>
     </form>
   );
