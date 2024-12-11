@@ -1,9 +1,9 @@
-import { z } from "zod";
 import {
   SuccessResponseSchema,
   withPaginationSchema,
   withSuccessSchema,
 } from "./response.js";
+import { z } from "./zod.js";
 
 /**
  * Password schema
