@@ -5,9 +5,7 @@ import Layout from "../layouts/Layout.astro";
 
 <Layout title="Signup">
   <div class="grid h-screen items-center justify-center bg-slate-50">
-    <div
-      class="rounded-xl border border-gray-200 p-12 sm:w-[500px] sm:bg-white sm:shadow-sm"
-    >
+    <div class="max-w-[500px] p-12">
       <div>
         <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">
           Sign up
@@ -16,7 +14,10 @@ import Layout from "../layouts/Layout.astro";
           Lets get you up and running! Fill out the form below to get started.
         </p>
       </div>
-      <SignUpForm client:load />
+      <SignUpForm client:only="react" />
+      <p class="mt-8 text-center text-sm text-gray-500">
+        Already have an account? <a href="/login" class="font-bold">Login</a>
+      </p>
     </div>
   </div>
 </Layout>

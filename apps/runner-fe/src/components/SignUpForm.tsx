@@ -26,31 +26,7 @@ export default function SignUpForm() {
       className="mt-4 flex flex-col space-y-8"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <div className="space-y-4">
-        {/* <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label htmlFor="firstName" className="block text-sm text-gray-500">
-              First Name
-            </label>
-            <input
-              {...register("firstName")}
-              type="text"
-              id="firstName"
-              className="block w-full rounded-md border border-gray-300 p-2"
-            />
-          </div>
-          <div>
-            <label htmlFor="lastName" className="block text-sm text-gray-500">
-              Last Name
-            </label>
-            <input
-              {...register("lastName")}
-              type="text"
-              id="lastName"
-              className="block w-full rounded-md border border-gray-300 p-2"
-            />
-          </div>
-        </div> */}
+      <div className="space-y-2">
         <div>
           <label htmlFor="email" className="block text-sm text-gray-500">
             Email
@@ -59,7 +35,7 @@ export default function SignUpForm() {
             {...register("email")}
             type="email"
             id="email"
-            className="block w-full rounded-md border border-gray-300 p-2"
+            className="block w-full bg-transparent rounded-md border border-gray-300 p-2"
           />
         </div>
         <div>
@@ -70,7 +46,7 @@ export default function SignUpForm() {
             {...register("username")}
             type="text"
             id="username"
-            className="block w-full rounded-md border border-gray-300 p-2"
+            className="block w-full bg-transparent rounded-md border border-gray-300 p-2"
           />
         </div>
         <div>
@@ -81,7 +57,7 @@ export default function SignUpForm() {
             {...register("password")}
             type="password"
             id="password"
-            className="block w-full rounded-md border border-gray-300 p-2"
+            className="block w-full bg-transparent rounded-md border border-gray-300 p-2"
           />
         </div>
       </div>

@@ -7,10 +7,6 @@ import { LoaderCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { confirmEmail } from "../clients/v1Client.ts";
 
-interface Props {
-  email: string;
-}
-
 export default function ConfirmEmailForm() {
   const {
     register,
@@ -45,7 +41,7 @@ export default function ConfirmEmailForm() {
       className="mt-4 flex flex-col space-y-8"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <div className="space-y-4">
+      <div className="space-y-2">
         <div>
           <input
             {...register("email")}
@@ -61,7 +57,7 @@ export default function ConfirmEmailForm() {
             {...register("code")}
             type="text"
             id="code"
-            className="block w-full rounded-md border border-gray-300 p-2"
+            className="block w-full bg-transparent rounded-md border border-gray-300 p-2"
           />
           {errors.code?.message && (
             <p className="text-red-500 text-sm">{errors.code?.message}.</p>
