@@ -57,6 +57,7 @@
     "cross-env": "^7.0.3",
     "drizzle-kit": "^0.29.1",
     "eslint": "9.15.0",
+    "kleur": "^4.1.5",
     "lint-staged": "^15.2.10",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
