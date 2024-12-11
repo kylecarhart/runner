@@ -72,7 +72,8 @@ export default function ConfirmEmailForm() {
 
       <button
         type="submit"
-        className="rounded-md bg-black px-4 py-2 text-white flex items-center justify-center gap-2"
+        disabled={isSubmitting}
+        className="rounded-md bg-black px-4 py-2 text-white flex items-center justify-center gap-2 disabled:opacity-50"
       >
         {isSubmitting ? "Confirming Email..." : "Confirm Email"}
         {isSubmitting && <LoaderCircle className="w-4 h-4 animate-spin" />}

@@ -1,9 +1,18 @@
-import type { CreateUserRequest } from "@runner/api";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CreateUserRequestSchema, type CreateUserRequest } from "@runner/api";
+import { LoaderCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { signup } from "../clients/v1Client.ts";
 
 export default function SignUpForm() {
-  const { register, handleSubmit } = useForm<CreateUserRequest>();
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm<CreateUserRequest>({
+    resolver: zodResolver(CreateUserRequestSchema),
+  });
 
   const onSubmit = async (data: CreateUserRequest) => {
     try {
@@ -13,11 +22,12 @@ export default function SignUpForm() {
         throw new Error("Signup failed");
       }
 
-      // Handle successful signup here
       window.location.href = `/confirm-email?email=${encodeURIComponent(data.email)}`;
     } catch (error) {
-      console.error(error);
-      // Handle error here
+      setError("root.serverError", {
+        type: "400",
+        message: "Failed to sign up. Please try again.",
+      });
     }
   };
 
@@ -37,6 +47,9 @@ export default function SignUpForm() {
             id="email"
             className="block w-full bg-transparent rounded-md border border-gray-300 p-2"
           />
+          {errors.email && (
+            <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
+          )}
         </div>
         <div>
           <label htmlFor="username" className="block text-sm text-gray-500">
@@ -48,6 +61,11 @@ export default function SignUpForm() {
             id="username"
             className="block w-full bg-transparent rounded-md border border-gray-300 p-2"
           />
+          {errors.username && (
+            <p className="mt-1 text-sm text-red-500">
+              {errors.username.message}
+            </p>
+          )}
         </div>
         <div>
           <label htmlFor="password" className="block text-sm text-gray-500">
@@ -59,13 +77,26 @@ export default function SignUpForm() {
             id="password"
             className="block w-full bg-transparent rounded-md border border-gray-300 p-2"
           />
+          {errors.password && (
+            <p className="mt-1 text-sm text-red-500">
+              {errors.password.message}
+            </p>
+          )}
         </div>
+        {errors.root?.serverError && (
+          <p className="mt-1 text-sm text-red-500">
+            {errors.root.serverError.message}
+          </p>
+        )}
       </div>
+
       <button
         type="submit"
-        className="rounded-md bg-black px-4 py-2 text-white"
+        disabled={isSubmitting}
+        className="rounded-md bg-black px-4 py-2 text-white flex items-center justify-center gap-2 disabled:opacity-50"
       >
-        Sign up
+        {isSubmitting ? "Signing up..." : "Sign up"}
+        {isSubmitting && <LoaderCircle className="h-4 w-4 animate-spin" />}
       </button>
     </form>
   );
