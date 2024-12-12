@@ -28,6 +28,7 @@ export function generateSessionToken(): string {
  * Creates a new session for a user.
  * The session token is hashed using SHA-256 to create the session ID.
  * The session expires after 30 days.
+ * TODO: Eventually move to Redis!
  * @param token - The session token to associate with this session
  * @param userId - The ID of the user this session belongs to
  * @returns The created session object

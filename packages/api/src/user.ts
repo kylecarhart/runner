@@ -136,3 +136,12 @@ export const ChangePasswordResponseSchema = SuccessResponseSchema;
  */
 export const DeleteUserParamsSchema = SelectUserSchema.pick({ id: true });
 export const DeleteUserResponseSchema = SuccessResponseSchema;
+
+/**
+ * Login
+ */
+export const LoginRequestSchema = z.object({
+  email: z.string().email(),
+  password: z.string(),
+});
+export type LoginRequest = z.infer<typeof LoginRequestSchema>;

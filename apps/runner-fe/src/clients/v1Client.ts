@@ -1,7 +1,11 @@
 import type { AppType } from "@runner/runner-be";
 import { hc } from "hono/client";
 
-export const v1Client = hc<AppType>(import.meta.env.PUBLIC_API_URL).api.v1;
+export const v1Client = hc<AppType>(import.meta.env.PUBLIC_API_URL, {
+  init: {
+    credentials: "include", // Include cookies in all requests
+  },
+}).api.v1;
 
 /** Users */
 export const getUser = v1Client.users[":id"].$get;
@@ -9,7 +13,8 @@ export const getUsers = v1Client.users.$get;
 export const updateUser = v1Client.users[":id"].$patch;
 
 /** Auth */
-export const signup = v1Client.auth["sign-up"].$post;
+export const signup = v1Client.auth.signup.$post;
+export const login = v1Client.auth.login.$post;
 export const confirmEmail = v1Client.auth["confirm-email"].$post;
 
 // export function getUser(id: string) {

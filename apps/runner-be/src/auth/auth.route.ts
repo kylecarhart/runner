@@ -1,8 +1,9 @@
-import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
+import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
 import {
   ConfirmEmailRequestSchema,
   CreateUserRequestSchema,
   CreateUserResponseSchema,
+  LoginRequestSchema,
 } from "@runner/api";
 import { HonoEnv } from "../index.js";
 import { contentJson } from "../utils/openapi.js";
@@ -27,29 +28,16 @@ export const authApp = new OpenAPIHono<HonoEnv>()
   .openapi(
     createRoute({
       method: "post",
-      path: "/sign-in",
-      summary: "",
+      path: "/login",
+      summary: "Login",
       tags: [OPENAPI_TAG_AUTH],
+      operationId: "login",
       request: {
-        body: contentJson(
-          "Sign in",
-          z.object({
-            email: z.string().email(),
-            password: z.string(),
-          }),
-        ),
+        body: contentJson("Login", LoginRequestSchema),
       },
       responses: {
         200: {
-          description: "Sign in",
-          content: {
-            "application/json": {
-              schema: z.object({
-                email: z.string().email(),
-                password: z.string(),
-              }),
-            },
-          },
+          description: "User logged in successfully",
         },
         401: {
           description: "Unauthorized",
@@ -58,7 +46,7 @@ export const authApp = new OpenAPIHono<HonoEnv>()
     }),
     async (c) => {
       if (c.var.user) {
-        return c.json({ error: "Already signed in" }, 400);
+        return c.json({ error: "Already logged in" }, 400);
       }
 
       const { email, password } = c.req.valid("json");
@@ -76,7 +64,7 @@ export const authApp = new OpenAPIHono<HonoEnv>()
       // Set session cookie
       setSessionCookie(c, token, session);
 
-      return c.body("yup");
+      return c.body("OK");
     },
   )
   /**
@@ -85,15 +73,15 @@ export const authApp = new OpenAPIHono<HonoEnv>()
   .openapi(
     createRoute({
       method: "post",
-      path: "/sign-up",
-      summary: "Create a new user",
+      path: "/signup",
+      summary: "Sign up a new user",
       tags: [OPENAPI_TAG_AUTH],
-      operationId: "createUser",
+      operationId: "signup",
       request: {
-        body: contentJson("The user to create", CreateUserRequestSchema),
+        body: contentJson("The user to sign up", CreateUserRequestSchema),
       },
       responses: {
-        201: contentJson("User created", CreateUserResponseSchema),
+        201: contentJson("Signed up successfully", CreateUserResponseSchema),
       },
     }),
     async (c) => {

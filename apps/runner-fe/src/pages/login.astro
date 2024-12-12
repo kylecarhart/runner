@@ -1,22 +1,22 @@
 ---
-import SignUpForm from "../components/SignUpForm.tsx";
+import LoginForm from "../components/LoginForm.tsx";
 import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout title="Signup">
+<Layout title="Login">
   <div class="flex h-screen items-center justify-center bg-slate-50">
     <div class="mb-[10vh] w-[400px] p-12">
       <div>
         <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">
-          Sign up
+          Login
         </h1>
         <p class="mt-2 text-sm text-gray-500">
-          Lets get you up and running! Fill out the form below to get started.
+          Login to your account to get started.
         </p>
       </div>
-      <SignUpForm client:only="react" />
+      <LoginForm client:only="react" />
       <p class="mt-8 text-center text-sm text-gray-500">
-        Already have an account? <a href="/login" class="font-bold">Login</a>
+        Don't have an account? <a href="/signup" class="font-bold">Sign up!</a>
       </p>
     </div>
   </div>
