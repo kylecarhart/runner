@@ -19,11 +19,12 @@ export default function SignUpForm() {
       const response = await signup({ json: data });
 
       if (!response.ok) {
-        throw new Error("Signup failed");
+        throw response;
       }
 
       window.location.href = `/confirm-email?email=${encodeURIComponent(data.email)}`;
     } catch (error) {
+      // TODO: Handle username or email already taken
       setError("root.serverError", {
         type: "400",
         message: "Failed to sign up. Please try again.",

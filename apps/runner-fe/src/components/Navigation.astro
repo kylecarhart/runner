@@ -1,5 +1,29 @@
 ---
+export const prerender = false;
+import type { User } from "@runner/api";
 import { APP_NAME } from "@runner/utils";
+import { getProfile } from "../clients/v1Client.ts";
+
+const userSession = Astro.cookies.get("session");
+console.log(userSession);
+
+let profile: User | undefined;
+if (userSession) {
+  const res = await getProfile(
+    {},
+    {
+      init: {
+        headers: {
+          cookie: `session=${userSession.value}`,
+        },
+      },
+    },
+  );
+
+  if (res.ok) {
+    profile = (await res.json()).data;
+  }
+}
 ---
 
 <nav class="sticky top-0 z-50 border-b bg-white/90 backdrop-blur-md">
@@ -25,6 +49,7 @@ import { APP_NAME } from "@runner/utils";
         >Sign up</a
       >
       <a href="/login" class="rounded-md px-4 py-2 text-black">Log In</a>
+      <span>{profile?.firstName}</span>
     </div>
   </div>
 </nav>

@@ -70,6 +70,7 @@ export const UserSchema = SelectUserSchema.omit({
 })
   .strict()
   .openapi("User");
+export type User = z.infer<typeof UserSchema>;
 
 /**
  * Get a single user

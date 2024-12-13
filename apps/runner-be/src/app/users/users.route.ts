@@ -50,6 +50,36 @@ export const usersApp = new OpenAPIHono<HonoEnv>()
     },
   )
   /**
+   * Get current user's profile.
+   * NOTE: This must come before the get user by slug route.
+   */
+  .openapi(
+    createRoute({
+      method: "get",
+      path: "/profile",
+      summary: "Get the current user's profile",
+      tags: [OPENAPI_TAG_USERS],
+      operationId: "getProfile",
+      responses: {
+        200: contentJson(
+          "Get the current user's profile",
+          GetUserResponseSchema,
+        ),
+        401: { description: "Unauthorized" },
+      },
+    }),
+    async (c) => {
+      const user = c.get("user");
+      console.log(user);
+
+      if (!user) {
+        return new Response("Unauthorized", { status: 401 });
+      }
+
+      return data(c, 200, user, GetUserResponseSchema);
+    },
+  )
+  /**
    * Get a user by ID
    */
   .openapi(

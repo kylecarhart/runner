@@ -1,6 +1,9 @@
 import type { AppType } from "@runner/runner-be";
 import { hc } from "hono/client";
 
+// TODO: I want to be be able to pass any cookies along if SSR
+// https://github.com/withastro/roadmap/discussions/190#discussioncomment-8911086
+// https://www.npmjs.com/package/astro-global
 export const v1Client = hc<AppType>(import.meta.env.PUBLIC_API_URL, {
   init: {
     credentials: "include", // Include cookies in all requests
@@ -11,6 +14,7 @@ export const v1Client = hc<AppType>(import.meta.env.PUBLIC_API_URL, {
 export const getUser = v1Client.users[":id"].$get;
 export const getUsers = v1Client.users.$get;
 export const updateUser = v1Client.users[":id"].$patch;
+export const getProfile = v1Client.users.profile.$get;
 
 /** Auth */
 export const signup = v1Client.auth.signup.$post;

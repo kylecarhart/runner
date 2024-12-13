@@ -8,13 +8,15 @@ import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="Welcome to Astro.">
-  <div class="flex flex-col min-h-screen">
-    <Navigation />
-    <div class="flex flex-col flex-1">
+  <div class="flex min-h-screen flex-col">
+    <Navigation server:defer>
+      <div>Put something here</div>
+    </Navigation>
+    <div class="flex flex-1 flex-col">
       <Hero />
       <!-- Call to Action Grid -->
-      <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 flex-1">
-        <div class="grid md:grid-cols-3 gap-8">
+      <main class="mx-auto max-w-7xl flex-1 px-4 py-16 sm:px-6 lg:px-8">
+        <div class="grid gap-8 md:grid-cols-3">
           <!-- Runner Race Search -->
           <Card
             title="Find Races"
@@ -22,7 +24,7 @@ import Layout from "../layouts/Layout.astro";
             cta="Search Races"
             color="blue"
           >
-            <Search slot="icon" class="w-10 h-10 text-blue-600" />
+            <Search slot="icon" class="h-10 w-10 text-blue-600" />
           </Card>
 
           <!-- Event Coordinator Create Event -->
@@ -32,7 +34,7 @@ import Layout from "../layouts/Layout.astro";
             cta="Create an Event"
             color="green"
           >
-            <CalendarPlus slot="icon" class="w-10 h-10 text-green-600" />
+            <CalendarPlus slot="icon" class="h-10 w-10 text-green-600" />
           </Card>
 
           <!-- Local Running Groups -->
@@ -42,7 +44,7 @@ import Layout from "../layouts/Layout.astro";
             cta="Find Groups"
             color="purple"
           >
-            <UsersRound slot="icon" class="w-10 h-10 text-purple-600" />
+            <UsersRound slot="icon" class="h-10 w-10 text-purple-600" />
           </Card>
         </div>
       </main>
