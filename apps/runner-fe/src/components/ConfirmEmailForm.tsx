@@ -4,6 +4,7 @@ import {
   type ConfirmEmailRequest,
 } from "@runner/api/src/index.js";
 import { LoaderCircle } from "lucide-react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { confirmEmail } from "../clients/v1Client.ts";
 
@@ -12,15 +13,25 @@ export default function ConfirmEmailForm() {
     register,
     handleSubmit,
     setError,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<ConfirmEmailRequest>({
+    defaultValues: {
+      email: "",
+      code: "",
+    },
     resolver: zodResolver(ConfirmEmailRequestSchema),
   });
 
-  const email = new URLSearchParams(document.location.search).get("email");
-  if (!email) {
-    return (window.location.href = "/signup");
-  }
+  // Redirect to signup if no email is provided
+  useEffect(() => {
+    const email = new URLSearchParams(document.location.search).get("email");
+    if (email === null) {
+      window.location.href = "/signup";
+      return;
+    }
+    setValue("email", email);
+  }, []);
 
   const onSubmit = async (data: ConfirmEmailRequest) => {
     try {
@@ -28,6 +39,7 @@ export default function ConfirmEmailForm() {
       if (!response.ok) {
         throw response;
       }
+      window.location.href = "/";
     } catch (error) {
       setError("root.serverError", {
         type: "400",
@@ -47,7 +59,6 @@ export default function ConfirmEmailForm() {
             {...register("email")}
             type="text"
             id="email"
-            value={email}
             className="hidden"
           />
           <label htmlFor="code" className="block text-sm text-gray-500">

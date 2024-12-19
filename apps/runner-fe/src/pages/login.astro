@@ -1,23 +1,19 @@
 ---
 import LoginForm from "../components/LoginForm.tsx";
-import Layout from "../layouts/Layout.astro";
+import AuthLayout from "../layouts/AuthLayout.astro";
 ---
 
-<Layout title="Login">
-  <div class="flex h-screen items-center justify-center bg-slate-50">
-    <div class="mb-[10vh] w-[400px] p-12">
-      <div>
-        <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">
-          Login
-        </h1>
-        <p class="mt-2 text-sm text-gray-500">
-          Login to your account to get started.
-        </p>
-      </div>
-      <LoginForm client:only="react" />
-      <p class="mt-8 text-center text-sm text-gray-500">
-        Don't have an account? <a href="/signup" class="font-bold">Sign up!</a>
-      </p>
-    </div>
+<AuthLayout title="Login">
+  <div>
+    <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">
+      Login
+    </h1>
+    <p class="mt-2 text-sm text-gray-500">
+      Login to your account to get started.
+    </p>
   </div>
+  <LoginForm client:load />
+  <p class="mt-8 text-center text-sm text-gray-500">
+    Don't have an account? <a href="/signup" class="font-bold">Sign up!</a>
+  </p>
 </Layout>

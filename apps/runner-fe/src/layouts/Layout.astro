@@ -3,9 +3,10 @@ import { APP_NAME } from '@runner/utils';
 
 interface Props {
   title: string | null;
+  bodyClass?: string;
 }
 
-const { title } = Astro.props;
+const { title, bodyClass } = Astro.props;
 ---
 
 <!doctype html>
@@ -18,7 +19,7 @@ const { title } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <title>{title ? `${title} | ${APP_NAME}` : APP_NAME}</title>
   </head>
-  <body>
+  <body class={bodyClass}>
     <slot />
   </body>
 </html>

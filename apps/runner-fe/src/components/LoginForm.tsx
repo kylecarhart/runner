@@ -21,8 +21,7 @@ export default function LoginForm() {
       if (!response.ok) {
         throw new Error("Login failed");
       }
-
-      console.log("Successfully logged in", response);
+      window.location.href = "/";
     } catch (error) {
       setError("root.serverError", {
         type: "400",

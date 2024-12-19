@@ -1,21 +1,17 @@
 ---
 import ConfirmEmailForm from "../components/ConfirmEmailForm.tsx";
-import Layout from "../layouts/Layout.astro";
+import AuthLayout from "../layouts/AuthLayout.astro";
 ---
 
-<Layout title="Confirm Email">
-  <div class="grid h-screen items-center justify-center bg-slate-50">
-    <div class="mb-[10vh] w-[400px] p-12">
-      <div>
-        <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">
-          Confirm Email
-        </h1>
-        <p class="mt-2 text-sm text-gray-500">
-          Confirm your email address to complete the signup process. Enter the
-          code sent to your email.
-        </p>
-      </div>
-      <ConfirmEmailForm client:only="react" />
-    </div>
+<AuthLayout title="Confirm Email">
+  <div>
+    <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">
+      Confirm Email
+    </h1>
+    <p class="mt-2 text-sm text-gray-500">
+      Confirm your email address to complete the signup process. Enter the code
+      sent to your email.
+    </p>
   </div>
-</Layout>
+  <ConfirmEmailForm client:load />
+</AuthLayout>
