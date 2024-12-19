@@ -2,9 +2,6 @@
   "name": "@runner/runner-fe",
   "version": "1.0.0",
   "author": "Kyle Carhart",
-  "sideEffects": [
-    "@runner/api/src/index.ts"
-  ],
   "type": "module",
   "scripts": {
     "astro": "astro",
