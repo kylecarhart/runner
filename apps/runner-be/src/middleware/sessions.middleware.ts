@@ -2,7 +2,6 @@ import { createMiddleware } from "hono/factory";
 import {
   deleteSessionCookie,
   getSessionCookie,
-  setSessionCookie,
   validateSessionToken,
 } from "../auth/sessions.service.js";
 import { HonoEnv } from "../index.js";
@@ -13,28 +12,31 @@ import { HonoEnv } from "../index.js";
  */
 export const sessionsMiddleware = () =>
   createMiddleware<HonoEnv>(async (c, next) => {
-    // Get session token
+    // Check if user sent a session token
     const token = getSessionCookie(c);
     if (!token) {
-      // c.status(401);
-      // return c.body("Unauthorized");
-      return await next();
+      c.status(401);
+      return c.body("Unauthorized");
     }
 
-    // Validate session token
+    // Check if the session token is valid
     const { session, user } = await validateSessionToken(token);
     if (session === null) {
       deleteSessionCookie(c);
-      // c.status(401);
-      // return c.body("Unauthorized");
-      return await next();
+      c.status(401);
+      return c.body("Unauthorized");
     }
 
     // Set session token cookie
-    setSessionCookie(c, token, session);
+    // setSessionCookie(c, token, session); // TODO: Look at this
 
     // Set user
-    c.set("user", user);
+    c.set("user", () => {
+      if (!user) {
+        throw new Error("Unauthorized");
+      }
+      return user;
+    });
 
     return await next();
   });

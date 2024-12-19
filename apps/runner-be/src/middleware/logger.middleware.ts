@@ -9,7 +9,6 @@ import { createLogger } from "../utils/logger.js";
 export const loggerMiddleware = () =>
   createMiddleware<HonoEnv>(async (c, next) => {
     const logger = createLogger(c.env); // Create logger for app
-    console.log(c.req.raw.headers); // TODO: Remove this
     c.set("logger", logger); // Set the logger in context
     await next();
   });

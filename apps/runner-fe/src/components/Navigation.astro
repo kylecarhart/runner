@@ -5,7 +5,6 @@ import { APP_NAME } from "@runner/utils";
 import { getProfile } from "../clients/v1Client.ts";
 
 const userSession = Astro.cookies.get("session");
-console.log(userSession);
 
 let profile: User | undefined;
 if (userSession) {
@@ -17,7 +16,7 @@ if (userSession) {
           cookie: `session=${userSession.value}`,
         },
       },
-    },
+    }
   );
 
   if (res.ok) {
@@ -42,14 +41,27 @@ if (userSession) {
       <li><a href="#" class="text-gray-600 hover:text-gray-900">Pricing</a></li>
       <li><a href="#" class="text-gray-600 hover:text-gray-900">Support</a></li>
     </ul>
-    <div>
-      <a
-        href="/signup"
-        class="cursor-pointer rounded-md bg-black px-4 py-2 text-white hover:bg-gray-800"
-        >Sign up</a
-      >
-      <a href="/login" class="rounded-md px-4 py-2 text-black">Log In</a>
-      <span>{profile?.firstName}</span>
-    </div>
+    {
+      profile ? (
+        <div>
+          <a href="#" class="rounded-md px-4 py-2 text-black">
+            Logout
+          </a>
+          <span>{profile.username}</span>
+        </div>
+      ) : (
+        <div>
+          <a
+            href="/signup"
+            class="cursor-pointer rounded-md bg-black px-4 py-2 text-white hover:bg-gray-800"
+          >
+            Sign up
+          </a>
+          <a href="/login" class="rounded-md px-4 py-2 text-black">
+            Login
+          </a>
+        </div>
+      )
+    }
   </div>
 </nav>

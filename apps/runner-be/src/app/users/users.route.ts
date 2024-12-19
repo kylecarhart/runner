@@ -12,6 +12,7 @@ import {
   UpdateUserRequestSchema,
 } from "@runner/api";
 import { HonoEnv } from "../../index.js";
+import { sessionsMiddleware } from "../../middleware/sessions.middleware.js";
 import { contentJson } from "../../utils/openapi.js";
 import { data, pagination, success } from "../../utils/response.js";
 import {
@@ -59,6 +60,7 @@ export const usersApp = new OpenAPIHono<HonoEnv>()
       path: "/profile",
       summary: "Get the current user's profile",
       tags: [OPENAPI_TAG_USERS],
+      middleware: [sessionsMiddleware()] as const,
       operationId: "getProfile",
       responses: {
         200: contentJson(
@@ -69,13 +71,7 @@ export const usersApp = new OpenAPIHono<HonoEnv>()
       },
     }),
     async (c) => {
-      const user = c.get("user");
-      console.log(user);
-
-      if (!user) {
-        return new Response("Unauthorized", { status: 401 });
-      }
-
+      const user = c.var.user();
       return data(c, 200, user, GetUserResponseSchema);
     },
   )

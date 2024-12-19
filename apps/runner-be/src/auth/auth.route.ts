@@ -45,10 +45,7 @@ export const authApp = new OpenAPIHono<HonoEnv>()
       },
     }),
     async (c) => {
-      // TODO: User already logged in, what do?
-      if (c.var.user) {
-        return c.json({ error: "Already logged in" }, 200);
-      }
+      // TODO: Should we do anything if someone is already logged in?
 
       const { email, password } = c.req.valid("json");
 
