@@ -13,6 +13,7 @@ import {
 } from "@runner/api";
 import { HonoEnv } from "../../index.js";
 import { sessionsMiddleware } from "../../middleware/sessions.middleware.js";
+import { logger } from "../../utils/logger.js";
 import { contentJson } from "../../utils/openapi.js";
 import { data, pagination, success } from "../../utils/response.js";
 import {
@@ -71,6 +72,7 @@ export const usersApp = new OpenAPIHono<HonoEnv>()
       },
     }),
     async (c) => {
+      logger().trace("getProfile route called");
       const user = c.var.user();
       return data(c, 200, user, GetUserResponseSchema);
     },

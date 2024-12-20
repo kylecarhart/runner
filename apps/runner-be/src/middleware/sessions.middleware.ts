@@ -5,6 +5,7 @@ import {
   validateSessionToken,
 } from "../auth/sessions.service.js";
 import { HonoEnv } from "../index.js";
+import { logger } from "../utils/logger.js";
 
 /**
  * Sessions middleware that sets the session token cookie and user on the context.
@@ -18,6 +19,7 @@ export const sessionsMiddleware = () =>
       c.status(401);
       return c.body("Unauthorized");
     }
+    logger().trace("sessionsMiddleware token found");
 
     // Check if the session token is valid
     const { session, user } = await validateSessionToken(token);
@@ -26,7 +28,7 @@ export const sessionsMiddleware = () =>
       c.status(401);
       return c.body("Unauthorized");
     }
-
+    logger().trace("sessionsMiddleware session found");
     // Set session token cookie
     // setSessionCookie(c, token, session); // TODO: Look at this
 

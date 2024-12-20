@@ -9,6 +9,7 @@ import { User, users, withoutPassword } from "../app/users/users.schema.js";
 import { db } from "../database/db.js";
 import { HonoContext } from "../index.js";
 import { isDevelopment } from "../utils/env.js";
+import { logger } from "../utils/logger.js";
 import { days } from "../utils/ms.js";
 import { Session, sessions } from "./sessions.schema.js";
 
@@ -65,12 +66,15 @@ export async function validateSessionToken(
 ): Promise<SessionValidationResult> {
   const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
 
+  logger().trace("validateSessionToken", { sessionId });
   // Query for session and user
   const results = await db()
     .select({ user: withoutPassword, session: sessions })
     .from(sessions)
     .innerJoin(users, eq(sessions.userId, users.id))
     .where(eq(sessions.id, sessionId));
+
+  logger().trace("validateSessionToken results", { results });
 
   // If the session does not exist, return null
   const result = results.at(0);
