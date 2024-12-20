@@ -1,6 +1,6 @@
 ---
 import { APP_NAME } from "@runner/utils";
-import Layout from "./Layout.astro";
+import BaseLayout from "./BaseLayout.astro";
 
 interface Props {
   title: string;
@@ -9,7 +9,7 @@ interface Props {
 const { title } = Astro.props;
 ---
 
-<Layout title={title} bodyClass="bg-gradient-to-b from-white to-gray-50">
+<BaseLayout title={title} bodyClass="bg-gradient-to-b from-white to-gray-50">
   <nav
     class="absolute left-0 right-0 top-0 border-b bg-white/90 backdrop-blur-md"
   >
@@ -28,4 +28,4 @@ const { title } = Astro.props;
       <slot />
     </div>
   </div>
-</Layout>
+</BaseLayout>
