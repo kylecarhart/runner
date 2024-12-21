@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginRequestSchema, type LoginRequest } from "@runner/api";
 import { LoaderCircle } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { login } from "../clients/v1Client.ts";
 import FormInput from "../components/FormInput";
@@ -14,6 +15,13 @@ export default function LoginForm() {
   } = useForm<LoginRequest>({
     resolver: zodResolver(LoginRequestSchema),
   });
+  const [redirect, setRedirect] = useState<string | null>(null);
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirectTo = urlParams.get("redirect");
+    setRedirect(redirectTo);
+  }, []);
 
   const onSubmit = async (data: LoginRequest) => {
     try {
@@ -22,7 +30,9 @@ export default function LoginForm() {
       if (!response.ok) {
         throw new Error("Login failed");
       }
-      window.location.href = "/";
+
+      // Go to redirect if provided, otherwise go home
+      window.location.href = redirect || "/";
     } catch (error) {
       setError("root.serverError", {
         type: "400",
