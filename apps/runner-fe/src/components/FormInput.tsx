@@ -7,6 +7,7 @@ type Props = {
   label?: string;
   type?: string;
   defaultValue?: string;
+  isRequired?: boolean;
 };
 
 export default function FormInput({
@@ -16,6 +17,7 @@ export default function FormInput({
   label = "",
   type = "text",
   defaultValue = "",
+  isRequired = true,
 }: Props) {
   const isLabelVisible = !!label && type !== "hidden";
 
@@ -28,7 +30,7 @@ export default function FormInput({
         <div>
           {isLabelVisible && (
             <label htmlFor={name} className="block text-sm text-gray-500">
-              {label}
+              {label} {isRequired && <span className="text-red-500">*</span>}
             </label>
           )}
           <input
