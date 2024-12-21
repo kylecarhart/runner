@@ -7,3 +7,4 @@
 
 /** The name of the application. */
 export const APP_NAME = "Runner";
+// export const APP_NAME = "Runner™"; // TODO: This is an idea™
