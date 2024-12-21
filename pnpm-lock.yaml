@@ -51,7 +51,7 @@ importers:
         specifier: ^0.5.0
         version: 0.5.0(hono@4.6.14)
       '@hono/zod-openapi':
-        specifier: ^0.18.3
+        specifier: ^0.18.0
         version: 0.18.3(hono@4.6.14)(zod@3.24.1)
       '@noble/hashes':
         specifier: ^1.6.1
@@ -81,7 +81,7 @@ importers:
         specifier: ^0.6.0
         version: 0.6.0(drizzle-orm@0.38.2(@cloudflare/workers-types@4.20241218.0)(@types/react@18.3.12)(postgres@3.4.5)(react@18.3.1))(zod@3.24.1)
       hono:
-        specifier: ^4.6.14
+        specifier: ^4.6.12
         version: 4.6.14
       http-status-codes:
         specifier: ^2.3.0
@@ -197,7 +197,7 @@ importers:
         version: 2.1.1
       hono:
         specifier: ^4.6.12
-        version: 4.6.12
+        version: 4.6.14
       lucide-astro:
         specifier: ^0.468.0
         version: 0.468.0(astro@5.0.9(@types/node@22.10.2)(jiti@1.21.6)(rollup@4.28.1)(tsx@4.19.2)(typescript@5.7.2)(yaml@2.6.1))
@@ -3121,10 +3121,6 @@ packages:
 
   hastscript@9.0.0:
     resolution: {integrity: sha512-jzaLBGavEDKHrc5EfFImKN7nZKKBdSLIdGvCwDZ9TfzbF2ffXiov8CKE445L2Z1Ek2t/m4SKQ2j6Ipv7NyUolw==}
-
-  hono@4.6.12:
-    resolution: {integrity: sha512-eHtf4kSDNw6VVrdbd5IQi16r22m3s7mWPLd7xOMhg1a/Yyb1A0qpUFq8xYMX4FMuDe1nTKeMX5rTx7Nmw+a+Ag==}
-    engines: {node: '>=16.9.0'}
 
   hono@4.6.14:
     resolution: {integrity: sha512-j4VkyUp2xazGJ8eCCLN1Vm/bxdvm/j5ZuU9AIjLu9vapn2M44p9L3Ktr9Vnb2RN2QtcR/wVjZVMlT5k7GJQgPw==}
@@ -7614,8 +7610,6 @@ snapshots:
       hast-util-parse-selector: 4.0.0
       property-information: 6.5.0
       space-separated-tokens: 2.0.2
-
-  hono@4.6.12: {}
 
   hono@4.6.14: {}
 
