@@ -4,6 +4,7 @@ import { User } from "@runner/api";
 import { Context } from "hono";
 import { contextStorage } from "hono/context-storage";
 import { secureHeaders } from "hono/secure-headers";
+import { eventsApp } from "./app/events/events.route.js";
 import { usersApp } from "./app/users/users.route.js";
 import { authApp } from "./auth/auth.route.js";
 import { Database } from "./database/db.js";
@@ -44,8 +45,9 @@ app.get("/health", (c) => c.json({ status: "OK" })); // Health check
 
 /** V1 Handlers */
 const v1Routes = v1
-  .route("/users", usersApp) // User routes
-  .route("/auth", authApp); // Auth routes
+  .route("/users", usersApp) // Users
+  .route("/auth", authApp) // Auth
+  .route("/events", eventsApp); // Events
 
 /** Bootstrap */
 const appRoutes = app.route("/api/v1", v1Routes); // V1 routes

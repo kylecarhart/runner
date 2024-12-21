@@ -39,7 +39,7 @@ export default function FormInput({
             className="block w-full bg-transparent rounded-md border border-gray-300 p-2"
             {...field}
           />
-          {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
+          {error && <p className="mt-1 text-sm text-red-500">{error}.</p>}
         </div>
       )}
     />

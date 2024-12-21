@@ -12,13 +12,14 @@ export const events = pgTable(
   (c) =>
     withBaseSchema({
       name: c.text().notNull(),
+      description: c.text().notNull(),
       createdBy: c
         .uuid()
         .notNull()
         .references(() => users.id),
-      startDate: c.timestamp({ withTimezone: true, mode: "string" }).notNull(),
-      endDate: c.timestamp({ withTimezone: true, mode: "string" }),
-      status: c.text().notNull(), // "draft", "published", "completed"
+      // startDate: c.timestamp({ withTimezone: true, mode: "string" }).notNull(),
+      // endDate: c.timestamp({ withTimezone: true, mode: "string" }),
+      status: c.text({ enum: ["draft", "published"] }).notNull(),
     }),
   (table) => [index("events_createdBy_idx").on(table.createdBy)],
 );

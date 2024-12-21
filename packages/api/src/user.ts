@@ -1,3 +1,4 @@
+import { baseFields } from "./base.js";
 import {
   SuccessResponseSchema,
   withPaginationSchema,
@@ -29,7 +30,7 @@ const PasswordSchema = z
  * Select user schema
  */
 export const SelectUserSchema = z.object({
-  id: z.string().uuid(),
+  ...baseFields,
   firstName: z
     .string()
     .min(1, "First name is required")
@@ -58,8 +59,6 @@ export const SelectUserSchema = z.object({
   password: PasswordSchema.openapi({ example: "!Password123" }),
   dob: z.string().nullable(),
   confirmedAt: z.string().nullable(),
-  createdAt: z.string(),
-  updatedAt: z.string(),
 });
 
 /**

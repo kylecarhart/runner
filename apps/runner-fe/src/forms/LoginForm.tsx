@@ -31,7 +31,9 @@ export default function LoginForm() {
         throw new Error("Login failed");
       }
 
-      // Go to redirect if provided, otherwise go home
+      // TODO: We might want to do this server side or something
+      // to prevent redirecting to a malicious site.
+      // Go to redirect if provided, otherwise go home.
       window.location.href = redirect || "/";
     } catch (error) {
       setError("root.serverError", {
