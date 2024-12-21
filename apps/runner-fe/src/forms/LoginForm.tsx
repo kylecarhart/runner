@@ -3,12 +3,13 @@ import { LoginRequestSchema, type LoginRequest } from "@runner/api";
 import { LoaderCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { login } from "../clients/v1Client.ts";
+import FormInput from "../components/FormInput";
 
 export default function LoginForm() {
   const {
-    register,
     handleSubmit,
     setError,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<LoginRequest>({
     resolver: zodResolver(LoginRequestSchema),
@@ -36,36 +37,20 @@ export default function LoginForm() {
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="space-y-2">
-        <div>
-          <label htmlFor="email" className="block text-sm text-gray-500">
-            Email
-          </label>
-          <input
-            {...register("email")}
-            type="email"
-            id="email"
-            className="block w-full bg-transparent rounded-md border border-gray-300 p-2"
-          />
-          {errors.email && (
-            <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
-          )}
-        </div>
-        <div>
-          <label htmlFor="password" className="block text-sm text-gray-500">
-            Password
-          </label>
-          <input
-            {...register("password")}
-            type="password"
-            id="password"
-            className="block w-full bg-transparent rounded-md border border-gray-300 p-2"
-          />
-          {errors.password && (
-            <p className="mt-1 text-sm text-red-500">
-              {errors.password.message}
-            </p>
-          )}
-        </div>
+        <FormInput
+          control={control}
+          error={errors.email?.message}
+          name="email"
+          type="email"
+          label="Email"
+        />
+        <FormInput
+          control={control}
+          error={errors.password?.message}
+          name="password"
+          label="Password"
+          type="password"
+        />
         {errors.root?.serverError && (
           <p className="mt-1 text-sm text-red-500">
             {errors.root.serverError.message}

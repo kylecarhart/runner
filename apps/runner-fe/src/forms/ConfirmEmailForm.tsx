@@ -7,10 +7,11 @@ import { LoaderCircle } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { confirmEmail } from "../clients/v1Client.ts";
+import FormInput from "../components/FormInput";
 
 export default function ConfirmEmailForm() {
   const {
-    register,
+    control,
     handleSubmit,
     setError,
     setValue,
@@ -55,31 +56,23 @@ export default function ConfirmEmailForm() {
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="space-y-2">
-        <div>
-          <input
-            {...register("email")}
-            type="text"
-            id="email"
-            className="hidden"
-          />
-          <label htmlFor="code" className="block text-sm text-gray-500">
-            Code
-          </label>
-          <input
-            {...register("code")}
-            type="text"
-            id="code"
-            className="block w-full bg-transparent rounded-md border border-gray-300 p-2"
-          />
-          {errors.code?.message && (
-            <p className="text-red-500 text-sm">{errors.code?.message}.</p>
-          )}
-          {errors.root?.serverError && (
-            <p className="text-red-500 text-sm">
-              {errors.root?.serverError?.message}
-            </p>
-          )}
-        </div>
+        <FormInput
+          control={control}
+          error={errors.email?.message}
+          name="email"
+          type="hidden"
+        />
+        <FormInput
+          control={control}
+          error={errors.code?.message}
+          name="code"
+          label="Code"
+        />
+        {errors.root?.serverError && (
+          <p className="text-red-500 text-sm">
+            {errors.root?.serverError?.message}
+          </p>
+        )}
       </div>
 
       <button

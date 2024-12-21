@@ -3,12 +3,13 @@ import { CreateUserRequestSchema, type CreateUserRequest } from "@runner/api";
 import { LoaderCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { signup } from "../clients/v1Client.ts";
+import FormInput from "../components/FormInput";
 
 export default function SignUpForm() {
   const {
-    register,
     handleSubmit,
     setError,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<CreateUserRequest>({
     resolver: zodResolver(CreateUserRequestSchema),
@@ -38,52 +39,27 @@ export default function SignUpForm() {
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="space-y-2">
-        <div>
-          <label htmlFor="email" className="block text-sm text-gray-500">
-            Email
-          </label>
-          <input
-            {...register("email")}
-            type="email"
-            id="email"
-            className="block w-full bg-transparent rounded-md border border-gray-300 p-2"
-          />
-          {errors.email && (
-            <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
-          )}
-        </div>
-        <div>
-          <label htmlFor="username" className="block text-sm text-gray-500">
-            Username
-          </label>
-          <input
-            {...register("username")}
-            type="text"
-            id="username"
-            className="block w-full bg-transparent rounded-md border border-gray-300 p-2"
-          />
-          {errors.username && (
-            <p className="mt-1 text-sm text-red-500">
-              {errors.username.message}
-            </p>
-          )}
-        </div>
-        <div>
-          <label htmlFor="password" className="block text-sm text-gray-500">
-            Password
-          </label>
-          <input
-            {...register("password")}
-            type="password"
-            id="password"
-            className="block w-full bg-transparent rounded-md border border-gray-300 p-2"
-          />
-          {errors.password && (
-            <p className="mt-1 text-sm text-red-500">
-              {errors.password.message}
-            </p>
-          )}
-        </div>
+        <FormInput
+          control={control}
+          error={errors.email?.message}
+          name="email"
+          label="Email"
+          type="email"
+          defaultValue=""
+        />
+        <FormInput
+          control={control}
+          error={errors.username?.message}
+          name="username"
+          label="Username"
+        />
+        <FormInput
+          control={control}
+          error={errors.password?.message}
+          name="password"
+          label="Password"
+          type="password"
+        />
         {errors.root?.serverError && (
           <p className="mt-1 text-sm text-red-500">
             {errors.root.serverError.message}
