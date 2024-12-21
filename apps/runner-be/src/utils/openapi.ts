@@ -25,6 +25,22 @@ export const bootstrapOpenApi = (app: OpenAPIHono<HonoEnv>) => {
       title: "Runner API",
       description: "Backend API for the Runner application",
     },
+    security: [
+      {
+        cookieAuth: [], // Apply cookie auth to all routes
+      },
+    ],
+  });
+
+  /**
+   * Register cookie auth security scheme
+   * *NOTE: Cookie values cannot be modified in swagger ui.
+   * @see https://stackoverflow.com/questions/49272171/sending-cookie-session-id-with-swagger-3-0#answer-49273653
+   */
+  app.openAPIRegistry.registerComponent("securitySchemes", "cookieAuth", {
+    type: "apiKey",
+    in: "cookie",
+    name: "session",
   });
 
   // Swagger UI
