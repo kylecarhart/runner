@@ -1,28 +1,7 @@
 ---
-export const prerender = false;
-import type { User } from "@runner/api";
 import { APP_NAME } from "@runner/utils";
-import { getProfile } from "../clients/v1Client.ts";
 
-const userSession = Astro.cookies.get("session");
-
-let profile: User | undefined;
-if (userSession) {
-  const res = await getProfile(
-    {},
-    {
-      init: {
-        headers: {
-          cookie: `session=${userSession.value}`,
-        },
-      },
-    }
-  );
-
-  if (res.ok) {
-    profile = (await res.json()).data;
-  }
-}
+const user = Astro.locals.user;
 ---
 
 <nav class="sticky top-0 z-50 border-b bg-white/90 backdrop-blur-md">
@@ -42,12 +21,12 @@ if (userSession) {
       <li><a href="#" class="text-gray-600 hover:text-gray-900">Support</a></li>
     </ul>
     {
-      profile ? (
+      user ? (
         <div>
           <a href="#" class="rounded-md px-4 py-2 text-black">
             Logout
           </a>
-          <span>{profile.username}</span>
+          <span>{user.username}</span>
         </div>
       ) : (
         <div>

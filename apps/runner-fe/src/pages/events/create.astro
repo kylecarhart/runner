@@ -1,5 +1,11 @@
 ---
+export const prerender = false;
 import SiteLayout from "../../layouts/SiteLayout.astro";
+
+// Need to be logged in first
+if (!Astro.locals.user) {
+    return Astro.redirect("/login")
+}
 ---
 
 <SiteLayout title="Create Event">

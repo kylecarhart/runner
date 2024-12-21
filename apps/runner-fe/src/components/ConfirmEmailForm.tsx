@@ -40,6 +40,7 @@ export default function ConfirmEmailForm() {
         throw response;
       }
       window.location.href = "/";
+      // TODO: Maybe add a toast here.
     } catch (error) {
       setError("root.serverError", {
         type: "400",
