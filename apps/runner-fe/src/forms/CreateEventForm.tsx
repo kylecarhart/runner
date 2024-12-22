@@ -3,7 +3,7 @@ import { CreateEventRequestSchema, type CreateEventRequest } from "@runner/api";
 import { LoaderCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { createEvent } from "../clients/v1Client.ts";
-import FormInput from "../components/FormInput";
+import { FormInput, FormTextarea } from "../components/FormControl.tsx";
 
 export default function CreateEventForm() {
   const {
@@ -43,12 +43,11 @@ export default function CreateEventForm() {
           type="text"
           label="Name"
         />
-        <FormInput
+        <FormTextarea
           control={control}
           error={errors.description?.message}
           name="description"
           label="Description"
-          type="text"
         />
         {errors.root?.serverError && (
           <p className="mt-1 text-sm text-red-500">

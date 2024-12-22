@@ -3,7 +3,7 @@ import { CreateUserRequestSchema, type CreateUserRequest } from "@runner/api";
 import { LoaderCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { signup } from "../clients/v1Client.ts";
-import FormInput from "../components/FormInput";
+import { FormInput } from "../components/FormControl.tsx";
 
 export default function SignUpForm() {
   const {

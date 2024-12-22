@@ -1,7 +1,7 @@
 ---
 export const prerender = false;
 
-import { CalendarPlus, Search, UsersRound } from "lucide-astro";
+import { CalendarPlus, Search, UsersRound } from "lucide-react";
 import Button from "../components/Button.astro";
 import Card from "../components/Card.astro";
 import Hero from "../components/Hero.astro";
@@ -19,10 +19,8 @@ import SiteLayout from "../layouts/SiteLayout.astro";
         subtitle="Discover races near you, filter by distance, terrain, and difficulty."
         color="blue"
       >
-        <Search slot="icon" class="h-10 w-10 text-blue-600" />
-        <Button slot="cta" intent="default">
-          Search Races
-        </Button>
+        <Search slot="icon" className="h-10 w-10 text-blue-600" />
+        <Button slot="cta" intent="default"> Search Races </Button>
       </Card>
 
       <!-- Event Coordinator Create Event -->
@@ -31,10 +29,8 @@ import SiteLayout from "../layouts/SiteLayout.astro";
         subtitle="Easily manage and promote your running events with our intuitive platform."
         color="green"
       >
-        <CalendarPlus slot="icon" class="h-10 w-10 text-green-600" />
-        <a slot="cta" href="/events/create">
-          Create an Event
-        </a>
+        <CalendarPlus slot="icon" className="h-10 w-10 text-green-600" />
+        <a slot="cta" href="/events/create"> Create an Event </a>
       </Card>
 
       <!-- Local Running Groups -->
@@ -43,11 +39,9 @@ import SiteLayout from "../layouts/SiteLayout.astro";
         subtitle="Connect with local runners, find training groups, and share your passion."
         color="purple"
       >
-        <UsersRound slot="icon" class="h-10 w-10 text-purple-600" />
-        <Button slot="cta" intent="default">
-          Find Groups
-        </Button>
+        <UsersRound slot="icon" className="h-10 w-10 text-purple-600" />
+        <Button slot="cta" intent="default"> Find Groups </Button>
       </Card>
     </div>
   </main>
-</BaseLayout>
+</SiteLayout>

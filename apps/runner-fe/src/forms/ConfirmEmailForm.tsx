@@ -7,7 +7,7 @@ import { LoaderCircle } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { confirmEmail } from "../clients/v1Client.ts";
-import FormInput from "../components/FormInput";
+import { FormInput } from "../components/FormControl.tsx";
 
 export default function ConfirmEmailForm() {
   const {

@@ -4,7 +4,7 @@ import { LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { login } from "../clients/v1Client.ts";
-import FormInput from "../components/FormInput";
+import { FormInput } from "../components/FormControl.tsx";
 
 export default function LoginForm() {
   const {
