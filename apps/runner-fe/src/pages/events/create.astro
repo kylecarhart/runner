@@ -1,23 +1,35 @@
 ---
 export const prerender = false;
 import { APP_NAME } from "@runner/utils";
+import Callout from "../../components/Callout.tsx";
 import CreateEventForm from "../../forms/CreateEventForm.tsx";
 import SiteLayout from "../../layouts/SiteLayout.astro";
 
+const { user } = Astro.locals;
+
 // Need to be logged in first
-if (!Astro.locals.user) {
-  return Astro.redirect(`/login?redirect=${encodeURIComponent(Astro.url.href)}`);
+if (!user) {
+  return Astro.redirect(
+    `/login?redirect=${encodeURIComponent(Astro.url.href)}`,
+  );
 }
 ---
 
 <SiteLayout title="Create Event">
   <main class="mx-auto max-w-7xl flex-1 px-4 py-16 sm:px-6 lg:px-8">
-    <h1>Create Event</h1>
-    <p>
-      Congrats on your new event! Lets start by getting some basic information about it. An "Event" in {APP_NAME} is a collection of "Races"
-      that will be run by participants in your event.
+    <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">
+      Create Event
+    </h1>
+    <p class="mt-2 text-sm text-gray-800">
+      Congrats on your new event! Lets start by getting some basic information
+      about it.
     </p>
+    <Callout title="What are Events?" icon="info" className="my-6">
+      An "Event" in {APP_NAME} is a collection of one or more "Races". A "Race" is
+      one specific activity within an Event (like a 5K, 10K, half-marathon, marathon,
+      etc...), that participants can sign up for. All events must have at least one
+      race, but you can add as many as you want!
+    </Callout>
     <CreateEventForm client:load />
   </main>
 </SiteLayout>
-

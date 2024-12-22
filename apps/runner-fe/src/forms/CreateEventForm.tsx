@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { createEvent } from "../clients/v1Client.ts";
 import Button from "../components/Button.tsx";
 import { FormInput, FormTextarea } from "../components/FormControl.tsx";
+import Separator from "../components/Separator.tsx";
 
 export default function CreateEventForm() {
   const {
@@ -32,10 +33,7 @@ export default function CreateEventForm() {
   };
 
   return (
-    <form
-      className="mt-4 flex flex-col space-y-8 min-w-96"
-      onSubmit={handleSubmit(onSubmit)}
-    >
+    <form className="mt-4 flex flex-col" onSubmit={handleSubmit(onSubmit)}>
       <div className="space-y-2">
         <FormInput
           control={control}
@@ -56,6 +54,8 @@ export default function CreateEventForm() {
           </p>
         )}
       </div>
+
+      <Separator />
 
       <Button
         type="submit"

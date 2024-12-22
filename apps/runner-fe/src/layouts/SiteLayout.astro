@@ -12,9 +12,7 @@ const { title } = Astro.props;
 
 <BaseLayout title={title}>
   <div class="flex min-h-screen flex-col">
-    <Navigation server:defer>
-      <div>Put something here</div>
-    </Navigation>
+    <Navigation />
     <div class="flex flex-1 flex-col">
       <slot />
       <Footer />
