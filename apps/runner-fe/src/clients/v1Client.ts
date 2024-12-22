@@ -25,6 +25,7 @@ export const getProfile = v1Client.users.profile.$get;
 export const signup = v1Client.auth.signup.$post;
 export const login = v1Client.auth.login.$post;
 export const confirmEmail = v1Client.auth["confirm-email"].$post;
+export const logout = v1Client.auth.logout.$post;
 
 /** Events */
 export const createEvent = v1Client.events.events.$post;

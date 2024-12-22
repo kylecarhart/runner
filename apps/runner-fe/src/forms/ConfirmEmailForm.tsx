@@ -7,6 +7,7 @@ import { LoaderCircle } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { confirmEmail } from "../clients/v1Client.ts";
+import Button from "../components/Button.tsx";
 import { FormInput } from "../components/FormControl.tsx";
 
 export default function ConfirmEmailForm() {
@@ -75,14 +76,14 @@ export default function ConfirmEmailForm() {
         )}
       </div>
 
-      <button
+      <Button
         type="submit"
         disabled={isSubmitting}
-        className="rounded-md bg-black px-4 py-2 text-white flex items-center justify-center gap-2 disabled:opacity-50"
+        className="flex items-center justify-center gap-2 "
       >
         {isSubmitting ? "Confirming Email..." : "Confirm Email"}
         {isSubmitting && <LoaderCircle className="w-4 h-4 animate-spin" />}
-      </button>
+      </Button>
       <p className="text-sm text-gray-500 text-center">
         If you don't receive the email, please check your spam folder, <br />
         or{" "}

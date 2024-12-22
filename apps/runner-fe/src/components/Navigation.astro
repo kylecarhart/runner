@@ -1,6 +1,6 @@
 ---
 import { APP_NAME } from "@runner/utils";
-import { ChevronDown } from "lucide-react";
+import NavProfile from "./NavProfile.tsx";
 
 const user = Astro.locals.user;
 ---
@@ -23,13 +23,7 @@ const user = Astro.locals.user;
     </ul> -->
     {
       user ? (
-        <div class="flex items-center space-x-2">
-          <a href="#" class="rounded-md px-4 py-2 text-black">
-            Logout
-          </a>
-          <span>Hi {user.username}!</span>
-          <ChevronDown className="h-4 w-4 cursor-pointer" />
-        </div>
+        <NavProfile client:load user={user} />
       ) : (
         <div>
           <a

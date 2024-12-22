@@ -3,6 +3,7 @@ import { CreateUserRequestSchema, type CreateUserRequest } from "@runner/api";
 import { LoaderCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { signup } from "../clients/v1Client.ts";
+import Button from "../components/Button.tsx";
 import { FormInput } from "../components/FormControl.tsx";
 
 export default function SignUpForm() {
@@ -67,14 +68,14 @@ export default function SignUpForm() {
         )}
       </div>
 
-      <button
+      <Button
         type="submit"
         disabled={isSubmitting}
-        className="rounded-md bg-black px-4 py-2 text-white flex items-center justify-center gap-2 disabled:opacity-50"
+        className="flex items-center justify-center gap-2"
       >
         {isSubmitting ? "Signing up..." : "Sign up"}
         {isSubmitting && <LoaderCircle className="h-4 w-4 animate-spin" />}
-      </button>
+      </Button>
     </form>
   );
 }

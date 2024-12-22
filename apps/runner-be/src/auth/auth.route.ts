@@ -15,7 +15,10 @@ import {
 } from "./email-confirmations/email-confirmations.service.js";
 import {
   createSession,
+  deleteSessionCookie,
   generateSessionToken,
+  getSessionCookie,
+  invalidateSession,
   setSessionCookie,
 } from "./sessions.service.js";
 
@@ -125,6 +128,34 @@ export const authApp = new OpenAPIHono<HonoEnv>()
       }
 
       c.status(200);
+      return c.body("OK");
+    },
+  )
+  /**
+   * Logout
+   */
+  .openapi(
+    createRoute({
+      method: "post",
+      path: "/logout",
+      summary: "Logout",
+      tags: [OPENAPI_TAG_AUTH],
+      operationId: "logout",
+      responses: {
+        200: {
+          description: "User logged out successfully",
+        },
+      },
+    }),
+    async (c) => {
+      const session = getSessionCookie(c);
+      if (!session) {
+        return c.json({ error: "Unauthorized" }, 401);
+      }
+
+      await invalidateSession(session);
+      deleteSessionCookie(c);
+
       return c.body("OK");
     },
   );
