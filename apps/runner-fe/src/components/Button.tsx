@@ -2,11 +2,11 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { type ButtonHTMLAttributes } from "react";
 import { cn } from "../utils/cn";
 
-const button = cva("", {
+const button = cva("flex items-center gap-2", {
   variants: {
     intent: {
       default: "text-white bg-black border border-gray-500 disabled:opacity-50",
-      ghost: "text-black bg-transparent disabled:opacity-50",
+      ghost: "text-black bg-transparent disabled:opacity-50 hover:bg-gray-100",
     },
     size: {
       default: "rounded-md px-4 py-2 text-base",

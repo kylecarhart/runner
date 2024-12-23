@@ -1,5 +1,5 @@
 import type { User } from "@runner/api";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, LogOut } from "lucide-react";
 import { logout } from "../clients/v1Client.ts";
 import Button from "./Button.tsx";
 
@@ -27,7 +27,7 @@ export default function NavProfile({ user }: Props) {
             });
         }}
       >
-        Logout
+        Logout <LogOut className="h-4 w-4" />
       </Button>
     </div>
   );
