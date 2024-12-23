@@ -1,5 +1,6 @@
 # Runner Monorepo
 
+- TODO: Get error codes under control
 - TODO: Rate limiting
 - TODO: Evaluate Astro Frontend
 - TODO: Runner-be debug launch.json
