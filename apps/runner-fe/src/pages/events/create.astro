@@ -1,6 +1,5 @@
 ---
 export const prerender = false;
-import { APP_NAME } from "@runner/utils";
 import Callout from "../../components/Callout.tsx";
 import CreateEventForm from "../../forms/CreateEventForm.tsx";
 import SiteLayout from "../../layouts/SiteLayout.astro";
@@ -16,7 +15,7 @@ if (!user) {
 ---
 
 <SiteLayout title="Create Event">
-  <main class="mx-auto max-w-7xl flex-1 px-4 py-16 sm:px-6 lg:px-8">
+  <main class="mx-auto max-w-screen-md flex-1 px-4 py-16 sm:px-6 lg:px-8">
     <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">
       Create Event
     </h1>
@@ -25,10 +24,10 @@ if (!user) {
       about it.
     </p>
     <Callout title="What are Events?" icon="info" className="my-6">
-      An "Event" in {APP_NAME} is a collection of one or more "Races". A "Race" is
-      one specific activity within an Event (like a 5K, 10K, half-marathon, marathon,
-      etc...), that participants can sign up for. All events must have at least one
-      race, but you can add as many as you want!
+      An "Event" is a collection of one or more "Races". A "Race" is a single
+      activity within an Event (like a 5K, 10K, half-marathon, marathon,
+      etc...), that participants can sign up for. All events must have at least
+      one race, but you can add as many as you want!
     </Callout>
     <CreateEventForm client:load />
   </main>

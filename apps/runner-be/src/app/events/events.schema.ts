@@ -20,6 +20,10 @@ export const events = pgTable(
       // startDate: c.timestamp({ withTimezone: true, mode: "string" }).notNull(),
       // endDate: c.timestamp({ withTimezone: true, mode: "string" }),
       status: c.text({ enum: ["draft", "published"] }).notNull(),
+      address: c.text().notNull(),
+      city: c.text().notNull(),
+      state: c.text().notNull(),
+      zip: c.text().notNull(),
     }),
   (table) => [index("events_createdBy_idx").on(table.createdBy)],
 );
