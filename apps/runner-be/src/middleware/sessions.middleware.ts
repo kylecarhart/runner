@@ -29,6 +29,15 @@ export const sessionsMiddleware = () =>
       return c.body("Unauthorized");
     }
     logger().trace("sessionsMiddleware session found");
+
+    // Update logger with user id
+    c.set(
+      "logger",
+      logger().child({
+        userId: user?.id,
+      }),
+    );
+
     // Set session token cookie
     // setSessionCookie(c, token, session); // TODO: Look at this
 
