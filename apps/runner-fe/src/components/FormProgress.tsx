@@ -1,5 +1,5 @@
 import { cva, type VariantProps } from "class-variance-authority";
-import { Circle, CircleCheck } from "lucide-react";
+import { Circle, CircleCheck, CircleDot } from "lucide-react";
 import { cn } from "../utils/cn.ts";
 
 type Step = {
@@ -70,7 +70,12 @@ export function FormStep({
   intent = "default",
   size = "default",
 }: FormStepProps) {
-  const Icon = intent === "completed" ? CircleCheck : Circle;
+  const Icon =
+    intent === "completed"
+      ? CircleCheck
+      : intent === "active"
+        ? CircleDot
+        : Circle;
 
   return (
     <div className={cn(formStep({ intent, size }))}>
