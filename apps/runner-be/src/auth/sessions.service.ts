@@ -8,7 +8,7 @@ import { deleteCookie, getCookie, setCookie } from "hono/cookie";
 import { User, users, withoutPassword } from "../app/users/users.schema.js";
 import { db } from "../database/db.js";
 import { HonoContext } from "../index.js";
-import { isDevelopment } from "../utils/env.js";
+import { env, isDevelopment } from "../utils/env.js";
 import { logger } from "../utils/logger.js";
 import { days } from "../utils/ms.js";
 import { Session, sessions } from "./sessions.schema.js";
@@ -146,7 +146,7 @@ export function setSessionCookie(
     expires: session.expiresAt,
     path: "/",
     secure: isDevelopment() ? false : true,
-    domain: "runner.carhart.dev", // TODO: Make this dynamic
+    domain: new URL(env().ALLOWED_ORIGIN).hostname, // TODO: Is this always right?
   });
 }
 
@@ -161,6 +161,6 @@ export function deleteSessionCookie(c: HonoContext) {
     maxAge: 0,
     path: "/",
     secure: isDevelopment() ? false : true,
-    domain: "runner.carhart.dev", // TODO: Make this dynamic
+    domain: new URL(env().ALLOWED_ORIGIN).hostname, // TODO: Is this always right?
   });
 }
