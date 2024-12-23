@@ -4,7 +4,7 @@ import { cn } from "../utils/cn.ts";
 type Props = {
   title?: string;
   children: React.ReactNode;
-  icon?: "info";
+  icon?: keyof typeof icons;
   className?: string;
 };
 
@@ -20,7 +20,7 @@ export default function Callout({ title, children, icon, className }: Props) {
         className,
       )}
     >
-      {icon && <div>{icons[icon]}</div>}
+      {icon && <div className="pt-[2px]">{icons[icon]}</div>}
       <div>
         {title && <div className="font-medium text-gray-900">{title}</div>}
         <span className="text-gray-700 italic">{children}</span>
