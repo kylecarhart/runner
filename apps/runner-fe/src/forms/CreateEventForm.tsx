@@ -105,7 +105,7 @@ export default function CreateEventForm() {
         disabled={isSubmitting}
         className="flex items-center justify-center gap-2"
       >
-        {isSubmitting ? "Creating event..." : "Create event"}
+        {isSubmitting ? "Creating event..." : "Next"}
         {isSubmitting && <LoaderCircle className="h-4 w-4 animate-spin" />}
       </Button>
     </form>
