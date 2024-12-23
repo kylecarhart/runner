@@ -1,26 +1,34 @@
-import { Pagination } from "@runner/api";
+import { Pagination, SuccessResponseSchema } from "@runner/api";
 import { StatusCode } from "hono/utils/http-status";
+import { ZodSchema } from "zod";
 import { HonoContext } from "../index.js";
+import { isDevelopment } from "./env.js";
+
+// ! TODO: Maybe at some point move these to actually be on the context
 
 /**
- * Returns a success response with an optional message
+ * Returns, ZodSchema a success response with an optional message
  * @param c - Hono Context object
  * @param status - HTTP status code
  * @param message - Optional success message
  * @returns JSON response with success flag and optional message
  */
-export function success<U extends StatusCode>(
+export function success<SC extends StatusCode>(
   c: HonoContext,
-  status: U,
+  status: SC,
   message?: string,
 ) {
-  return c.json(
-    {
-      success: true,
-      ...(message && { message }),
-    } as const,
-    status,
-  );
+  const body = {
+    success: true,
+    ...(message && { message }),
+  } as const;
+
+  // Parse the body in development to ensure no leakage...
+  if (isDevelopment()) {
+    SuccessResponseSchema.parse(body);
+  }
+
+  return c.json(body, status);
 }
 
 /**
@@ -31,20 +39,25 @@ export function success<U extends StatusCode>(
  * @param message - Optional success message
  * @returns JSON response with success flag, data, and optional message
  */
-export function data<T, U extends StatusCode>(
+export function data<SC extends StatusCode, D, ZS extends ZodSchema>(
   c: HonoContext,
-  status: U,
-  data: T,
+  status: SC,
+  data: D,
+  schema: ZS,
   message?: string,
 ) {
-  return c.json(
-    {
-      success: true,
-      data,
-      ...(message && { message }),
-    } as const,
-    status,
-  );
+  const body = {
+    success: true,
+    data,
+    ...(message && { message }),
+  } as const;
+
+  // Parse the body in development to ensure no leakage...
+  if (isDevelopment()) {
+    schema.parse(body);
+  }
+
+  return c.json(body, status);
 }
 
 /**
@@ -56,22 +69,27 @@ export function data<T, U extends StatusCode>(
  * @param message - Optional success message
  * @returns JSON response with success flag, data, pagination info, and optional message
  */
-export function pagination<T, U extends StatusCode>(
+export function pagination<SC extends StatusCode, ZS extends ZodSchema, D>(
   c: HonoContext,
-  status: U,
-  data: T,
+  status: SC,
+  data: D,
+  schema: ZS,
   pagination: Pick<Pagination, "page" | "total" | "limit">,
   message?: string,
 ) {
-  return c.json(
-    {
-      success: true,
-      data,
-      pagination: paginationHelper(pagination),
-      ...(message && { message }),
-    } as const,
-    status,
-  );
+  const body = {
+    success: true,
+    data,
+    pagination: paginationHelper(pagination),
+    ...(message && { message }),
+  } as const;
+
+  // Parse the body in development to ensure no leakage...
+  if (isDevelopment()) {
+    schema.parse(body);
+  }
+
+  return c.json(body, status);
 }
 
 /**

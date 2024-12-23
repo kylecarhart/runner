@@ -1,14 +1,11 @@
 ---
-import Button from "./Button.astro";
-
 interface Props {
   title: string;
   subtitle: string;
-  cta: string;
   color: string;
 }
 
-const { title, subtitle, cta, color } = Astro.props;
+const { title, subtitle, color } = Astro.props;
 ---
 
 <div
@@ -21,7 +18,5 @@ const { title, subtitle, cta, color } = Astro.props;
   </div>
   <h2 class="text-2xl font-bold mb-3 text-gray-900">{title}</h2>
   <p class="text-gray-600 mb-6">{subtitle}</p>
-  <Button intent="default">
-    {cta}
-  </Button>
+  <slot name="cta" />
 </div>

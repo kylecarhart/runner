@@ -6,6 +6,7 @@ import * as participants from "../app/participants/participants.schema.js";
 import * as races from "../app/races/races.schema.js";
 import * as results from "../app/results/results.schema.js";
 import * as users from "../app/users/users.schema.js";
+import * as emailConfirmations from "../auth/email-confirmations/email-confirmations.schema.js";
 import { HonoEnv } from "../index.js";
 import { Env } from "../utils/env.js";
 
@@ -30,6 +31,7 @@ export const initDb = (env: Env) =>
       ...races,
       ...participants,
       ...results,
+      ...emailConfirmations,
     },
   });
 

@@ -1,53 +1,47 @@
 ---
-import { CalendarPlus, Search, UsersRound } from "lucide-astro";
+export const prerender = false;
+
+import { CalendarPlus, Search, UsersRound } from "lucide-react";
+import Button from "../components/Button";
 import Card from "../components/Card.astro";
-import Footer from "../components/Footer.astro";
 import Hero from "../components/Hero.astro";
-import Navigation from "../components/Navigation.astro";
-import Layout from "../layouts/Layout.astro";
+import SiteLayout from "../layouts/SiteLayout.astro";
 ---
 
-<Layout title="Welcome to Astro.">
-  <div class="flex flex-col min-h-screen">
-    <Navigation />
-    <div class="flex flex-col flex-1">
-      <Hero />
-      <!-- Call to Action Grid -->
-      <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 flex-1">
-        <div class="grid md:grid-cols-3 gap-8">
-          <!-- Runner Race Search -->
-          <Card
-            title="Find Races"
-            subtitle="Discover races near you, filter by distance, terrain, and difficulty."
-            cta="Search Races"
-            color="blue"
-          >
-            <Search slot="icon" class="w-10 h-10 text-blue-600" />
-          </Card>
+<SiteLayout title="">
+  <Hero />
+  <!-- Call to Action Grid -->
+  <main class="mx-auto max-w-7xl flex-1 px-4 py-16 sm:px-6 lg:px-8">
+    <div class="grid gap-8 md:grid-cols-3">
+      <!-- Runner Race Search -->
+      <Card
+        title="Find Races"
+        subtitle="Discover races near you, filter by distance, terrain, and difficulty."
+        color="blue"
+      >
+        <Search slot="icon" className="h-10 w-10 text-blue-600" />
+        <Button slot="cta" intent="default">Search Races</Button>
+      </Card>
 
-          <!-- Event Coordinator Create Event -->
-          <Card
-            title="Create Events"
-            subtitle="Easily manage and promote your running events with our intuitive platform."
-            cta="Create an Event"
-            color="green"
-          >
-            <CalendarPlus slot="icon" class="w-10 h-10 text-green-600" />
-          </Card>
+      <!-- Event Coordinator Create Event -->
+      <Card
+        title="Create Events"
+        subtitle="Easily manage and promote your running events with our intuitive platform."
+        color="green"
+      >
+        <CalendarPlus slot="icon" className="h-10 w-10 text-green-600" />
+        <a slot="cta" href="/events/create">Create an Event</a>
+      </Card>
 
-          <!-- Local Running Groups -->
-          <Card
-            title="Join Communities"
-            subtitle="Connect with local runners, find training groups, and share your passion."
-            cta="Find Groups"
-            color="purple"
-          >
-            <UsersRound slot="icon" class="w-10 h-10 text-purple-600" />
-          </Card>
-        </div>
-      </main>
-      <!-- Footer -->
-      <Footer />
+      <!-- Local Running Groups -->
+      <Card
+        title="Join Communities"
+        subtitle="Connect with local runners, find training groups, and share your passion."
+        color="purple"
+      >
+        <UsersRound slot="icon" className="h-10 w-10 text-purple-600" />
+        <Button slot="cta" intent="default">Find Groups</Button>
+      </Card>
     </div>
-  </div>
-</Layout>
+  </main>
+</SiteLayout>

@@ -3,20 +3,21 @@ import { createMiddleware } from "hono/factory";
 import { HonoEnv } from "../index.js";
 import { env, isDevelopment } from "../utils/env.js";
 
+// Only allow localhost if we're in development the origin is localhost
+const allowLocalhost = (origin: string) =>
+  isDevelopment() && origin.startsWith("http://localhost:");
+
 /**
  * CSRF protection middleware.
  * @returns Hono CSRF middleware
  */
 export const csrfMiddleware = () =>
   createMiddleware<HonoEnv>((c, next) => {
-    const origins = [env().ALLOWED_ORIGIN];
+    const allowedOrigins = { [env().ALLOWED_ORIGIN]: true };
 
-    if (isDevelopment()) {
-      origins.push("http://localhost:4321"); // Add localhost if not in production
-    }
-
+    // Allow requests from the allowed origins
     const csrfMiddleware = csrf({
-      origin: origins, // Allow requests from the allowed origin
+      origin: (origin) => allowedOrigins[origin] || allowLocalhost(origin),
     });
 
     return csrfMiddleware(c, next);

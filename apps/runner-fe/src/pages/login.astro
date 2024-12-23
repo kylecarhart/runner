@@ -1,0 +1,17 @@
+---
+import LoginForm from "../forms/LoginForm.tsx";
+import AuthLayout from "../layouts/AuthLayout.astro";
+---
+
+<AuthLayout title="Login">
+  <div>
+    <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">Login</h1>
+    <p class="mt-2 text-sm text-gray-500">
+      Login to your account to get started.
+    </p>
+  </div>
+  <LoginForm client:load />
+  <p class="mt-8 text-center text-sm text-gray-500">
+    Don't have an account? <a href="/signup" class="font-bold">Sign up!</a>
+  </p>
+</AuthLayout>

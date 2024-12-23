@@ -7,7 +7,7 @@ import {
   type UpdateUserRequest,
 } from "@runner/api";
 import { stripUndefined } from "@runner/utils";
-import { eq } from "drizzle-orm";
+import { eq, or } from "drizzle-orm";
 import {
   hashPassword,
   verifyPassword,
@@ -63,6 +63,24 @@ export async function getUserByEmail(email: string): Promise<User | undefined> {
   });
 
   return user;
+}
+
+/**
+ * Find a user by email or username
+ * @param email User email
+ * @param username User username
+ * @returns User or undefined if user is not found
+ */
+export async function findUniqueUser({
+  email,
+  username,
+}: Pick<User, "email" | "username">) {
+  return await db().query.users.findFirst({
+    where: or(
+      eq(lower(users.email), email.toLowerCase()),
+      eq(lower(users.username), username.toLowerCase()),
+    ),
+  });
 }
 
 interface DataWithPagination<T> {

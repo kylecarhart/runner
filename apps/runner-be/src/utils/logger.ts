@@ -1,8 +1,18 @@
 import { getContext } from "hono/context-storage";
+import kleur, { Color } from "kleur";
 import { HonoEnv } from "../index.js";
 import { Env, isDevelopment } from "./env.js";
 
 type LogLevel = "trace" | "debug" | "info" | "warn" | "error" | "fatal";
+
+const logLevelColors: Record<LogLevel, Color> = {
+  trace: kleur.gray,
+  debug: kleur.gray,
+  info: kleur.blue,
+  warn: kleur.yellow,
+  error: kleur.red,
+  fatal: kleur.bgRed,
+};
 
 /**
  * Represents log levels and their numeric values
@@ -55,12 +65,14 @@ export class Logger {
     data: Record<string, unknown>,
   ): string {
     const time = new Date().toISOString();
-    const levelPadded = level.toUpperCase().padEnd(5);
+    const levelStr = level.toUpperCase();
     const dataStr = Object.keys(data).length
       ? `\n${JSON.stringify(data, null, 2)}`
       : "";
 
-    return `${time} [${levelPadded}] ${message}${dataStr}`;
+    const color = logLevelColors[level];
+
+    return color(`[${levelStr}] [${time}] ${message}`) + dataStr;
   }
 
   /**

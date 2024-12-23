@@ -1,4 +1,4 @@
-import { z, ZodSchema } from "zod";
+import { z, ZodSchema } from "./zod.js";
 
 export const PaginationSchema = z.object({
   limit: z.number(),
@@ -14,6 +14,7 @@ export const SuccessResponseSchema = z
     success: z.literal(true),
     message: z.string().optional(),
   })
+  .strict()
   .openapi("SuccessResponse");
 
 export const ErrorResponseSchema = z.object({
@@ -30,7 +31,7 @@ export type ErrorResponse = z.infer<typeof ErrorResponseSchema>;
 export function withSuccessSchema<T extends ZodSchema>(schema: T) {
   return SuccessResponseSchema.extend({
     data: schema,
-  }).openapi("SuccessResponse");
+  }).openapi("SuccessResponseWithData");
 }
 
 /**

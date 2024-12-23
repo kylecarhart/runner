@@ -4,7 +4,6 @@ import {
   ChangePasswordRequestSchema,
   ChangePasswordResponseSchema,
   DeleteUserParamsSchema,
-  DeleteUserResponseSchema,
   GetUserParamsSchema,
   GetUserResponseSchema,
   GetUsersResponseSchema,
@@ -13,6 +12,8 @@ import {
   UpdateUserRequestSchema,
 } from "@runner/api";
 import { HonoEnv } from "../../index.js";
+import { sessionsMiddleware } from "../../middleware/sessions.middleware.js";
+import { logger } from "../../utils/logger.js";
 import { contentJson } from "../../utils/openapi.js";
 import { data, pagination, success } from "../../utils/response.js";
 import {
@@ -47,7 +48,33 @@ export const usersApp = new OpenAPIHono<HonoEnv>()
       const params = c.req.valid("query");
       const { data: users, pagination: paginationData } =
         await getAllUsers(params);
-      return pagination(c, 200, users, paginationData);
+      return pagination(c, 200, users, GetUsersResponseSchema, paginationData);
+    },
+  )
+  /**
+   * Get current user's profile.
+   * NOTE: This must come before the get user by slug route.
+   */
+  .openapi(
+    createRoute({
+      method: "get",
+      path: "/profile",
+      summary: "Get the current user's profile",
+      tags: [OPENAPI_TAG_USERS],
+      middleware: [sessionsMiddleware()] as const,
+      operationId: "getProfile",
+      responses: {
+        200: contentJson(
+          "Get the current user's profile",
+          GetUserResponseSchema,
+        ),
+        401: { description: "Unauthorized" },
+      },
+    }),
+    async (c) => {
+      logger().trace("getProfile route called");
+      const user = c.var.user();
+      return data(c, 200, user, GetUserResponseSchema);
     },
   )
   /**
@@ -70,7 +97,7 @@ export const usersApp = new OpenAPIHono<HonoEnv>()
     async (c) => {
       const { id } = c.req.valid("param");
       const user = await getUserById(id);
-      return data(c, 200, user);
+      return data(c, 200, user, GetUserResponseSchema);
     },
   )
   /**
@@ -95,7 +122,7 @@ export const usersApp = new OpenAPIHono<HonoEnv>()
       const { id } = c.req.valid("param");
       const updateUserRequest = c.req.valid("json");
       const updatedUser = await updateUser(id, updateUserRequest);
-      return data(c, 200, updatedUser);
+      return data(c, 200, updatedUser, GetUserResponseSchema);
     },
   )
   /**
@@ -112,7 +139,7 @@ export const usersApp = new OpenAPIHono<HonoEnv>()
         params: DeleteUserParamsSchema,
       },
       responses: {
-        200: contentJson("Delete a user", DeleteUserResponseSchema),
+        200: { description: "User deleted successfully" },
       },
     }),
     async (c) => {

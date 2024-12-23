@@ -1,27 +1,19 @@
 ---
-import SignUpForm from "../components/SignUpForm.tsx";
-import Layout from "../layouts/Layout.astro";
-
-function handleSubmit(event: Event) {
-  event.preventDefault();
-  console.log("Submit");
-}
+import SignUpForm from "../forms/SignUpForm.tsx";
+import AuthLayout from "../layouts/AuthLayout.astro";
 ---
 
-<Layout title="Signup">
-  <div class="grid h-screen items-center justify-center bg-slate-50">
-    <div
-      class="rounded-md border border-gray-200 p-12 sm:w-[500px] sm:bg-white sm:shadow-sm"
-    >
-      <div>
-        <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">
-          Sign up
-        </h1>
-        <p class="mt-2 text-sm text-gray-500">
-          Create an account to get up and running.
-        </p>
-      </div>
-      <SignUpForm client:load />
-    </div>
+<AuthLayout title="Signup">
+  <div>
+    <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">
+      Sign up
+    </h1>
+    <p class="mt-2 text-sm text-gray-500">
+      Lets get you up and running! Fill out the form below to get started.
+    </p>
   </div>
-</Layout>
+  <SignUpForm client:load />
+  <p class="mt-8 text-center text-sm text-gray-500">
+    Already have an account? <a href="/login" class="font-bold">Login.</a>
+  </p>
+</AuthLayout>

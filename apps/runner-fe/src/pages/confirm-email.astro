@@ -1,0 +1,17 @@
+---
+import ConfirmEmailForm from "../forms/ConfirmEmailForm.tsx";
+import AuthLayout from "../layouts/AuthLayout.astro";
+---
+
+<AuthLayout title="Confirm Email">
+  <div>
+    <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">
+      Confirm Email
+    </h1>
+    <p class="mt-2 text-sm text-gray-500">
+      Confirm your email address to complete the signup process. Enter the code
+      sent to your email.
+    </p>
+  </div>
+  <ConfirmEmailForm client:load />
+</AuthLayout>

@@ -1,9 +1,10 @@
-import { z } from "zod";
+import { baseFields } from "./base.js";
 import {
   SuccessResponseSchema,
   withPaginationSchema,
   withSuccessSchema,
 } from "./response.js";
+import { z } from "./zod.js";
 
 /**
  * Password schema
@@ -29,16 +30,18 @@ const PasswordSchema = z
  * Select user schema
  */
 export const SelectUserSchema = z.object({
-  id: z.string().uuid(),
+  ...baseFields,
   firstName: z
     .string()
     .min(1, "First name is required")
     .max(64)
+    .nullable()
     .openapi({ example: "Kyle" }),
   lastName: z
     .string()
     .min(1, "Last name is required")
     .max(64)
+    .nullable()
     .openapi({ example: "Carhart" }),
   username: z
     .string()
@@ -54,19 +57,19 @@ export const SelectUserSchema = z.object({
     .email("Email is not valid")
     .openapi({ example: "kyle@example.com" }),
   password: PasswordSchema.openapi({ example: "!Password123" }),
-  dob: z.string().datetime().nullable(),
-  createdAt: z.string(),
-  updatedAt: z.string(),
+  dob: z.string().nullable(),
+  confirmedAt: z.string().nullable(),
 });
 
 /**
- * IMPORTANT: We never want to return the password.
+ * ! IMPORTANT: We never want to return the password.
  */
 export const UserSchema = SelectUserSchema.omit({
   password: true,
 })
   .strict()
   .openapi("User");
+export type User = z.infer<typeof UserSchema>;
 
 /**
  * Get a single user
@@ -83,13 +86,9 @@ export const GetUsersResponseSchema = withPaginationSchema(
 ).openapi("GetUsersResponse");
 
 /**
- * Create a new user
- * TODO: All we need is an email and password, user will finish setting up
- * their profile later.
+ * Create a basic, unconfirmed user
  */
 export const CreateUserRequestSchema = SelectUserSchema.pick({
-  firstName: true,
-  lastName: true,
   username: true,
   email: true,
   password: true,
@@ -137,3 +136,12 @@ export const ChangePasswordResponseSchema = SuccessResponseSchema;
  */
 export const DeleteUserParamsSchema = SelectUserSchema.pick({ id: true });
 export const DeleteUserResponseSchema = SuccessResponseSchema;
+
+/**
+ * Login
+ */
+export const LoginRequestSchema = z.object({
+  email: z.string().email(),
+  password: z.string(),
+});
+export type LoginRequest = z.infer<typeof LoginRequestSchema>;
