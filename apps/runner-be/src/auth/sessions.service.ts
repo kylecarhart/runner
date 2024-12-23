@@ -146,6 +146,7 @@ export function setSessionCookie(
     expires: session.expiresAt,
     path: "/",
     secure: isDevelopment() ? false : true,
+    domain: "runner.carhart.dev", // TODO: Make this dynamic
   });
 }
 
@@ -160,5 +161,6 @@ export function deleteSessionCookie(c: HonoContext) {
     maxAge: 0,
     path: "/",
     secure: isDevelopment() ? false : true,
+    domain: "runner.carhart.dev", // TODO: Make this dynamic
   });
 }
