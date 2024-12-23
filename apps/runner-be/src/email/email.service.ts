@@ -1,5 +1,5 @@
 import { Postmark } from "@runner/postmark";
-import { APP_NAME } from "@runner/utils";
+import { APP_NAME, enabled } from "@runner/utils";
 import { env, isDevelopment } from "../utils/env.js";
 import { logger } from "../utils/logger.js";
 
@@ -17,11 +17,11 @@ export async function sendEmailConfirmation(
   code: string,
 ): Promise<void> {
   // Skip sending emails in development
-  if (isDevelopment()) {
-    return logger().info(
-      "Skipping sending email confirmation in development...",
-      { email, code },
-    );
+  if (isDevelopment() || !enabled("EMAIL_CONFIRMATION") || !enabled("EMAIL")) {
+    return logger().info("Skipping sending email confirmation...", {
+      email,
+      code,
+    });
   }
 
   logger().info("Sending email confirmation", { email, code });

@@ -56,13 +56,12 @@ export async function initUserSignup(
     });
 
     // Send the confirmation email
-    logger().debug("Sending email confirmation.", { email, code });
     await sendEmailConfirmation(email, code);
 
     return user;
   });
 
-  logger().info("User created and confirmation email sent successfully.", {
+  logger().info("User created and confirmation email initiated successfully.", {
     userId: user.id,
   });
   return user;

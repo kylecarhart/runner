@@ -14,7 +14,7 @@ const Flags = {
   EMAIL: {
     id: "EMAIL",
     description: "Send transactional emails to users.",
-    enabled: true,
+    enabled: false,
   },
   EMAIL_CONFIRMATION: {
     id: "EMAIL_CONFIRMATION",
