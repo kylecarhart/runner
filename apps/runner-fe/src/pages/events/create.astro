@@ -16,8 +16,8 @@ if (!user) {
 ---
 
 <SiteLayout title="Create an Event">
-  <main class="mx-auto flex-1 px-4 py-16 sm:px-6 lg:px-8 flex relative">
-    <div class="max-w-screen-sm ">
+  <main class="mx-auto flex-1 px-4 py-16 sm:px-6 lg:px-8 flex relative max-w-screen-lg gap-8">
+    <div class="flex-1">
       <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">
         Create an Event
       </h1>
@@ -34,6 +34,7 @@ if (!user) {
       <CreateEventForm client:load />
     </div>
     <FormProgress
+      className="hidden md:block w-48"
       steps={[{ title: "Event Details" }, { title: "Race Details" }, { title: "Contact Details" }]}
       currentStep={0}
     />

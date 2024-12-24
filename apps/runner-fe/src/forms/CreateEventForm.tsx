@@ -64,7 +64,7 @@ export default function CreateEventForm() {
           type="text"
           label="Event Address"
         />
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-3 gap-4">
           {/* City */}
           <FormInput
             control={control}

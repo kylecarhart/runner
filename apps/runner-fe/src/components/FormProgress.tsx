@@ -19,9 +19,7 @@ interface Props {
  */
 export function FormProgress({ className, steps, currentStep }: Props) {
   return (
-    <div
-      className={cn("absolute left-full px-6 py-4 w-64 space-y-2", className)}
-    >
+    <div className={cn("space-y-2", className)}>
       {steps.map((step, index) => (
         <FormStep
           key={index}
