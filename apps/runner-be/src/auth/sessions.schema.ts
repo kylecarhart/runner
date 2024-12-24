@@ -7,7 +7,8 @@ export const sessions = pgTable("sessions", (c) => ({
   userId: c
     .uuid()
     .notNull()
-    .references(() => users.id),
+    .references(() => users.id)
+    .unique(),
   expiresAt: c
     .timestamp({
       withTimezone: true,

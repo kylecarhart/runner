@@ -48,8 +48,18 @@ export async function createSession(
     expiresAt: new Date(Date.now() + days(30)),
   };
 
-  // Insert the session into the database
-  await db().insert(sessions).values(session);
+  // Upsert the session into the database
+  await db()
+    .insert(sessions)
+    .values(session)
+    .onConflictDoUpdate({
+      target: [sessions.userId],
+      set: {
+        id: session.id,
+        expiresAt: session.expiresAt,
+      },
+    });
+
   return session;
 }
 
@@ -107,7 +117,8 @@ export async function validateSessionToken(
  * Invalidates (deletes) a session by its ID.
  * @param sessionId - The ID of the session to invalidate
  */
-export async function invalidateSession(sessionId: string): Promise<void> {
+export async function invalidateSession(token: string): Promise<void> {
+  const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
   await db().delete(sessions).where(eq(sessions.id, sessionId));
 }
 
