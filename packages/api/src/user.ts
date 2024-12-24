@@ -125,7 +125,7 @@ export const ChangePasswordRequestSchema = z
     path: ["confirmPassword"],
   })
   .refine((schema) => schema.password !== schema.oldPassword, {
-    message: "New password cannot be the same as old password.",
+    message: "New password cannot be the same as old password",
     path: ["password"],
   });
 export type ChangePasswordRequest = z.infer<typeof ChangePasswordRequestSchema>;
@@ -140,8 +140,9 @@ export const DeleteUserResponseSchema = SuccessResponseSchema;
 /**
  * Login
  */
-export const LoginRequestSchema = z.object({
-  email: z.string().email(),
-  password: z.string(),
+export const LoginRequestSchema = SelectUserSchema.pick({
+  email: true,
+}).extend({
+  password: PasswordSchema.innerType(), // Without regex check
 });
 export type LoginRequest = z.infer<typeof LoginRequestSchema>;
