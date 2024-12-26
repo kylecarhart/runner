@@ -13,6 +13,10 @@ import {
 import { Label } from "@/components/ui/label";
 import { cn } from "@/utils/cn";
 
+/**
+ * Form component that provides form context through React Hook Form's
+ * FormProvider
+ */
 const Form = FormProvider;
 
 type FormFieldContextValue<
@@ -26,6 +30,10 @@ const FormFieldContext = React.createContext<FormFieldContextValue>(
   {} as FormFieldContextValue,
 );
 
+/**
+ * FormField component that wraps React Hook Form's Controller component and
+ * provides field context
+ */
 const FormField = <
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
@@ -70,6 +78,9 @@ const FormItemContext = React.createContext<FormItemContextValue>(
   {} as FormItemContextValue,
 );
 
+/**
+ * Container component that provides context and styling for form items
+ */
 const FormItem = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -89,6 +100,9 @@ interface FormLabelProps
   required?: boolean;
 }
 
+/**
+ * Label component for form fields with optional required indicator
+ */
 const FormLabel = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Root>,
   FormLabelProps
@@ -114,6 +128,9 @@ const FormLabel = React.forwardRef<
 });
 FormLabel.displayName = "FormLabel";
 
+/**
+ * Component that provides accessible form control wrapper with proper ARIA attributes
+ */
 const FormControl = React.forwardRef<
   React.ElementRef<typeof Slot>,
   React.ComponentPropsWithoutRef<typeof Slot>
@@ -137,6 +154,9 @@ const FormControl = React.forwardRef<
 });
 FormControl.displayName = "FormControl";
 
+/**
+ * Component for rendering help text description below form fields
+ */
 const FormDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
@@ -154,6 +174,9 @@ const FormDescription = React.forwardRef<
 });
 FormDescription.displayName = "FormDescription";
 
+/**
+ * Component for displaying form validation error messages
+ */
 const FormMessage = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
@@ -178,11 +201,23 @@ const FormMessage = React.forwardRef<
 });
 FormMessage.displayName = "FormMessage";
 
+/**
+ * Container component for grouping form fields with consistent spacing
+ */
+const FormGroup = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => {
+  return <div ref={ref} className={cn("space-y-2", className)} {...props} />;
+});
+FormGroup.displayName = "FormGroup";
+
 export {
   Form,
   FormControl,
   FormDescription,
   FormField,
+  FormGroup,
   FormItem,
   FormLabel,
   FormMessage,

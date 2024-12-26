@@ -2,6 +2,9 @@ import * as React from "react";
 
 import { cn } from "@/utils/cn";
 
+/**
+ * Textarea component with consistent styling and full form control support
+ */
 const Textarea = React.forwardRef<
   HTMLTextAreaElement,
   React.ComponentProps<"textarea">

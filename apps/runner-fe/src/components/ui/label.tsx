@@ -8,6 +8,10 @@ const labelVariants = cva(
   "text-sm text-gray-500 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
 );
 
+/**
+ * Label component with consistent styling and accessibility features. If using
+ * in a form, you may want to use the FormLabel component instead.
+ */
 const Label = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> &
