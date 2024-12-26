@@ -19,11 +19,10 @@ interface Props {
  */
 export function FormProgress({ className, steps, currentStep }: Props) {
   return (
-    <div className={cn("space-y-2", className)}>
+    <ol className={cn("space-y-2", className)}>
       {steps.map((step, index) => (
         <FormStep
           key={index}
-          title={step.title}
           intent={
             index === currentStep
               ? "active"
@@ -31,9 +30,11 @@ export function FormProgress({ className, steps, currentStep }: Props) {
                 ? "completed"
                 : "default"
           }
-        />
+        >
+          {step.title}
+        </FormStep>
       ))}
-    </div>
+    </ol>
   );
 }
 
@@ -54,9 +55,9 @@ const formStep = cva("flex items-center gap-3 w-full cursor-pointer", {
   },
 });
 
-interface FormStepProps extends VariantProps<typeof formStep> {
-  title: string;
-}
+interface FormStepProps
+  extends React.LiHTMLAttributes<HTMLLIElement>,
+    VariantProps<typeof formStep> {}
 
 /**
  * Single step in the form
@@ -64,9 +65,9 @@ interface FormStepProps extends VariantProps<typeof formStep> {
  * @returns
  */
 export function FormStep({
-  title,
   intent = "default",
   size = "default",
+  children,
 }: FormStepProps) {
   const Icon =
     intent === "completed"
@@ -76,9 +77,9 @@ export function FormStep({
         : Circle;
 
   return (
-    <div className={cn(formStep({ intent, size }))}>
+    <li className={cn(formStep({ intent, size }))}>
       <Icon className="h-4 w-4" />
-      {title}
-    </div>
+      {children}
+    </li>
   );
 }
