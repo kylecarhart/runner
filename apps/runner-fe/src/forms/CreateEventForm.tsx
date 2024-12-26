@@ -1,25 +1,40 @@
 import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form.tsx";
+import { Input } from "@/components/ui/input.tsx";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select.tsx";
+import { Textarea } from "@/components/ui/textarea.tsx";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateEventRequestSchema, type CreateEventRequest } from "@runner/api";
+import { US_STATES } from "@runner/utils";
 import { LoaderCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { createEvent } from "../clients/v1Client.ts";
-import {
-  FormGroup,
-  FormInput,
-  FormTextarea,
-} from "../components/FormControl.tsx";
+import { FormGroup } from "../components/FormControl.tsx";
 import Separator from "../components/Separator.tsx";
 
 export default function CreateEventForm() {
+  const form = useForm<CreateEventRequest>({
+    resolver: zodResolver(CreateEventRequestSchema),
+  });
   const {
     handleSubmit,
     setError,
     control,
     formState: { errors, isSubmitting },
-  } = useForm<CreateEventRequest>({
-    resolver: zodResolver(CreateEventRequestSchema),
-  });
+  } = form;
 
   const onSubmit = async (data: CreateEventRequest) => {
     try {
@@ -37,77 +52,138 @@ export default function CreateEventForm() {
   };
 
   return (
-    <form className="mt-4 flex flex-col" onSubmit={handleSubmit(onSubmit)}>
-      <h2 className="text-lg font-medium mb-2">Event Details</h2>
-      <FormGroup>
-        {/* Name */}
-        <FormInput
-          control={control}
-          error={errors.name?.message}
-          name="name"
-          type="text"
-          label="Name"
-        />
-        {/* Description */}
-        <FormTextarea
-          control={control}
-          error={errors.description?.message}
-          name="description"
-          label="Description"
-        />
-
-        {/* Address */}
-        <FormInput
-          control={control}
-          error={errors.address?.message}
-          name="address"
-          type="text"
-          label="Event Address"
-        />
-        <div className="grid grid-cols-3 gap-4">
-          {/* City */}
-          <FormInput
+    <Form {...form}>
+      <form className="mt-4 flex flex-col" onSubmit={handleSubmit(onSubmit)}>
+        <h2 className="text-lg font-medium mb-2">Event Details</h2>
+        <FormGroup>
+          {/* Name */}
+          <FormField
             control={control}
-            error={errors.city?.message}
-            name="city"
-            type="text"
-            label="City"
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-          {/* State */}
-          <FormInput
+
+          {/* Description */}
+          <FormField
             control={control}
-            error={errors.state?.message}
-            name="state"
-            type="text"
-            label="State"
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Write a short description of the event"
+                    className="resize-none"
+                    rows={3}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-          {/* Zip */}
-          <FormInput
+
+          {/* Address */}
+          <FormField
             control={control}
-            error={errors.zip?.message}
-            name="zip"
-            type="text"
-            label="Zip"
+            name="address"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Address</FormLabel>
+                <FormControl>
+                  <Input placeholder="" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        </div>
-      </FormGroup>
+          <div className="grid grid-cols-3 gap-4">
+            {/* City */}
+            <FormField
+              control={control}
+              name="city"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>City</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-      {errors.root?.serverError && (
-        <p className="mt-1 text-sm text-red-500">
-          {errors.root.serverError.message}
-        </p>
-      )}
+            {/* State */}
+            <FormField
+              control={form.control}
+              name="state"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>State</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a state" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {US_STATES.map((state) => (
+                        <SelectItem key={state.value} value={state.value}>
+                          {state.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-      <Separator />
+            {/* Zip */}
+            <FormField
+              control={control}
+              name="zip"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Zip</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </FormGroup>
 
-      <Button
-        type="submit"
-        disabled={isSubmitting}
-        className="flex items-center justify-center gap-2"
-      >
-        {isSubmitting ? "Creating event..." : "Next"}
-        {isSubmitting && <LoaderCircle className="h-4 w-4 animate-spin" />}
-      </Button>
-    </form>
+        {errors.root?.serverError && (
+          <p className="mt-1 text-sm text-red-500">
+            {errors.root.serverError.message}
+          </p>
+        )}
+
+        <Separator />
+
+        <Button
+          type="submit"
+          disabled={isSubmitting}
+          className="flex items-center justify-center gap-2"
+        >
+          {isSubmitting ? "Creating event..." : "Next"}
+          {isSubmitting && <LoaderCircle className="h-4 w-4 animate-spin" />}
+        </Button>
+      </form>
+    </Form>
   );
 }

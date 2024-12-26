@@ -13,7 +13,7 @@ type BaseProps = {
   isRequired?: boolean;
 };
 
-export function FormControl({
+function FormControl({
   control,
   error,
   name,
