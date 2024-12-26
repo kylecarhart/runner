@@ -1,20 +1,29 @@
 import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form.tsx";
+import { Input } from "@/components/ui/input.tsx";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateUserRequestSchema, type CreateUserRequest } from "@runner/api";
 import { LoaderCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { signup } from "../clients/v1Client.ts";
-import { FormInput } from "../components/FormControl.tsx";
 
 export default function SignUpForm() {
+  const form = useForm<CreateUserRequest>({
+    resolver: zodResolver(CreateUserRequestSchema),
+  });
   const {
     handleSubmit,
     setError,
     control,
     formState: { errors, isSubmitting },
-  } = useForm<CreateUserRequest>({
-    resolver: zodResolver(CreateUserRequestSchema),
-  });
+  } = form;
 
   const onSubmit = async (data: CreateUserRequest) => {
     try {
@@ -35,47 +44,70 @@ export default function SignUpForm() {
   };
 
   return (
-    <form
-      className="mt-4 flex flex-col space-y-8"
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <div className="space-y-2">
-        <FormInput
-          control={control}
-          error={errors.email?.message}
-          name="email"
-          label="Email"
-          type="email"
-          defaultValue=""
-        />
-        <FormInput
-          control={control}
-          error={errors.username?.message}
-          name="username"
-          label="Username"
-        />
-        <FormInput
-          control={control}
-          error={errors.password?.message}
-          name="password"
-          label="Password"
-          type="password"
-        />
-        {errors.root?.serverError && (
-          <p className="mt-1 text-sm text-red-500">
-            {errors.root.serverError.message}
-          </p>
-        )}
-      </div>
-
-      <Button
-        type="submit"
-        disabled={isSubmitting}
-        className="flex items-center justify-center gap-2"
+    <Form {...form}>
+      <form
+        className="mt-4 flex flex-col space-y-8"
+        onSubmit={handleSubmit(onSubmit)}
       >
-        {isSubmitting ? "Signing up..." : "Sign up"}
-        {isSubmitting && <LoaderCircle className="h-4 w-4 animate-spin" />}
-      </Button>
-    </form>
+        <div className="space-y-2">
+          <FormField
+            control={control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input type="email" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Username</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input type="password" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {errors.root?.serverError && (
+            <p className="mt-1 text-sm text-red-500">
+              {errors.root.serverError.message}
+            </p>
+          )}
+        </div>
+
+        <Button
+          type="submit"
+          disabled={isSubmitting}
+          className="flex items-center justify-center gap-2"
+        >
+          {isSubmitting ? "Signing up..." : "Sign up"}
+          {isSubmitting && <LoaderCircle className="h-4 w-4 animate-spin" />}
+        </Button>
+      </form>
+    </Form>
   );
 }

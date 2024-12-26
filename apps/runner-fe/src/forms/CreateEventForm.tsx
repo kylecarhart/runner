@@ -3,6 +3,7 @@ import {
   Form,
   FormControl,
   FormField,
+  FormGroup,
   FormItem,
   FormLabel,
   FormMessage,
@@ -22,7 +23,6 @@ import { US_STATES } from "@runner/utils";
 import { LoaderCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { createEvent } from "../clients/v1Client.ts";
-import { FormGroup } from "../components/FormControl.tsx";
 import Separator from "../components/Separator.tsx";
 
 export default function CreateEventForm() {
@@ -53,8 +53,8 @@ export default function CreateEventForm() {
 
   return (
     <Form {...form}>
-      <form className="mt-4 flex flex-col" onSubmit={handleSubmit(onSubmit)}>
-        <h2 className="text-lg font-medium mb-2">Event Details</h2>
+      <h2 className="text-lg font-medium">Event Details</h2>
+      <form className="mt-2 flex flex-col" onSubmit={handleSubmit(onSubmit)}>
         <FormGroup>
           {/* Name */}
           <FormField

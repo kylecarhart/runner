@@ -1,4 +1,13 @@
 import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form.tsx";
+import { Input } from "@/components/ui/input.tsx";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ConfirmEmailRequestSchema,
@@ -8,22 +17,22 @@ import { LoaderCircle } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { confirmEmail } from "../clients/v1Client.ts";
-import { FormInput } from "../components/FormControl.tsx";
 
 export default function ConfirmEmailForm() {
-  const {
-    control,
-    handleSubmit,
-    setError,
-    setValue,
-    formState: { errors, isSubmitting },
-  } = useForm<ConfirmEmailRequest>({
+  const form = useForm<ConfirmEmailRequest>({
     defaultValues: {
       email: "",
       code: "",
     },
     resolver: zodResolver(ConfirmEmailRequestSchema),
   });
+  const {
+    control,
+    handleSubmit,
+    setError,
+    setValue,
+    formState: { errors, isSubmitting },
+  } = form;
 
   // Redirect to signup if no email is provided
   useEffect(() => {
@@ -42,7 +51,6 @@ export default function ConfirmEmailForm() {
         throw response;
       }
       window.location.href = "/";
-      // TODO: Maybe add a toast here.
     } catch (error) {
       setError("root.serverError", {
         type: "400",
@@ -52,47 +60,65 @@ export default function ConfirmEmailForm() {
   };
 
   return (
-    <form
-      className="mt-4 flex flex-col space-y-8"
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <div className="space-y-2">
-        <FormInput
-          control={control}
-          error={errors.email?.message}
-          name="email"
-          type="hidden"
-        />
-        <FormInput
-          control={control}
-          error={errors.code?.message}
-          name="code"
-          label="Code"
-        />
-        {errors.root?.serverError && (
-          <p className="text-red-500 text-sm">
-            {errors.root?.serverError?.message}
-          </p>
-        )}
-      </div>
-
-      <Button
-        type="submit"
-        disabled={isSubmitting}
-        className="flex items-center justify-center gap-2 "
+    <Form {...form}>
+      <form
+        className="mt-4 flex flex-col space-y-8"
+        onSubmit={handleSubmit(onSubmit)}
       >
-        {isSubmitting ? "Confirming Email..." : "Confirm Email"}
-        {isSubmitting && <LoaderCircle className="w-4 h-4 animate-spin" />}
-      </Button>
-      <p className="text-sm text-gray-500 text-center">
-        If you don't receive the email, please check your spam folder, <br />
-        or{" "}
-        <a href="#" className="font-bold">
-          {/* TODO: Add a resend email button */}
-          click here
-        </a>{" "}
-        to resend the email.
-      </p>
-    </form>
+        <div className="space-y-2">
+          <FormField
+            control={control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input type="hidden" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={control}
+            name="code"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Code</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {errors.root?.serverError && (
+            <p className="text-red-500 text-sm">
+              {errors.root?.serverError?.message}
+            </p>
+          )}
+        </div>
+
+        <Button
+          type="submit"
+          disabled={isSubmitting}
+          className="flex items-center justify-center gap-2"
+        >
+          {isSubmitting ? "Confirming Email..." : "Confirm Email"}
+          {isSubmitting && <LoaderCircle className="w-4 h-4 animate-spin" />}
+        </Button>
+
+        <p className="text-sm text-gray-500 text-center">
+          If you don't receive the email, please check your spam folder, <br />
+          or{" "}
+          <a href="#" className="font-bold">
+            {/* TODO: Add a resend email button */}
+            click here
+          </a>{" "}
+          to resend the email.
+        </p>
+      </form>
+    </Form>
   );
 }
