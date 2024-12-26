@@ -8,6 +8,7 @@
     "build": "pnpm run rpc-types && astro check && astro build",
     "deploy": "astro build && wrangler pages deploy",
     "dev": "pnpm run rpc-types && astro dev",
+    "pre-commit": "lint-staged",
     "preview": "astro build && wrangler pages dev",
     "rpc-types": "pnpm run --filter runner-be emit-types",
     "start": "astro dev"
@@ -43,6 +44,7 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20241127.0",
     "@runner/runner-be": "workspace:*",
+    "lint-staged": "^15.2.11",
     "wrangler": "^3.91.0"
   }
 }

@@ -241,6 +241,9 @@ importers:
       '@runner/runner-be':
         specifier: workspace:*
         version: link:../runner-be
+      lint-staged:
+        specifier: ^15.2.11
+        version: 15.2.11
       wrangler:
         specifier: ^3.91.0
         version: 3.91.0(@cloudflare/workers-types@4.20241127.0)
