@@ -1,9 +1,9 @@
+import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateEventRequestSchema, type CreateEventRequest } from "@runner/api";
 import { LoaderCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { createEvent } from "../clients/v1Client.ts";
-import Button from "../components/Button.tsx";
 import {
   FormGroup,
   FormInput,

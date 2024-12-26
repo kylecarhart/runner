@@ -11,5 +11,10 @@ export default defineConfig({
       enabled: true,
     },
   }),
-  integrations: [react(), tailwind()],
+  integrations: [
+    react(),
+    tailwind({
+      applyBaseStyles: false, // For shadcn
+    }),
+  ],
 });

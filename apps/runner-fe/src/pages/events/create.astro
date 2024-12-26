@@ -1,6 +1,6 @@
 ---
 export const prerender = false;
-import Callout from "../../components/Callout.tsx";
+import Callout from "@/components/Callout.tsx";
 import { FormProgress } from "../../components/FormProgress.tsx";
 import CreateEventForm from "../../forms/CreateEventForm.tsx";
 import SiteLayout from "../../layouts/SiteLayout.astro";
@@ -16,7 +16,9 @@ if (!user) {
 ---
 
 <SiteLayout title="Create an Event">
-  <main class="mx-auto flex-1 px-4 py-16 sm:px-6 lg:px-8 flex relative max-w-screen-lg gap-8">
+  <main
+    class="relative mx-auto flex max-w-screen-lg flex-1 gap-8 px-4 py-16 sm:px-6 lg:px-8"
+  >
     <div class="flex-1">
       <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">
         Create an Event
@@ -28,14 +30,18 @@ if (!user) {
       <Callout title="What are Events?" icon="info" className="my-6">
         An "event" is a collection of one or more races. A "race" is a single
         activity within an event (like a 5K, 10K, half-marathon, marathon,
-        etc...), that participants can sign up for. All events must have at least
-        one race, but you can add as many as you want!
+        etc...), that participants can sign up for. All events must have at
+        least one race, but you can add as many as you want!
       </Callout>
       <CreateEventForm client:load />
     </div>
     <FormProgress
-      className="hidden md:block w-48"
-      steps={[{ title: "Event Details" }, { title: "Race Details" }, { title: "Contact Details" }]}
+      className="hidden w-48 md:block"
+      steps={[
+        { title: "Event Details" },
+        { title: "Race Details" },
+        { title: "Contact Details" },
+      ]}
       currentStep={0}
     />
   </main>

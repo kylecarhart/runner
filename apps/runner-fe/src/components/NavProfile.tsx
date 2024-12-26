@@ -1,7 +1,7 @@
+import { Button } from "@/components/ui/button";
 import type { User } from "@runner/api";
 import { ChevronDown, LogOut } from "lucide-react";
 import { logout } from "../clients/v1Client.ts";
-import Button from "./Button.tsx";
 
 type Props = {
   user: User;
@@ -15,7 +15,7 @@ export default function NavProfile({ user }: Props) {
         <ChevronDown className="h-4 w-4 cursor-pointer" />
       </div>
       <Button
-        intent="ghost"
+        variant="ghost"
         onClick={() => {
           logout()
             .then(() => {

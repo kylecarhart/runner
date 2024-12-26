@@ -1,9 +1,9 @@
+import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateUserRequestSchema, type CreateUserRequest } from "@runner/api";
 import { LoaderCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { signup } from "../clients/v1Client.ts";
-import Button from "../components/Button.tsx";
 import { FormInput } from "../components/FormControl.tsx";
 
 export default function SignUpForm() {
