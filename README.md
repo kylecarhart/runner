@@ -1,5 +1,6 @@
 # Runner Monorepo
 
+- TODO: TTFB ~800ms, need to look at that and see what we can do.
 - TODO: We need to make sure that the logger is consistent in key names, to make searching through logs easier.
 - TODO: Get error codes under control
 - TODO: Rate limiting
