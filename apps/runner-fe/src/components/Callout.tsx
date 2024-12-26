@@ -16,7 +16,7 @@ export default function Callout({ title, children, icon, className }: Props) {
   return (
     <div
       className={cn(
-        "text-sm w-full rounded-lg border border-gray-200 bg-gray-50 py-4 px-6 flex gap-2",
+        "text-sm w-full rounded-lg border border-gray-200 bg-gray-50 py-4 px-6 flex gap-4",
         className,
       )}
     >
