@@ -19,10 +19,10 @@ const baseConfig = {
           "prettier-plugin-tailwindcss",
           "prettier-plugin-astro-organize-imports", // MUST come last
         ],
+        tailwindFunctions: ["clsx", "cva", "cn", "twMerge"], // Sort in these funcs
       },
     },
   ],
-  tailwindFunctions: ["clsx", "cva", "cn", "twMerge"], // Sort in these funcs
 };
 
 export default baseConfig;
