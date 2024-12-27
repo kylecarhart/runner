@@ -1,6 +1,7 @@
 import { Pagination, SuccessResponseSchema } from "@runner/api";
 import { StatusCode } from "hono/utils/http-status";
 import { ZodSchema } from "zod";
+import { ZodResponseError } from "../errors/ZodResponseError.js";
 import { HonoContext } from "../index.js";
 import { isDevelopment } from "./env.js";
 
@@ -25,7 +26,10 @@ export function success<SC extends StatusCode>(
 
   // Parse the body in development to ensure no leakage...
   if (isDevelopment()) {
-    SuccessResponseSchema.parse(body);
+    const result = SuccessResponseSchema.safeParse(body);
+    if (!result.success) {
+      throw new ZodResponseError(result.error.issues);
+    }
   }
 
   return c.json(body, status);
@@ -54,7 +58,10 @@ export function data<SC extends StatusCode, D, ZS extends ZodSchema>(
 
   // Parse the body in development to ensure no leakage...
   if (isDevelopment()) {
-    schema.parse(body);
+    const result = schema.safeParse(body);
+    if (!result.success) {
+      throw new ZodResponseError(result.error.issues);
+    }
   }
 
   return c.json(body, status);
@@ -86,7 +93,10 @@ export function pagination<SC extends StatusCode, ZS extends ZodSchema, D>(
 
   // Parse the body in development to ensure no leakage...
   if (isDevelopment()) {
-    schema.parse(body);
+    const result = schema.safeParse(body);
+    if (!result.success) {
+      throw new ZodResponseError(result.error.issues);
+    }
   }
 
   return c.json(body, status);

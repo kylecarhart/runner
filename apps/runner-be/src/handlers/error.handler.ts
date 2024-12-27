@@ -3,6 +3,7 @@ import { HTTPException } from "hono/http-exception";
 import { StatusCodes } from "http-status-codes";
 import { ZodError } from "zod";
 import { ApplicationError } from "../errors/ApplicationError.js";
+import { ZodResponseError } from "../errors/ZodResponseError.js";
 import { HonoContext, HonoEnv } from "../index.js";
 
 /**
@@ -20,9 +21,14 @@ export const errorHandler: () => ErrorHandler<HonoEnv> = () => (err, c) => {
     return handleApplicationError(err, c);
   }
 
+  // Response validation error
+  if (err instanceof ZodResponseError) {
+    return handleResValidationError(err, c);
+  }
+
   // Request validation error
   if (err instanceof ZodError) {
-    return handleZodError(err, c);
+    return handleReqValidationError(err, c);
   }
 
   // Unhandled error
@@ -50,7 +56,7 @@ function handleApplicationError(err: ApplicationError, c: HonoContext) {
  * @param c Koa context
  * @param err Zod validation error
  */
-function handleZodError(err: ZodError, c: HonoContext) {
+function handleReqValidationError(err: ZodError, c: HonoContext) {
   const { logger } = c.var;
   logger.warn(err.flatten());
   return c.json(
@@ -58,6 +64,26 @@ function handleZodError(err: ZodError, c: HonoContext) {
       success: false,
       code: "REQUEST_VALIDATION_ERROR",
       message: "The request could not be completed due to validation errors.",
+      data: err.issues,
+    },
+    StatusCodes.BAD_REQUEST,
+  );
+}
+
+/**
+ * Handle a Zod response validation error
+ * @param c Koa context
+ * @param err Zod validation error
+ */
+function handleResValidationError(err: ZodResponseError, c: HonoContext) {
+  const { logger } = c.var;
+  logger.error(err.flatten());
+  return c.json(
+    {
+      success: false,
+      code: "DEV_RESPONSE_VALIDATION_ERROR",
+      message:
+        "Response validation failed: While the operation may have completed successfully, the response structure does not match the OpenAPI/Zod schema. This is a development error that must be fixed before production deployment.",
       data: err.issues,
     },
     StatusCodes.BAD_REQUEST,
