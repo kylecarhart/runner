@@ -3,7 +3,7 @@ import { pgTable, uniqueIndex } from "drizzle-orm/pg-core";
 import { emailConfirmations } from "../../auth/email-confirmations/email-confirmations.schema.js";
 import { withBaseSchema } from "../../database/base.schema.js";
 import { ConstraintError } from "../../errors/ConstraintError.js";
-import { lower } from "../../utils/drizzle.js";
+import { lower, timestamp8601 } from "../../utils/drizzle.js";
 
 export const INDEX_UNIQUE_USERNAME = "users_username_unique";
 export const INDEX_UNIQUE_EMAIL = "users_email_unique";
@@ -17,8 +17,8 @@ export const users = pgTable(
       username: c.text().notNull(),
       email: c.text().notNull(),
       password: c.text().notNull(),
-      dob: c.timestamp({ withTimezone: true, mode: "string" }),
-      confirmedAt: c.timestamp({ withTimezone: true, mode: "string" }),
+      dob: timestamp8601({ withTimezone: true }),
+      confirmedAt: timestamp8601({ withTimezone: true }),
     }),
   (table) => [
     /** @see https://orm.drizzle.team/learn/guides/unique-case-insensitive-email */

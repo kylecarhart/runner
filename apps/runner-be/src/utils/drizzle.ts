@@ -1,6 +1,7 @@
 import { eq, SQL, sql } from "drizzle-orm";
 import {
   AnyPgColumn,
+  customType,
   PgTableWithColumns,
   TableConfig,
 } from "drizzle-orm/pg-core";
@@ -41,3 +42,27 @@ export function queryModel<T extends TableConfig>(
 export function lower(pgColumn: AnyPgColumn): SQL {
   return sql`lower(${pgColumn})`;
 }
+
+/**
+ * Custom type for PostgreSQL timestamp with timezone that uses the ISO 8601
+ * format instead of RFC 3339. This helps with compatibility with JavaScript
+ * Date objects.
+ * TODO: Come back and think about this.
+ */
+export const timestamp8601 = customType<{
+  data: string;
+  driverData: string;
+  config: { withTimezone: boolean; precision?: number };
+}>({
+  dataType(config) {
+    const precision =
+      typeof config?.precision !== "undefined" ? ` (${config.precision})` : "";
+    return `timestamp${precision}${
+      config?.withTimezone ? " with time zone" : ""
+    }`;
+  },
+  fromDriver(value: string): string {
+    // TODO: Faster way to do this?
+    return new Date(value).toISOString();
+  },
+});

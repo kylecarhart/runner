@@ -1,5 +1,6 @@
 import { generateRandomString } from "@oslojs/crypto/random";
 import { CreateUserRequest } from "@runner/api";
+import { addHours, isBefore } from "date-fns";
 import { eq } from "drizzle-orm";
 import { User, users, withoutPassword } from "../../app/users/users.schema.js";
 import { findUniqueUser } from "../../app/users/users.service.js";
@@ -8,11 +9,8 @@ import { sendEmailConfirmation } from "../../email/email.service.js";
 import { lower } from "../../utils/drizzle.js";
 import { invariant } from "../../utils/invariant.js";
 import { logger } from "../../utils/logger.js";
-import { hours } from "../../utils/ms.js";
 import { hashPassword } from "../password/password.service.js";
 import { emailConfirmations } from "./email-confirmations.schema.js";
-
-const EXPIRATION_TIME = hours(1);
 
 /**
  * Initialize a user signup
@@ -52,7 +50,7 @@ export async function initUserSignup(
     await tx.insert(emailConfirmations).values({
       userId: user.id,
       code,
-      expiresAt: new Date(Date.now() + EXPIRATION_TIME),
+      expiresAt: addHours(new Date(), 1).toISOString(),
     });
 
     // Send the confirmation email
@@ -113,7 +111,7 @@ export async function confirmEmail(
   if (
     user.confirmedAt ||
     emailConfirmation?.code !== code ||
-    emailConfirmation?.expiresAt < new Date()
+    isBefore(new Date(), emailConfirmation.expiresAt)
   ) {
     return false;
   }

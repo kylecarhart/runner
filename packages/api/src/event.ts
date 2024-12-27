@@ -10,7 +10,7 @@ export const SelectEventSchema = z.object({
   name: z.string().min(1).max(64),
   description: z.string().min(1).max(1024),
   createdBy: z.string().uuid(),
-  // startDate: z.string(),
+  startDate: z.string().datetime({ offset: true }),
   // endDate: z.string().nullable(),
   status: z.enum(["draft", "published", "completed"]),
   address: z.string().min(1).max(128),
@@ -30,6 +30,7 @@ export const CreateEventRequestSchema = SelectEventSchema.pick({
   city: true,
   state: true,
   zip: true,
+  startDate: true,
 });
 export type CreateEventRequest = z.infer<typeof CreateEventRequestSchema>;
 export const CreateEventResponseSchema = withSuccessSchema(SelectEventSchema);

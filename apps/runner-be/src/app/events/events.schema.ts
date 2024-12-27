@@ -1,6 +1,7 @@
 import { relations } from "drizzle-orm";
 import { index, pgTable } from "drizzle-orm/pg-core";
 import { withBaseSchema } from "../../database/base.schema.js";
+import { timestamp8601 } from "../../utils/drizzle.js";
 import { races } from "../races/races.schema.js";
 import { users } from "../users/users.schema.js";
 
@@ -17,8 +18,8 @@ export const events = pgTable(
         .uuid()
         .notNull()
         .references(() => users.id),
-      // startDate: c.timestamp({ withTimezone: true, mode: "string" }).notNull(),
-      // endDate: c.timestamp({ withTimezone: true, mode: "string" }),
+      startDate: timestamp8601({ withTimezone: true }).notNull(),
+      // endDate: timestamp8601({ withTimezone: true }),
       status: c.text({ enum: ["draft", "published"] }).notNull(),
       address: c.text().notNull(),
       city: c.text().notNull(),

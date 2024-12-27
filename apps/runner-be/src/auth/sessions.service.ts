@@ -3,6 +3,7 @@ import {
   encodeBase32LowerCaseNoPadding,
   encodeHexLowerCase,
 } from "@oslojs/encoding";
+import { addDays, isAfter, subDays } from "date-fns";
 import { eq } from "drizzle-orm";
 import { deleteCookie, getCookie, setCookie } from "hono/cookie";
 import { User, users, withoutPassword } from "../app/users/users.schema.js";
@@ -10,7 +11,6 @@ import { db } from "../database/db.js";
 import { HonoContext } from "../index.js";
 import { env, isDevelopment } from "../utils/env.js";
 import { logger } from "../utils/logger.js";
-import { days } from "../utils/ms.js";
 import { Session, sessions } from "./sessions.schema.js";
 
 /**
@@ -45,7 +45,7 @@ export async function createSession(
   const session: Session = {
     id: sessionId,
     userId,
-    expiresAt: new Date(Date.now() + days(30)),
+    expiresAt: addDays(new Date(), 30).toISOString(),
   };
 
   // Upsert the session into the database
@@ -95,14 +95,14 @@ export async function validateSessionToken(
   const { user, session } = result;
 
   // If the session has expired, delete it and return null
-  if (Date.now() >= session.expiresAt.getTime()) {
+  if (isAfter(Date.now(), session.expiresAt)) {
     await db().delete(sessions).where(eq(sessions.id, session.id));
     return { session: null, user: null };
   }
 
   // If the session is expiring soon, update it to extend the expiration date
-  if (Date.now() >= session.expiresAt.getTime() - days(15)) {
-    session.expiresAt = new Date(Date.now() + days(30));
+  if (isAfter(Date.now(), subDays(session.expiresAt, 15))) {
+    session.expiresAt = addDays(session.expiresAt, 30).toISOString();
     await db()
       .update(sessions)
       .set({
@@ -154,7 +154,7 @@ export function setSessionCookie(
   setCookie(c, "session", token, {
     httpOnly: true,
     sameSite: "lax",
-    expires: session.expiresAt,
+    expires: new Date(session.expiresAt),
     path: "/",
     secure: isDevelopment() ? false : true,
     domain: new URL(env().ALLOWED_ORIGIN).hostname, // TODO: Is this always right?

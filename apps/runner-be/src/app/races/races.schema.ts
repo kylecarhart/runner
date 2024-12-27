@@ -1,6 +1,7 @@
 import { relations } from "drizzle-orm";
 import { index, pgTable } from "drizzle-orm/pg-core";
 import { withBaseSchema } from "../../database/base.schema.js";
+import { timestamp8601 } from "../../utils/drizzle.js";
 import { events } from "../events/events.schema.js";
 
 /**
@@ -14,7 +15,7 @@ export const races = pgTable(
     withBaseSchema({
       name: c.text().notNull(),
       type: c.text().notNull(), // "5k", "10k", "half marathon", "marathon"
-      date: c.timestamp({ withTimezone: true, mode: "string" }).notNull(),
+      date: timestamp8601({ withTimezone: true }).notNull(),
       eventId: c
         .uuid()
         .references(() => events.id)

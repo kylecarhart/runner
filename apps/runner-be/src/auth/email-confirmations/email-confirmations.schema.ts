@@ -2,6 +2,7 @@ import { relations, type InferSelectModel } from "drizzle-orm";
 import { index, pgTable } from "drizzle-orm/pg-core";
 import { users } from "../../app/users/users.schema.js";
 import { withBaseSchema } from "../../database/base.schema.js";
+import { timestamp8601 } from "../../utils/drizzle.js";
 
 export const emailConfirmations = pgTable(
   "emailConfirmations",
@@ -12,12 +13,7 @@ export const emailConfirmations = pgTable(
         .references(() => users.id)
         .notNull(),
       code: c.text().notNull(),
-      expiresAt: c
-        .timestamp({
-          withTimezone: true,
-          mode: "date",
-        })
-        .notNull(),
+      expiresAt: timestamp8601({ withTimezone: true }).notNull(),
     }),
   (table) => [index("emailConfirmations_userId_idx").on(table.userId)],
 );

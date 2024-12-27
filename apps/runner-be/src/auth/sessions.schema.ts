@@ -1,6 +1,7 @@
 import { type InferSelectModel } from "drizzle-orm";
 import { pgTable } from "drizzle-orm/pg-core";
 import { users } from "../app/users/users.schema.js";
+import { timestamp8601 } from "../utils/drizzle.js";
 
 export const sessions = pgTable("sessions", (c) => ({
   id: c.text().primaryKey(),
@@ -9,12 +10,7 @@ export const sessions = pgTable("sessions", (c) => ({
     .notNull()
     .references(() => users.id)
     .unique(),
-  expiresAt: c
-    .timestamp({
-      withTimezone: true,
-      mode: "date",
-    })
-    .notNull(),
+  expiresAt: timestamp8601({ withTimezone: true }).notNull(),
 }));
 
 export type Session = InferSelectModel<typeof sessions>;

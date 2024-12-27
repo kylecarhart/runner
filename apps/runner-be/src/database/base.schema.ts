@@ -1,4 +1,6 @@
-import { PgColumnBuilderBase, timestamp, uuid } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
+import { PgColumnBuilderBase, uuid } from "drizzle-orm/pg-core";
+import { timestamp8601 } from "../utils/drizzle.js";
 
 type PgTableColumns = Record<string, PgColumnBuilderBase>;
 
@@ -7,17 +9,11 @@ const idColumn = {
 } satisfies PgTableColumns;
 
 const auditColumns = {
-  createdAt: timestamp({
-    withTimezone: true,
-    mode: "string",
-  })
-    .defaultNow()
+  createdAt: timestamp8601({ withTimezone: true })
+    .default(sql`now()`)
     .notNull(),
-  updatedAt: timestamp({
-    withTimezone: true,
-    mode: "string",
-  })
-    .defaultNow()
+  updatedAt: timestamp8601({ withTimezone: true })
+    .default(sql`now()`)
     .notNull()
     .$onUpdate(() => new Date().toISOString()),
 } satisfies PgTableColumns;
