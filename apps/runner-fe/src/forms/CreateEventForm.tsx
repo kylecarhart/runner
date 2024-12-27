@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar.tsx";
 import {
   Form,
   FormControl,
@@ -10,6 +11,11 @@ import {
 } from "@/components/ui/form.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover.tsx";
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -17,10 +23,12 @@ import {
   SelectValue,
 } from "@/components/ui/select.tsx";
 import { Textarea } from "@/components/ui/textarea.tsx";
+import { cn } from "@/utils/cn.ts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateEventRequestSchema, type CreateEventRequest } from "@runner/api";
 import { US_STATES } from "@runner/utils";
-import { LoaderCircle } from "lucide-react";
+import { format } from "date-fns";
+import { CalendarIcon, LoaderCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { createEvent } from "../clients/v1Client.ts";
 import Separator from "../components/Separator.tsx";
@@ -28,6 +36,15 @@ import Separator from "../components/Separator.tsx";
 export default function CreateEventForm() {
   const form = useForm<CreateEventRequest>({
     resolver: zodResolver(CreateEventRequestSchema),
+    defaultValues: {
+      name: "",
+      description: "",
+      startDate: "",
+      address: "",
+      city: "",
+      state: "",
+      zip: "",
+    },
   });
   const {
     handleSubmit,
@@ -91,6 +108,48 @@ export default function CreateEventForm() {
             )}
           />
 
+          {/* When? */}
+          <FormField
+            control={form.control}
+            name="startDate"
+            render={({ field }) => (
+              <FormItem className="">
+                <FormLabel>Event start date</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          "w-[240px] pl-3 text-left font-normal h-10 flex",
+                          !field.value && "text-muted-foreground",
+                        )}
+                      >
+                        {field.value ? (
+                          format(field.value, "PPP")
+                        ) : (
+                          <span>Pick a date</span>
+                        )}
+                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={new Date(field.value)}
+                      onSelect={(date) => field.onChange(date?.toISOString())}
+                      disabled={(date) => date <= new Date()}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Where? */}
           {/* Address */}
           <FormField
             control={control}
