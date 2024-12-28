@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { index, pgTable } from "drizzle-orm/pg-core";
+import { pgTable } from "drizzle-orm/pg-core";
 import { withBaseSchema } from "../../database/base.schema.js";
 import { timestamp8601 } from "../../utils/drizzle.js";
 import { races } from "../races/races.schema.js";
@@ -26,7 +26,7 @@ export const events = pgTable(
       state: c.text().notNull(),
       zip: c.text().notNull(),
     }),
-  (table) => [index("events_createdBy_idx").on(table.createdBy)],
+  (table) => [],
 );
 
 export const eventsRelations = relations(events, ({ many, one }) => ({

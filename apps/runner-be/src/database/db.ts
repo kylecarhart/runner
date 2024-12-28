@@ -33,6 +33,7 @@ export const initDb = (env: Env) =>
       ...results,
       ...emailConfirmations,
     },
+    casing: "snake_case",
   });
 
 /** Database from context */

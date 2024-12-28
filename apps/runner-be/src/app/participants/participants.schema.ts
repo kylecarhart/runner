@@ -7,27 +7,30 @@ import { users } from "../users/users.schema.js";
 /**
  * A participant is a user that has registered for a race.
  */
-export const participants = pgTable("participants", (c) =>
-  withBaseSchema({
-    userId: c
-      .uuid()
-      .notNull()
-      .references(() => users.id),
-    raceId: c
-      .uuid()
-      .notNull()
-      .references(() => races.id),
+export const participants = pgTable(
+  "participants",
+  (c) =>
+    withBaseSchema({
+      userId: c
+        .uuid()
+        .notNull()
+        .references(() => users.id),
+      raceId: c
+        .uuid()
+        .notNull()
+        .references(() => races.id),
 
-    bib: c.text(),
+      bib: c.text(),
 
-    // Even though these can change over time, we want to know what they were
-    // when they participated
-    age: c.integer(),
-    city: c.text(),
-    state: c.text(),
-    county: c.text(),
-    gender: c.text(),
-  }),
+      // Even though these can change over time, we want to know what they were
+      // when they participated
+      age: c.integer(),
+      city: c.text(),
+      state: c.text(),
+      county: c.text(),
+      gender: c.text(),
+    }),
+  (table) => [],
 );
 
 export const participantsRelations = relations(participants, ({ one }) => ({

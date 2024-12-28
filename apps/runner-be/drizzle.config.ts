@@ -24,4 +24,5 @@ export default defineConfig({
     database: process.env.DB_NAME!,
     port: +process.env.DB_PORT_SESSION!,
   },
+  casing: "snake_case",
 });
