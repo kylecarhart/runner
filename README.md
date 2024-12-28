@@ -1,18 +1,47 @@
 # Runner Monorepo
 
-- TODO: Figure out why a label is 16px in height but a label within a flex child is 14px in height.
-- TODO: TTFB ~800ms, need to look at that and see what we can do.
-- TODO: We need to make sure that the logger is consistent in key names, to make searching through logs easier.
-- TODO: Get error codes under control
-- TODO: Rate limiting
-- TODO: Evaluate Astro Frontend
-- TODO: Runner-be debug launch.json
-- TODO: Syncpack or pnpm overrides
-- TODO: Knip
-- TODO: BiomeJS when Astro is evaluated (good) and supported
-- TODO: Evaluate CMS solutions (look at Payload? Just released v3)
-- TODO: Make a global eslint config
-- TODO: Monitoring
-- TODO: Authentication
-- TODO: Authorization
-- TODO: Caching
+A full-stack application for managing running events and races. Built with modern web technologies and deployed on Cloudflare's edge network.
+
+## Applications
+
+### Frontend (`apps/runner-fe`)
+
+- Built with Astro + React
+- Deployed to Cloudflare Pages
+- Features:
+  - Event creation and management
+  - Race registration
+  - User authentication
+  - Community features
+
+### Backend (`apps/runner-be`)
+
+- Built with Hono.js
+- Deployed to Cloudflare Workers
+- Features:
+  - REST API with OpenAPI documentation
+  - PostgreSQL database integration
+  - Email notifications via Postmark
+  - Session-based authentication
+
+## Packages
+
+### @runner/api
+
+Shared API types and schemas between frontend and backend.
+
+### @runner/postmark
+
+Fetch-based Postmark API client for edge environments.
+
+### @runner/utils
+
+Shared utilities and constants.
+
+## Development
+
+### Prerequisites
+
+- Node.js v22+
+- PNPM v9+
+- Cloudflare Wrangler CLI
