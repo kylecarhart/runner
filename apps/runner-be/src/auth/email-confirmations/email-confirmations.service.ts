@@ -1,6 +1,6 @@
 import { generateRandomString } from "@oslojs/crypto/random";
 import { CreateUserRequest } from "@runner/api";
-import { addHours, isBefore } from "date-fns";
+import { addHours, isAfter } from "date-fns";
 import { eq } from "drizzle-orm";
 import { User, users, withoutPassword } from "../../app/users/users.schema.js";
 import { findUniqueUser } from "../../app/users/users.service.js";
@@ -100,18 +100,18 @@ export async function confirmEmail(
     columns: { password: false }, // Exclude password
   });
 
-  // Check if user with email exists
+  // Check if email confirmation exists for user
   if (!userWithEmailConfirmation) {
     return false;
   }
 
   const { emailConfirmation, ...user } = userWithEmailConfirmation;
 
-  // Check if user is confirmed, confirmation code is wrong, or is expired
+  // Check for invalid email confirmation
   if (
-    user.confirmedAt ||
-    emailConfirmation?.code !== code ||
-    isBefore(new Date(), emailConfirmation.expiresAt)
+    user.confirmedAt || // User is already confirmed
+    emailConfirmation?.code !== code || // Code is wrong
+    isAfter(new Date(), emailConfirmation.expiresAt) // Code is expired
   ) {
     return false;
   }
