@@ -102,6 +102,7 @@ export async function confirmEmail(
 
   // Check if email confirmation exists for user
   if (!userWithEmailConfirmation) {
+    logger().trace("Email confirmation does not exist for user", { email });
     return false;
   }
 
@@ -113,6 +114,7 @@ export async function confirmEmail(
     emailConfirmation?.code !== code || // Code is wrong
     isAfter(new Date(), emailConfirmation.expiresAt) // Code is expired
   ) {
+    logger().trace("Invalid email confirmation", { email });
     return false;
   }
 
@@ -128,6 +130,8 @@ export async function confirmEmail(
       .set({ confirmedAt: new Date().toISOString() })
       .where(eq(users.id, user.id));
   });
+
+  logger().info("Email confirmed successfully", { email });
 
   return true;
 }
