@@ -3,6 +3,7 @@ import { pgTable } from "drizzle-orm/pg-core";
 import { withBaseSchema } from "../../database/base.schema.js";
 import { timestamp8601 } from "../../utils/drizzle.js";
 import { events } from "../events/events.schema.js";
+import { racePricing } from "./pricing/race-pricing.schema.js";
 
 /**
  * A single race in an event.
@@ -25,10 +26,10 @@ export const races = pgTable(
   (table) => [],
 );
 
-export const racesRelations = relations(races, ({ one }) => ({
+export const racesRelations = relations(races, ({ one, many }) => ({
   event: one(events, {
     fields: [races.eventId],
     references: [events.id],
   }),
-  // userRaces: many(userRace),
+  racePricing: many(racePricing),
 }));

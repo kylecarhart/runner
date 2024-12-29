@@ -3,6 +3,7 @@ import { getContext } from "hono/context-storage";
 import postgres from "postgres";
 import * as events from "../app/events/events.schema.js";
 import * as participants from "../app/participants/participants.schema.js";
+import * as racePricing from "../app/races/pricing/race-pricing.schema.js";
 import * as races from "../app/races/races.schema.js";
 import * as results from "../app/results/results.schema.js";
 import * as users from "../app/users/users.schema.js";
@@ -32,6 +33,7 @@ export const initDb = (env: Env) =>
       ...participants,
       ...results,
       ...emailConfirmations,
+      ...racePricing,
     },
     casing: "snake_case",
   });
