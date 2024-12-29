@@ -54,5 +54,7 @@ export const US_STATES = [
 export const US_STATE_NAMES = US_STATES.map((state) => state.name);
 export const US_STATE_CODES = US_STATES.map((state) => state.code);
 
+export const US_CURRENCY_CODE = "USD";
+
 // Add type for better TypeScript support
 export type USState = (typeof US_STATES)[number];
