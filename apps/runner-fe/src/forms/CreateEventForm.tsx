@@ -195,8 +195,8 @@ export default function CreateEventForm() {
                       </FormControl>
                       <SelectContent>
                         {US_STATES.map((state) => (
-                          <SelectItem key={state.value} value={state.value}>
-                            {state.label}
+                          <SelectItem key={state.code} value={state.code}>
+                            {state.name}
                           </SelectItem>
                         ))}
                       </SelectContent>
