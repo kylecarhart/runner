@@ -1,0 +1,17 @@
+{
+  "name": "runner-fe",
+  "compatibility_date": "2024-11-12",
+  "compatibility_flags": ["nodejs_compat"],
+  "pages_build_output_dir": "./dist",
+
+  // Production environment configuration
+  "env": {
+    "production": {
+      "vars": {
+        "PUBLIC_API_URL": "https://api.runner.carhart.dev",
+        "NODE_VERSION": "22.14.0",
+        "PNPM_VERSION": "10.5.2"
+      }
+    }
+  }
+}

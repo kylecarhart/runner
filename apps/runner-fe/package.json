@@ -48,7 +48,7 @@
     "@cloudflare/workers-types": "^4.20241127.0",
     "@runner/runner-be": "workspace:*",
     "lint-staged": "^15.2.11",
-    "wrangler": "^3.91.0"
+    "wrangler": "^3.112.0"
   },
   "engines": {
     "node": ">=22.14.0",
