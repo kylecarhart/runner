@@ -49,5 +49,9 @@
     "@runner/runner-be": "workspace:*",
     "lint-staged": "^15.2.11",
     "wrangler": "^3.91.0"
+  },
+  "engines": {
+    "node": ">=22.14.0",
+    "pnpm": ">=10.5.2"
   }
 }
