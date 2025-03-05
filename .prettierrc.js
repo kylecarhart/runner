@@ -4,12 +4,21 @@
 const baseConfig = {
   plugins: ["prettier-plugin-organize-imports"],
   overrides: [
+    // Auto format package json files
     {
       files: ["**/package.json"],
       options: {
         plugins: ["prettier-plugin-packagejson"],
       },
     },
+    // JSONC is non-standard and vscode warns on trailing commas.
+    {
+      files: ["**/*.jsonc"],
+      options: {
+        trailingComma: "none",
+      },
+    },
+    // Astro
     {
       files: ["**/*.astro"],
       options: {

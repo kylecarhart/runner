@@ -41,6 +41,12 @@ app.use(corsMiddleware()); // CORS
 
 /** Root Handlers */
 app.onError(errorHandler()); // Error handling
+app.get("/", (c) => {
+  if (isDevelopment()) {
+    return c.redirect("/docs/scalar");
+  }
+  return c.redirect("/health");
+});
 app.get("/health", (c) => c.json({ status: "OK" })); // Health check
 
 /** V1 Handlers */
