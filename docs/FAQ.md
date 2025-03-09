@@ -1,0 +1,2 @@
+- Type instantiation is excessively deep and possibly infinite.
+  - Make sure the same version of zod is used in all packages.

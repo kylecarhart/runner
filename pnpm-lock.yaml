@@ -40,7 +40,7 @@ importers:
     dependencies:
       '@asteasolutions/zod-to-openapi':
         specifier: ^7.3.0
-        version: 7.3.0(zod@3.24.1)
+        version: 7.3.0(zod@3.24.2)
       '@dotenvx/dotenvx':
         specifier: ^1.31.0
         version: 1.31.0
@@ -49,7 +49,7 @@ importers:
         version: 0.5.1(hono@4.7.4)
       '@hono/zod-openapi':
         specifier: ^0.19.2
-        version: 0.19.2(hono@4.7.4)(zod@3.24.1)
+        version: 0.19.2(hono@4.7.4)(zod@3.24.2)
       '@noble/hashes':
         specifier: ^1.6.1
         version: 1.6.1
@@ -78,8 +78,8 @@ importers:
         specifier: ^0.38.2
         version: 0.38.2(@cloudflare/workers-types@4.20250303.0)(@types/react@19.0.10)(postgres@3.4.5)(react@19.0.0)
       drizzle-zod:
-        specifier: ^0.6.0
-        version: 0.6.0(drizzle-orm@0.38.2(@cloudflare/workers-types@4.20250303.0)(@types/react@19.0.10)(postgres@3.4.5)(react@19.0.0))(zod@3.24.1)
+        specifier: ^0.7.0
+        version: 0.7.0(drizzle-orm@0.38.2(@cloudflare/workers-types@4.20250303.0)(@types/react@19.0.10)(postgres@3.4.5)(react@19.0.0))(zod@3.24.2)
       hono:
         specifier: ^4.7.4
         version: 4.7.4
@@ -93,8 +93,8 @@ importers:
         specifier: ^1.3.3
         version: 1.3.3
       zod:
-        specifier: ^3.24.1
-        version: 3.24.1
+        specifier: ^3.24.2
+        version: 3.24.2
     devDependencies:
       '@cloudflare/vitest-pool-workers':
         specifier: ^0.7.7
@@ -292,10 +292,10 @@ importers:
     dependencies:
       '@asteasolutions/zod-to-openapi':
         specifier: ^7.2.0
-        version: 7.2.0(zod@3.24.1)
+        version: 7.2.0(zod@3.24.2)
       zod:
-        specifier: ^3.24.1
-        version: 3.24.1
+        specifier: ^3.24.2
+        version: 3.24.2
     devDependencies:
       '@eslint/js':
         specifier: ^9.15.0
@@ -331,8 +331,8 @@ importers:
   packages/utils:
     dependencies:
       zod:
-        specifier: ^3.24.1
-        version: 3.24.1
+        specifier: ^3.24.2
+        version: 3.24.2
 
 packages:
 
@@ -3156,8 +3156,8 @@ packages:
       sqlite3:
         optional: true
 
-  drizzle-zod@0.6.0:
-    resolution: {integrity: sha512-7K1k7Y/5Jw9D4cTlrHL3mRTLg3oaglbi4VvBIYmSAtMvYkgqvusPtra7cnntMCe1r1cBcwxhlEkfiNdU23lp2g==}
+  drizzle-zod@0.7.0:
+    resolution: {integrity: sha512-xgCRYYVEzRkeXTS33GSMgoowe3vKsMNBjSI+cwG1oLQVEhAWWbqtb/AAMlm7tkmV4fG/uJjEmWzdzlEmTgWOoQ==}
     peerDependencies:
       drizzle-orm: '>=0.36.0'
       zod: '>=3.0.0'
@@ -5497,9 +5497,6 @@ packages:
   zod@3.22.3:
     resolution: {integrity: sha512-EjIevzuJRiRPbVH4mGc8nApb/lVLKVpmUhAaR5R5doKGfAnGJ6Gr3CViAVjP+4FWSxCsybeWQdcgCtbX+7oZug==}
 
-  zod@3.24.1:
-    resolution: {integrity: sha512-muH7gBL9sI1nciMZV67X5fTKKBLtwpZ5VBp1vsOQzj1MhrBZ4wlVCm3gedKZWLp0Oyel8sIGfeiz54Su+OVT+A==}
-
   zod@3.24.2:
     resolution: {integrity: sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==}
 
@@ -5513,15 +5510,10 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.8
       '@jridgewell/trace-mapping': 0.3.25
 
-  '@asteasolutions/zod-to-openapi@7.2.0(zod@3.24.1)':
+  '@asteasolutions/zod-to-openapi@7.2.0(zod@3.24.2)':
     dependencies:
       openapi3-ts: 4.4.0
-      zod: 3.24.1
-
-  '@asteasolutions/zod-to-openapi@7.3.0(zod@3.24.1)':
-    dependencies:
-      openapi3-ts: 4.4.0
-      zod: 3.24.1
+      zod: 3.24.2
 
   '@asteasolutions/zod-to-openapi@7.3.0(zod@3.24.2)':
     dependencies:
@@ -5891,7 +5883,7 @@ snapshots:
       semver: 7.7.1
       vitest: 3.0.8(@types/debug@4.1.12)(@types/node@22.13.10)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)(yaml@2.7.0)
       wrangler: 3.114.0(@cloudflare/workers-types@4.20250303.0)
-      zod: 3.24.1
+      zod: 3.24.2
     transitivePeerDependencies:
       - '@cloudflare/workers-types'
       - bufferutil
@@ -6398,17 +6390,17 @@ snapshots:
     dependencies:
       hono: 4.7.4
 
-  '@hono/zod-openapi@0.19.2(hono@4.7.4)(zod@3.24.1)':
+  '@hono/zod-openapi@0.19.2(hono@4.7.4)(zod@3.24.2)':
     dependencies:
-      '@asteasolutions/zod-to-openapi': 7.3.0(zod@3.24.1)
-      '@hono/zod-validator': 0.4.2(hono@4.7.4)(zod@3.24.1)
+      '@asteasolutions/zod-to-openapi': 7.3.0(zod@3.24.2)
+      '@hono/zod-validator': 0.4.2(hono@4.7.4)(zod@3.24.2)
       hono: 4.7.4
-      zod: 3.24.1
+      zod: 3.24.2
 
-  '@hono/zod-validator@0.4.2(hono@4.7.4)(zod@3.24.1)':
+  '@hono/zod-validator@0.4.2(hono@4.7.4)(zod@3.24.2)':
     dependencies:
       hono: 4.7.4
-      zod: 3.24.1
+      zod: 3.24.2
 
   '@hookform/resolvers@4.1.3(react-hook-form@7.54.2(react@19.0.0))':
     dependencies:
@@ -8035,10 +8027,10 @@ snapshots:
       postgres: 3.4.5
       react: 19.0.0
 
-  drizzle-zod@0.6.0(drizzle-orm@0.38.2(@cloudflare/workers-types@4.20250303.0)(@types/react@19.0.10)(postgres@3.4.5)(react@19.0.0))(zod@3.24.1):
+  drizzle-zod@0.7.0(drizzle-orm@0.38.2(@cloudflare/workers-types@4.20250303.0)(@types/react@19.0.10)(postgres@3.4.5)(react@19.0.0))(zod@3.24.2):
     dependencies:
       drizzle-orm: 0.38.2(@cloudflare/workers-types@4.20250303.0)(@types/react@19.0.10)(postgres@3.4.5)(react@19.0.0)
-      zod: 3.24.1
+      zod: 3.24.2
 
   dset@3.1.4: {}
 
@@ -10648,8 +10640,6 @@ snapshots:
       zod: 3.24.2
 
   zod@3.22.3: {}
-
-  zod@3.24.1: {}
 
   zod@3.24.2: {}
 

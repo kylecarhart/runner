@@ -1,22 +1,21 @@
+"use client";
+
 import * as LabelPrimitive from "@radix-ui/react-label";
 import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";
 import {
   Controller,
+  FormProvider,
+  useFormContext,
+  useFormState,
   type ControllerProps,
   type FieldPath,
   type FieldValues,
-  FormProvider,
-  useFormContext,
 } from "react-hook-form";
 
 import { Label } from "@/components/ui/label";
 import { cn } from "@/utils/cn";
 
-/**
- * Form component that provides form context through React Hook Form's
- * FormProvider
- */
 const Form = FormProvider;
 
 type FormFieldContextValue<
@@ -30,10 +29,6 @@ const FormFieldContext = React.createContext<FormFieldContextValue>(
   {} as FormFieldContextValue,
 );
 
-/**
- * FormField component that wraps React Hook Form's Controller component and
- * provides field context
- */
 const FormField = <
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
@@ -50,8 +45,8 @@ const FormField = <
 const useFormField = () => {
   const fieldContext = React.useContext(FormFieldContext);
   const itemContext = React.useContext(FormItemContext);
-  const { getFieldState, formState } = useFormContext();
-
+  const { getFieldState } = useFormContext();
+  const formState = useFormState({ name: fieldContext.name });
   const fieldState = getFieldState(fieldContext.name, formState);
 
   if (!fieldContext) {
@@ -78,85 +73,44 @@ const FormItemContext = React.createContext<FormItemContextValue>(
   {} as FormItemContextValue,
 );
 
-/**
- * Container component that provides context and styling for form items
- */
-const FormItem = (
-  {
-    ref,
-    className,
-    ...props
-  }: React.HTMLAttributes<HTMLDivElement> & {
-    ref: React.RefObject<HTMLDivElement>;
-  }
-) => {
+function FormItem({ className, ...props }: React.ComponentProps<"div">) {
   const id = React.useId();
 
   return (
     <FormItemContext.Provider value={{ id }}>
-      <div ref={ref} className={cn("", className)} {...props} />
+      <div
+        data-slot="form-item"
+        className={cn("grid gap-2", className)}
+        {...props}
+      />
     </FormItemContext.Provider>
   );
-};
-FormItem.displayName = "FormItem";
-
-interface FormLabelProps
-  extends React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> {
-  required?: boolean;
 }
 
-/**
- * Label component for form fields with optional required indicator
- */
-const FormLabel = (
-  {
-    ref,
-    required = true,
-    className,
-    children,
-    ...props
-  }: FormLabelProps & {
-    ref: React.RefObject<React.ElementRef<typeof LabelPrimitive.Root>>;
-  }
-) => {
+function FormLabel({
+  className,
+  ...props
+}: React.ComponentProps<typeof LabelPrimitive.Root>) {
   const { error, formItemId } = useFormField();
 
   return (
     <Label
-      ref={ref}
-      className={cn(
-        {
-          "text-destructive": !!error, // TODO: Is this visually too much?
-        },
-        className,
-      )}
+      data-slot="form-label"
+      data-error={!!error}
+      className={cn("data-[error=true]:text-destructive-foreground", className)}
       htmlFor={formItemId}
       {...props}
-    >
-      {children}
-      {required && <span className="text-destructive"> *</span>}
-    </Label>
+    />
   );
-};
-FormLabel.displayName = "FormLabel";
+}
 
-/**
- * Component that provides accessible form control wrapper with proper ARIA attributes
- */
-const FormControl = (
-  {
-    ref,
-    ...props
-  }: React.ComponentPropsWithoutRef<typeof Slot> & {
-    ref: React.RefObject<React.ElementRef<typeof Slot>>;
-  }
-) => {
+function FormControl({ ...props }: React.ComponentProps<typeof Slot>) {
   const { error, formItemId, formDescriptionId, formMessageId } =
     useFormField();
 
   return (
     <Slot
-      ref={ref}
+      data-slot="form-control"
       id={formItemId}
       aria-describedby={
         !error
@@ -167,49 +121,24 @@ const FormControl = (
       {...props}
     />
   );
-};
-FormControl.displayName = "FormControl";
+}
 
-/**
- * Component for rendering help text description below form fields
- */
-const FormDescription = (
-  {
-    ref,
-    className,
-    ...props
-  }: React.HTMLAttributes<HTMLParagraphElement> & {
-    ref: React.RefObject<HTMLParagraphElement>;
-  }
-) => {
+function FormDescription({ className, ...props }: React.ComponentProps<"p">) {
   const { formDescriptionId } = useFormField();
 
   return (
     <p
-      ref={ref}
+      data-slot="form-description"
       id={formDescriptionId}
-      className={cn("text-[0.8rem] text-muted-foreground", className)}
+      className={cn("text-muted-foreground text-sm", className)}
       {...props}
     />
   );
-};
-FormDescription.displayName = "FormDescription";
+}
 
-/**
- * Component for displaying form validation error messages
- */
-const FormMessage = (
-  {
-    ref,
-    className,
-    children,
-    ...props
-  }: React.HTMLAttributes<HTMLParagraphElement> & {
-    ref: React.RefObject<HTMLParagraphElement>;
-  }
-) => {
+function FormMessage({ className, ...props }: React.ComponentProps<"p">) {
   const { error, formMessageId } = useFormField();
-  const body = error ? String(error?.message) : children;
+  const body = error ? String(error?.message ?? "") : props.children;
 
   if (!body) {
     return null;
@@ -217,30 +146,21 @@ const FormMessage = (
 
   return (
     <p
-      ref={ref}
+      data-slot="form-message"
       id={formMessageId}
-      className={cn("text-[0.8rem] font-medium text-destructive", className)}
+      className={cn("text-destructive-foreground text-sm", className)}
       {...props}
     >
       {body}
     </p>
   );
-};
-FormMessage.displayName = "FormMessage";
+}
 
 /**
  * Container component for grouping form fields with consistent spacing
  */
-const FormGroup = (
-  {
-    ref,
-    className,
-    ...props
-  }: React.HTMLAttributes<HTMLDivElement> & {
-    ref: React.RefObject<HTMLDivElement>;
-  }
-) => {
-  return <div ref={ref} className={cn("space-y-2", className)} {...props} />;
+const FormGroup = ({ className, ...props }: React.ComponentProps<"div">) => {
+  return <div className={cn("space-y-2", className)} {...props} />;
 };
 FormGroup.displayName = "FormGroup";
 
