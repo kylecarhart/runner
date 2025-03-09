@@ -1,5 +1,5 @@
 import { Pagination, SuccessResponseSchema } from "@runner/api";
-import { StatusCode } from "hono/utils/http-status";
+import { ContentfulStatusCode } from "hono/utils/http-status";
 import { ZodSchema } from "zod";
 import { ZodResponseError } from "../errors/ZodResponseError.js";
 import { HonoContext } from "../index.js";
@@ -14,7 +14,7 @@ import { isDevelopment } from "./env.js";
  * @param message - Optional success message
  * @returns JSON response with success flag and optional message
  */
-export function success<SC extends StatusCode>(
+export function success<SC extends ContentfulStatusCode>(
   c: HonoContext,
   status: SC,
   message?: string,
@@ -43,7 +43,7 @@ export function success<SC extends StatusCode>(
  * @param message - Optional success message
  * @returns JSON response with success flag, data, and optional message
  */
-export function data<SC extends StatusCode, D, ZS extends ZodSchema>(
+export function data<SC extends ContentfulStatusCode, D, ZS extends ZodSchema>(
   c: HonoContext,
   status: SC,
   data: D,
@@ -76,7 +76,11 @@ export function data<SC extends StatusCode, D, ZS extends ZodSchema>(
  * @param message - Optional success message
  * @returns JSON response with success flag, data, pagination info, and optional message
  */
-export function pagination<SC extends StatusCode, ZS extends ZodSchema, D>(
+export function pagination<
+  SC extends ContentfulStatusCode,
+  ZS extends ZodSchema,
+  D,
+>(
   c: HonoContext,
   status: SC,
   data: D,

@@ -13,7 +13,7 @@
   "assets": {
     "directory": "public" // contains swagger favicon
   },
-  // Default env variables for local development
+  // Default runtime env variables for local development
   "vars": {
     "LOG_LEVEL": "debug",
     "PORT": "3000",
@@ -22,6 +22,10 @@
     "DB_PORT_TRANSACTION": "6543",
     "DB_PORT_SESSION": "5432",
     "DB_NAME": "postgres"
+  },
+  // Default build-time env variables for local development
+  "define": {
+    "ENVIRONMENT": "\"development\""
   },
   // Deployed environments
   "env": {
