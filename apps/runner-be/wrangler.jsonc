@@ -13,8 +13,21 @@
   "assets": {
     "directory": "public" // contains swagger favicon
   },
+  // Default variables when no environment is specified, these also populate the CF dashboard
+  "vars": {
+    "LOG_LEVEL": "debug",
+    "PORT": "3000",
+    "ALLOWED_ORIGIN": "http://localhost:4321",
+    "DB_HOST": "aws-0-us-east-1.pooler.supabase.com",
+    "DB_PORT_TRANSACTION": "6543",
+    "DB_PORT_SESSION": "5432",
+    "DB_NAME": "postgres",
+    "NODE_VERSION": "22.14.0",
+    "PNPM_VERSION": "10.5.2"
+  },
+  // Environments
   "env": {
-    // Development environment
+    // Development
     "dev": {
       "name": "runner-be-dev",
       "define": {
@@ -32,7 +45,7 @@
         "PNPM_VERSION": "10.5.2"
       }
     },
-    // Production environment
+    // Production
     "prod": {
       "name": "runner-be-prod",
       "define": {
@@ -41,7 +54,7 @@
       "vars": {
         "LOG_LEVEL": "info",
         "PORT": "3000",
-        "ALLOWED_ORIGIN": "https://runner.carhart.dev",
+        "ALLOWED_ORIGIN": "https://001245.xyz",
         "DB_HOST": "aws-0-us-east-1.pooler.supabase.com",
         "DB_PORT_TRANSACTION": "6543",
         "DB_PORT_SESSION": "5432",

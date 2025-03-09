@@ -3,12 +3,18 @@
   "compatibility_date": "2024-11-12",
   "compatibility_flags": ["nodejs_compat"],
   "pages_build_output_dir": "./dist",
-
-  // Production environment configuration
+  // Default variables when no environment is specified,
+  "vars": {
+    "PUBLIC_API_URL": "http://localhost:3000",
+    "NODE_VERSION": "22.14.0",
+    "PNPM_VERSION": "10.5.2"
+  },
+  // Environments
   "env": {
+    // Production
     "production": {
       "vars": {
-        "PUBLIC_API_URL": "https://api.runner.carhart.dev",
+        "PUBLIC_API_URL": "https://api.001245.xyz",
         "NODE_VERSION": "22.14.0",
         "PNPM_VERSION": "10.5.2"
       }
