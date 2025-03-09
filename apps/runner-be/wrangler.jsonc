@@ -13,7 +13,7 @@
   "assets": {
     "directory": "public" // contains swagger favicon
   },
-  // Default variables when no environment is specified, these also populate the CF dashboard
+  // Default env variables for local development
   "vars": {
     "LOG_LEVEL": "debug",
     "PORT": "3000",
@@ -21,30 +21,10 @@
     "DB_HOST": "aws-0-us-east-1.pooler.supabase.com",
     "DB_PORT_TRANSACTION": "6543",
     "DB_PORT_SESSION": "5432",
-    "DB_NAME": "postgres",
-    "NODE_VERSION": "22.14.0",
-    "PNPM_VERSION": "10.5.2"
+    "DB_NAME": "postgres"
   },
-  // Environments
+  // Deployed environments
   "env": {
-    // Development
-    "dev": {
-      "name": "runner-be-dev",
-      "define": {
-        "ENVIRONMENT": "\"development\""
-      },
-      "vars": {
-        "LOG_LEVEL": "debug",
-        "PORT": "3000",
-        "ALLOWED_ORIGIN": "http://localhost:4321",
-        "DB_HOST": "aws-0-us-east-1.pooler.supabase.com",
-        "DB_PORT_TRANSACTION": "6543",
-        "DB_PORT_SESSION": "5432",
-        "DB_NAME": "postgres",
-        "NODE_VERSION": "22.14.0",
-        "PNPM_VERSION": "10.5.2"
-      }
-    },
     // Production
     "prod": {
       "name": "runner-be-prod",
@@ -58,9 +38,7 @@
         "DB_HOST": "aws-0-us-east-1.pooler.supabase.com",
         "DB_PORT_TRANSACTION": "6543",
         "DB_PORT_SESSION": "5432",
-        "DB_NAME": "postgres",
-        "NODE_VERSION": "22.14.0",
-        "PNPM_VERSION": "10.5.2"
+        "DB_NAME": "postgres"
       }
     }
   }
