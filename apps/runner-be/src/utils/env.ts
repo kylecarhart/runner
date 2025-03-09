@@ -14,8 +14,7 @@ export const EnvSchema = z
     LOG_LEVEL: z
       .enum(["trace", "debug", "info", "warn", "error", "fatal"])
       .default("info"),
-    // Server
-    PORT: z.coerce.number(),
+    // Security
     ALLOWED_ORIGIN: z.string(),
     // Database
     DB_HOST: z.string(),

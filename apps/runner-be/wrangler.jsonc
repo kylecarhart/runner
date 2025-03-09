@@ -16,7 +16,6 @@
   // Default runtime env variables for local development
   "vars": {
     "LOG_LEVEL": "debug",
-    "PORT": "3000",
     "ALLOWED_ORIGIN": "http://localhost:4321",
     "DB_HOST": "aws-0-us-east-1.pooler.supabase.com",
     "DB_PORT_TRANSACTION": "6543",
@@ -37,7 +36,6 @@
       },
       "vars": {
         "LOG_LEVEL": "info",
-        "PORT": "3000",
         "ALLOWED_ORIGIN": "https://001245.xyz",
         "DB_HOST": "aws-0-us-east-1.pooler.supabase.com",
         "DB_PORT_TRANSACTION": "6543",

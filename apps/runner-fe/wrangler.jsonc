@@ -4,16 +4,16 @@
   "compatibility_flags": ["nodejs_compat"],
   "pages_build_output_dir": "./dist",
   // Default env variables for local development
-  "vars": {
-    "PUBLIC_API_URL": "http://localhost:3000"
-  },
+  // "vars": {
+  //   "PUBLIC_API_URL": "http://localhost:3000"
+  // },
   // Deployed environments
   "env": {
     // Production
-    "production": {
-      "vars": {
-        "PUBLIC_API_URL": "https://api.001245.xyz"
-      }
-    }
+    // "production": {
+    //   "vars": {
+    //     "PUBLIC_API_URL": "https://api.001245.xyz"
+    //   }
+    // }
   }
 }
