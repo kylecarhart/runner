@@ -12,17 +12,17 @@ const labelVariants = cva(
  * Label component with consistent styling and accessibility features. If using
  * in a form, you may want to use the FormLabel component instead.
  */
-const Label = React.forwardRef<
-  React.ElementRef<typeof LabelPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> &
-    VariantProps<typeof labelVariants>
->(({ className, ...props }, ref) => (
-  <LabelPrimitive.Root
-    ref={ref}
-    className={cn(labelVariants(), className)}
-    {...props}
-  />
-));
+const Label = (
+  {
+    ref,
+    className,
+    ...props
+  }
+) => (<LabelPrimitive.Root
+  ref={ref}
+  className={cn(labelVariants(), className)}
+  {...props}
+/>);
 Label.displayName = LabelPrimitive.Root.displayName;
 
 export { Label };

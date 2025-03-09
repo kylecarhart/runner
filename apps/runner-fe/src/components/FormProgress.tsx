@@ -78,7 +78,7 @@ export function FormStep({
 
   return (
     <li className={cn(formStep({ intent, size }))}>
-      <Icon className="h-4 w-4" />
+      <Icon className="size-4" />
       {children}
     </li>
   );

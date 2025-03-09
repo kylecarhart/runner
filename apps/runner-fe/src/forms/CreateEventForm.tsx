@@ -129,7 +129,7 @@ export default function CreateEventForm() {
                           ) : (
                             <span>Pick a date</span>
                           )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          <CalendarIcon className="ml-auto size-4 opacity-50" />
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
@@ -233,7 +233,7 @@ export default function CreateEventForm() {
             className="flex items-center justify-center gap-2"
           >
             {isSubmitting ? "Creating event..." : "Next"}
-            {isSubmitting && <LoaderCircle className="h-4 w-4 animate-spin" />}
+            {isSubmitting && <LoaderCircle className="size-4 animate-spin" />}
           </Button>
         </form>
       </Form>

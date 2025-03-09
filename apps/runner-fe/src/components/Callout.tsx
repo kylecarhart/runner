@@ -9,7 +9,7 @@ type Props = {
 };
 
 const icons = {
-  info: <Info className="h-4 w-4" />,
+  info: <Info className="size-4" />,
 };
 
 export default function Callout({ title, children, icon, className }: Props) {

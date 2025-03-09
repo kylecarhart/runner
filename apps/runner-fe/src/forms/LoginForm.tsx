@@ -101,7 +101,7 @@ export default function LoginForm() {
           className="flex items-center justify-center gap-2"
         >
           {isSubmitting ? "Logging in..." : "Log in"}
-          {isSubmitting && <LoaderCircle className="h-4 w-4 animate-spin" />}
+          {isSubmitting && <LoaderCircle className="size-4 animate-spin" />}
         </Button>
       </form>
     </Form>

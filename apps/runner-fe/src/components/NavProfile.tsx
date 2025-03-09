@@ -12,7 +12,7 @@ export default function NavProfile({ user }: Props) {
     <div className="flex items-center gap-6">
       <div className="flex items-center gap-2">
         <span>Hi {user.username}!</span>
-        <ChevronDown className="h-4 w-4 cursor-pointer" />
+        <ChevronDown className="size-4 cursor-pointer" />
       </div>
       <Button
         variant="ghost"
@@ -27,7 +27,7 @@ export default function NavProfile({ user }: Props) {
             });
         }}
       >
-        Logout <LogOut className="h-4 w-4" />
+        Logout <LogOut className="size-4" />
       </Button>
     </div>
   );

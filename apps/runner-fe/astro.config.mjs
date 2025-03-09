@@ -1,7 +1,7 @@
 // @ts-check
 import cloudflare from "@astrojs/cloudflare";
 import react from "@astrojs/react";
-import tailwind from "@astrojs/tailwind";
+import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 
 // https://astro.build/config
@@ -12,10 +12,8 @@ export default defineConfig({
       // configPath: "./wrangler.jsonc",
     },
   }),
-  integrations: [
-    react(),
-    tailwind({
-      applyBaseStyles: false, // For shadcn
-    }),
-  ],
+  integrations: [react()],
+  vite: {
+    plugins: [tailwindcss()],
+  },
 });

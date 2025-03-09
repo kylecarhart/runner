@@ -105,7 +105,7 @@ export default function SignUpForm() {
           className="flex items-center justify-center gap-2"
         >
           {isSubmitting ? "Signing up..." : "Sign up"}
-          {isSubmitting && <LoaderCircle className="h-4 w-4 animate-spin" />}
+          {isSubmitting && <LoaderCircle className="size-4 animate-spin" />}
         </Button>
       </form>
     </Form>

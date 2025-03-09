@@ -81,10 +81,15 @@ const FormItemContext = React.createContext<FormItemContextValue>(
 /**
  * Container component that provides context and styling for form items
  */
-const FormItem = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => {
+const FormItem = (
+  {
+    ref,
+    className,
+    ...props
+  }: React.HTMLAttributes<HTMLDivElement> & {
+    ref: React.RefObject<HTMLDivElement>;
+  }
+) => {
   const id = React.useId();
 
   return (
@@ -92,7 +97,7 @@ const FormItem = React.forwardRef<
       <div ref={ref} className={cn("", className)} {...props} />
     </FormItemContext.Provider>
   );
-});
+};
 FormItem.displayName = "FormItem";
 
 interface FormLabelProps
@@ -103,10 +108,17 @@ interface FormLabelProps
 /**
  * Label component for form fields with optional required indicator
  */
-const FormLabel = React.forwardRef<
-  React.ElementRef<typeof LabelPrimitive.Root>,
-  FormLabelProps
->(({ required = true, className, children, ...props }, ref) => {
+const FormLabel = (
+  {
+    ref,
+    required = true,
+    className,
+    children,
+    ...props
+  }: FormLabelProps & {
+    ref: React.RefObject<React.ElementRef<typeof LabelPrimitive.Root>>;
+  }
+) => {
   const { error, formItemId } = useFormField();
 
   return (
@@ -125,16 +137,20 @@ const FormLabel = React.forwardRef<
       {required && <span className="text-destructive"> *</span>}
     </Label>
   );
-});
+};
 FormLabel.displayName = "FormLabel";
 
 /**
  * Component that provides accessible form control wrapper with proper ARIA attributes
  */
-const FormControl = React.forwardRef<
-  React.ElementRef<typeof Slot>,
-  React.ComponentPropsWithoutRef<typeof Slot>
->(({ ...props }, ref) => {
+const FormControl = (
+  {
+    ref,
+    ...props
+  }: React.ComponentPropsWithoutRef<typeof Slot> & {
+    ref: React.RefObject<React.ElementRef<typeof Slot>>;
+  }
+) => {
   const { error, formItemId, formDescriptionId, formMessageId } =
     useFormField();
 
@@ -151,16 +167,21 @@ const FormControl = React.forwardRef<
       {...props}
     />
   );
-});
+};
 FormControl.displayName = "FormControl";
 
 /**
  * Component for rendering help text description below form fields
  */
-const FormDescription = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => {
+const FormDescription = (
+  {
+    ref,
+    className,
+    ...props
+  }: React.HTMLAttributes<HTMLParagraphElement> & {
+    ref: React.RefObject<HTMLParagraphElement>;
+  }
+) => {
   const { formDescriptionId } = useFormField();
 
   return (
@@ -171,16 +192,22 @@ const FormDescription = React.forwardRef<
       {...props}
     />
   );
-});
+};
 FormDescription.displayName = "FormDescription";
 
 /**
  * Component for displaying form validation error messages
  */
-const FormMessage = React.forwardRef<
-  HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, children, ...props }, ref) => {
+const FormMessage = (
+  {
+    ref,
+    className,
+    children,
+    ...props
+  }: React.HTMLAttributes<HTMLParagraphElement> & {
+    ref: React.RefObject<HTMLParagraphElement>;
+  }
+) => {
   const { error, formMessageId } = useFormField();
   const body = error ? String(error?.message) : children;
 
@@ -198,18 +225,23 @@ const FormMessage = React.forwardRef<
       {body}
     </p>
   );
-});
+};
 FormMessage.displayName = "FormMessage";
 
 /**
  * Container component for grouping form fields with consistent spacing
  */
-const FormGroup = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => {
+const FormGroup = (
+  {
+    ref,
+    className,
+    ...props
+  }: React.HTMLAttributes<HTMLDivElement> & {
+    ref: React.RefObject<HTMLDivElement>;
+  }
+) => {
   return <div ref={ref} className={cn("space-y-2", className)} {...props} />;
-});
+};
 FormGroup.displayName = "FormGroup";
 
 export {
