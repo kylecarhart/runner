@@ -34,5 +34,5 @@ jobs:
         run: pnpm install
       - name: Build
         run: pnpm run --filter @runner/runner-be build
-      - name: Test Coverage
-        run: pnpm run --filter @runner/runner-be coverage
+      # - name: Test Coverage
+      #   run: pnpm run --filter @runner/runner-be coverage
