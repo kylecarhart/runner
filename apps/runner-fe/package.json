@@ -14,11 +14,11 @@
     "start": "astro dev"
   },
   "dependencies": {
-    "@asteasolutions/zod-to-openapi": "^7.2.0",
+    "@asteasolutions/zod-to-openapi": "^7.3.0",
     "@astrojs/check": "^0.9.4",
     "@astrojs/cloudflare": "^12.2.3",
     "@astrojs/react": "^4.2.1",
-    "@hookform/resolvers": "^3.9.1",
+    "@hookform/resolvers": "^4.1.3",
     "@radix-ui/react-label": "^2.1.2",
     "@radix-ui/react-popover": "^1.1.6",
     "@radix-ui/react-select": "^2.1.6",
@@ -41,13 +41,13 @@
     "tailwind-merge": "^3.0.2",
     "tailwindcss": "^4.0.12",
     "tailwindcss-animate": "^1.0.7",
-    "typescript": "^5.7.2",
-    "zod": "^3.24.1"
+    "typescript": "^5.8.2",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250303.0",
     "@runner/runner-be": "workspace:*",
-    "lint-staged": "^15.2.11",
+    "lint-staged": "^15.4.3",
     "wrangler": "^3.114.0"
   },
   "engines": {
