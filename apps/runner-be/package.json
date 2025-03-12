@@ -33,6 +33,7 @@
     "@oslojs/crypto": "^1.0.1",
     "@oslojs/encoding": "^1.1.0",
     "@runner/api": "workspace:*",
+    "@runner/config-ts": "workspace:*",
     "@runner/postmark": "workspace:*",
     "@runner/utils": "workspace:*",
     "@scalar/hono-api-reference": "^0.5.183",

@@ -6,11 +6,18 @@
   "license": "ISC",
   "author": "Kyle Carhart",
   "type": "module",
-  "main": "src/index.js",
+  "exports": {
+    "./constants": "./src/constants.ts",
+    "./flags": "./src/flags.ts",
+    "./object": "./src/object.ts",
+    "./typescript": "./src/typescript.ts",
+    "./us": "./src/us.ts"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@runner/config-ts": "workspace:*",
     "zod": "^3.24.2"
   },
   "engines": {

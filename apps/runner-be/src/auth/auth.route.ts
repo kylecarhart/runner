@@ -1,10 +1,10 @@
 import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
+import { ConfirmEmailRequestSchema } from "@runner/api/email-confirmation";
 import {
-  ConfirmEmailRequestSchema,
   CreateUserRequestSchema,
   CreateUserResponseSchema,
   LoginRequestSchema,
-} from "@runner/api";
+} from "@runner/api/user";
 import { HonoEnv } from "../index.js";
 import { contentJson } from "../utils/openapi.js";
 import { data } from "../utils/response.js";

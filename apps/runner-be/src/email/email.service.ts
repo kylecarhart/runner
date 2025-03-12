@@ -1,5 +1,6 @@
 import { Postmark } from "@runner/postmark";
-import { APP_NAME, enabled } from "@runner/utils";
+import { APP_NAME } from "@runner/utils/constants";
+import { enabled } from "@runner/utils/flags";
 import { env, isDevelopment } from "../utils/env.js";
 import { logger } from "../utils/logger.js";
 

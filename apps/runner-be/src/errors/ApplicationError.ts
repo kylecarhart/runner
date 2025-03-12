@@ -1,4 +1,4 @@
-import type { ErrorResponse } from "@runner/api";
+import type { ErrorResponse } from "@runner/api/response";
 import type { ContentfulStatusCode } from "hono/utils/http-status";
 import { StatusCodes } from "http-status-codes";
 

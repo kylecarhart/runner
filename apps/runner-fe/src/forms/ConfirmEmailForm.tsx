@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ConfirmEmailRequestSchema,
   type ConfirmEmailRequest,
-} from "@runner/api/src/index.js";
+} from "@runner/api/email-confirmation";
 import { Button } from "@runner/ui/components/button";
 import {
   Form,

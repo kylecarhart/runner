@@ -1,4 +1,4 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "@runner/config-ts/base.json",
   "include": ["src/**/*.ts"]
 }

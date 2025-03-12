@@ -1,5 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CreateEventRequestSchema, type CreateEventRequest } from "@runner/api";
+import {
+  CreateEventRequestSchema,
+  type CreateEventRequest,
+} from "@runner/api/event";
 import { Button } from "@runner/ui/components/button";
 import { Calendar } from "@runner/ui/components/calendar";
 import {
@@ -26,7 +29,7 @@ import {
 } from "@runner/ui/components/select";
 import { Textarea } from "@runner/ui/components/textarea";
 import { cn } from "@runner/ui/utils";
-import { US_STATES } from "@runner/utils";
+import { US_STATES } from "@runner/utils/us";
 import { format } from "date-fns";
 import { CalendarIcon, LoaderCircle } from "lucide-react";
 import { useForm } from "react-hook-form";

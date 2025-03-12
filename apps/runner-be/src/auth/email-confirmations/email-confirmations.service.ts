@@ -1,5 +1,5 @@
 import { generateRandomString } from "@oslojs/crypto/random";
-import { CreateUserRequest } from "@runner/api";
+import { CreateUserRequest } from "@runner/api/user";
 import { addHours, isAfter } from "date-fns";
 import { eq } from "drizzle-orm";
 import { User, users, withoutPassword } from "../../app/users/users.schema.js";

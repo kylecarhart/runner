@@ -1,4 +1,5 @@
 import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
+import { PaginationQuerySchema } from "@runner/api/request";
 import {
   ChangePasswordParamsSchema,
   ChangePasswordRequestSchema,
@@ -7,10 +8,9 @@ import {
   GetUserParamsSchema,
   GetUserResponseSchema,
   GetUsersResponseSchema,
-  PaginationQuerySchema,
   UpdateUserParamsSchema,
   UpdateUserRequestSchema,
-} from "@runner/api";
+} from "@runner/api/user";
 import { HonoEnv } from "../../index.js";
 import { sessionsMiddleware } from "../../middleware/sessions.middleware.js";
 import { logger } from "../../utils/logger.js";

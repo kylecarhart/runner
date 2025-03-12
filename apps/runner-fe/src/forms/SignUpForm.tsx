@@ -1,5 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CreateUserRequestSchema, type CreateUserRequest } from "@runner/api";
+import {
+  CreateUserRequestSchema,
+  type CreateUserRequest,
+} from "@runner/api/user";
 import { Button } from "@runner/ui/components/button";
 import {
   Form,

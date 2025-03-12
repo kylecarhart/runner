@@ -7,7 +7,15 @@
   "license": "ISC",
   "author": "Kyle Carhart",
   "type": "module",
-  "main": "src/index.ts",
+  "exports": {
+    "./base": "./src/base.ts",
+    "./email-confirmation": "./src/email-confirmation.ts",
+    "./event": "./src/event.ts",
+    "./request": "./src/request.ts",
+    "./response": "./src/response.ts",
+    "./user": "./src/user.ts",
+    "./zod": "./src/zod.ts"
+  },
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",

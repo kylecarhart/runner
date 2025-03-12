@@ -1,3 +1,4 @@
+// TODO: Change to key value where code is key
 export const US_STATES = [
   { name: "Alabama", code: "AL" },
   { name: "Alaska", code: "AK" },
@@ -51,6 +52,7 @@ export const US_STATES = [
   { name: "Wyoming", code: "WY" },
 ] as const;
 
+// TODO: Remove these, replace them with pre-calculated versions
 export const US_STATE_NAMES = US_STATES.map((state) => state.name);
 export const US_STATE_CODES = US_STATES.map((state) => state.code);
 

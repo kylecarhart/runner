@@ -24,6 +24,7 @@
     "@radix-ui/react-select": "^2.1.6",
     "@radix-ui/react-slot": "^1.1.2",
     "@runner/api": "workspace:*",
+    "@runner/config-ts": "workspace:*",
     "@runner/ui": "workspace:*",
     "@runner/utils": "workspace:*",
     "@tailwindcss/vite": "^4.0.12",
