@@ -1,5 +1,5 @@
+import { cn } from "@runner/ui/utils";
 import { Info } from "lucide-react";
-import { cn } from "../utils/cn.ts";
 
 type Props = {
   title?: string;

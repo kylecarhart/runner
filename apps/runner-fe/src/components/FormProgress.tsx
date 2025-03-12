@@ -1,6 +1,6 @@
+import { cn } from "@runner/ui/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import { Circle, CircleCheck, CircleDot } from "lucide-react";
-import { cn } from "../utils/cn.ts";
 
 type Step = {
   title: string;

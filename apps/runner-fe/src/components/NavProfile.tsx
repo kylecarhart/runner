@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
 import type { User } from "@runner/api";
+import { Button } from "@runner/ui/components/button";
 import { ChevronDown, LogOut } from "lucide-react";
 import { logout } from "../clients/v1Client.ts";
 

@@ -1,4 +1,9 @@
-import { Button } from "@/components/ui/button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  ConfirmEmailRequestSchema,
+  type ConfirmEmailRequest,
+} from "@runner/api/src/index.js";
+import { Button } from "@runner/ui/components/button";
 import {
   Form,
   FormControl,
@@ -6,13 +11,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form.tsx";
-import { Input } from "@/components/ui/input.tsx";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  ConfirmEmailRequestSchema,
-  type ConfirmEmailRequest,
-} from "@runner/api/src/index.js";
+} from "@runner/ui/components/form";
+import { Input } from "@runner/ui/components/input";
 import { LoaderCircle } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";

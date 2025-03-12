@@ -1,5 +1,7 @@
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar.tsx";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CreateEventRequestSchema, type CreateEventRequest } from "@runner/api";
+import { Button } from "@runner/ui/components/button";
+import { Calendar } from "@runner/ui/components/calendar";
 import {
   Form,
   FormControl,
@@ -8,24 +10,22 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form.tsx";
-import { Input } from "@/components/ui/input.tsx";
+} from "@runner/ui/components/form";
+import { Input } from "@runner/ui/components/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover.tsx";
+} from "@runner/ui/components/popover";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select.tsx";
-import { Textarea } from "@/components/ui/textarea.tsx";
-import { cn } from "@/utils/cn.ts";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { CreateEventRequestSchema, type CreateEventRequest } from "@runner/api";
+} from "@runner/ui/components/select";
+import { Textarea } from "@runner/ui/components/textarea";
+import { cn } from "@runner/ui/utils";
 import { US_STATES } from "@runner/utils";
 import { format } from "date-fns";
 import { CalendarIcon, LoaderCircle } from "lucide-react";
