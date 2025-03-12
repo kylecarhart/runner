@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "astro": "astro",
-    "build": "pnpm run rpc-types && astro check && astro build",
+    "build": "pnpm run rpc-types && pnpm run --filter ui build && astro check && astro build",
     "deploy": "astro build && wrangler pages deploy",
     "dev": "pnpm run rpc-types && astro dev",
     "pre-commit": "lint-staged",
