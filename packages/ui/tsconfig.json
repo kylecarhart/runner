@@ -1,6 +1,7 @@
 {
-  "extends": ["@runner/config-ts/base.json"],
+  "extends": "@runner/config-ts/base.json",
   "compilerOptions": {
+    "lib": ["ESNext", "DOM"],
     "jsx": "react-jsx",
     "jsxImportSource": "react",
     "baseUrl": ".",
