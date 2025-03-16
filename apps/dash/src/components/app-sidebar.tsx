@@ -1,3 +1,13 @@
+import { NavUser } from "@runner/ui/components/nav-user";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@runner/ui/components/sidebar";
 import {
   BookOpen,
   Bot,
@@ -10,21 +20,9 @@ import {
   Settings2,
   SquareTerminal,
 } from "lucide-react";
-import * as React from "react";
-
-import { NavMain } from "@/components/nav-main";
-import { NavProjects } from "@/components/nav-projects";
-import { NavSecondary } from "@/components/nav-secondary";
-import { NavUser } from "@/components/nav-user";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/components/sidebar";
+import { NavMain } from "../components/nav-main";
+import { NavProjects } from "../components/nav-projects";
+import { NavSecondary } from "../components/nav-secondary";
 
 const data = {
   user: {

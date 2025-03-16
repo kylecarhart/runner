@@ -1,4 +1,3 @@
-import { AppSidebar } from "@runner/ui/components/app-sidebar";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -15,6 +14,7 @@ import {
 } from "@runner/ui/components/sidebar";
 import { Skeleton } from "@runner/ui/components/skeleton";
 import { createFileRoute } from "@tanstack/react-router";
+import { AppSidebar } from "../components/app-sidebar";
 
 export const Route = createFileRoute("/")({
   component: HomeComponent,
