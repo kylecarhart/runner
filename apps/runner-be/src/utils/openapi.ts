@@ -50,9 +50,7 @@ export const bootstrapOpenApi = (app: OpenAPIHono<HonoEnv>) => {
   app.get(
     PATH_SCALAR,
     apiReference({
-      spec: {
-        url: PATH_OPENAPI,
-      },
+      url: PATH_OPENAPI,
     }),
   );
 };

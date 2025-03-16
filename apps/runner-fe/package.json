@@ -5,12 +5,11 @@
   "type": "module",
   "scripts": {
     "astro": "astro",
-    "build": "pnpm run rpc-types && pnpm run --filter ui build && astro check && astro build",
+    "build": "astro check && astro build",
     "deploy": "astro build && wrangler pages deploy",
-    "dev": "pnpm run rpc-types && astro dev",
+    "dev": "astro dev",
     "pre-commit": "lint-staged",
     "preview": "astro build && wrangler pages dev",
-    "rpc-types": "pnpm run --filter runner-be emit-types",
     "start": "astro dev"
   },
   "dependencies": {

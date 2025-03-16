@@ -8,6 +8,7 @@
   "author": "Kyle Carhart",
   "type": "module",
   "scripts": {
+    "dev:web": "turbo watch dev --filter=@runner/runner-fe --filter=@runner/runner-be",
     "lint": "pnpm -r --bail run lint ",
     "pre-commit": "pnpm -r --workspace-concurrency=1 run pre-commit",
     "prepare": "husky",
@@ -24,6 +25,7 @@
     "turbo": "^2.4.4",
     "typescript": "^5.8.2"
   },
+  "packageManager": "pnpm@10.5.2",
   "engines": {
     "node": "22",
     "pnpm": "10"
