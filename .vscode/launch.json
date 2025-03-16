@@ -2,7 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "command": "./src/runner-fe/node_modules/.bin/astro dev",
+      "command": "./src/web/node_modules/.bin/astro dev",
       "name": "Astro Debug",
       "request": "launch",
       "type": "node-terminal"

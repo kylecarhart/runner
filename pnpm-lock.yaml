@@ -188,7 +188,7 @@ importers:
         specifier: ^6.0.3
         version: 6.2.1(@types/node@22.13.10)(jiti@2.4.2)(lightningcss@1.29.2)(tsx@4.19.3)(yaml@2.7.0)
 
-  apps/runner-fe:
+  apps/web:
     dependencies:
       '@asteasolutions/zod-to-openapi':
         specifier: ^7.3.0
@@ -273,10 +273,10 @@ importers:
         version: 3.0.2
       tailwindcss:
         specifier: ^4.0.12
-        version: 4.0.12
+        version: 4.0.13
       tailwindcss-animate:
         specifier: ^1.0.7
-        version: 1.0.7(tailwindcss@4.0.12)
+        version: 1.0.7(tailwindcss@4.0.13)
       typescript:
         specifier: ^5.8.2
         version: 5.8.2
@@ -286,16 +286,16 @@ importers:
     devDependencies:
       '@cloudflare/workers-types':
         specifier: ^4.20250303.0
-        version: 4.20250303.0
+        version: 4.20250313.0
       '@runner/api':
         specifier: workspace:*
         version: link:../api
       lint-staged:
         specifier: ^15.4.3
-        version: 15.4.3
+        version: 15.5.0
       wrangler:
         specifier: ^3.114.0
-        version: 3.114.0(@cloudflare/workers-types@4.20250303.0)
+        version: 3.114.0(@cloudflare/workers-types@4.20250313.0)
 
   packages/config-ts:
     dependencies:
@@ -708,9 +708,6 @@ packages:
     engines: {node: '>=16'}
     cpu: [x64]
     os: [win32]
-
-  '@cloudflare/workers-types@4.20250303.0':
-    resolution: {integrity: sha512-O7F7nRT4bbmwHf3gkRBLfJ7R6vHIJ/oZzWdby6obOiw2yavUfp/AIwS7aO2POu5Cv8+h3TXS3oHs3kKCZLraUA==}
 
   '@cloudflare/workers-types@4.20250313.0':
     resolution: {integrity: sha512-iqyzZwogC+3yL8h58vMhjYQUHUZA8XazE3Q+ofR59wDOnsPe/u9W6+aCl408N0iNBhMPvpJQQ3/lkz0iJN2fhA==}
@@ -2891,10 +2888,6 @@ packages:
     resolution: {integrity: sha512-7VT13fmjotKpGipCW9JEQAusEPE+Ei8nl6/g4FBAmIm0GOOLMua9NDDo/DWp0ZAxCr3cPq5ZpBqmPAQgDda2Pw==}
     engines: {node: '>= 8.10.0'}
 
-  chokidar@4.0.1:
-    resolution: {integrity: sha512-n8enUVCED/KVRQlab1hr3MVpcVMvxtZjmEa956u+4YijlmQED223XMSYj2tLuKvr4jcCTzNNMpQDUer72MMmzA==}
-    engines: {node: '>= 14.16.0'}
-
   chokidar@4.0.3:
     resolution: {integrity: sha512-Qgzu8kfBvo+cA4962jnP1KkS6Dop5NS6g7R5LFYJr4b8Ub94PPQXUksCw9PvXoeXPRRddRNC5C1JQUR2SMGtnA==}
     engines: {node: '>= 14.16.0'}
@@ -3542,9 +3535,6 @@ packages:
   hast-util-raw@9.1.0:
     resolution: {integrity: sha512-Y8/SBAHkZGoNkpzqqfCldijcuUKh7/su31kEBp67cFY09Wy0mTRgtsLYsiIxMJxlu0f6AA5SUTbDR8K0rxnbUw==}
 
-  hast-util-to-html@9.0.3:
-    resolution: {integrity: sha512-M17uBDzMJ9RPCqLMO92gNNUDuBSq10a25SDBI08iCCxmorf4Yy6sYHK57n9WAbRAAaU+DuR4W6GN9K4DFZesYg==}
-
   hast-util-to-html@9.0.5:
     resolution: {integrity: sha512-OguPdidb+fbHQSU4Q4ZiLKnzWo8Wwsf5bZfbvu7//a9oTYoqD/fWpe96NuHkoS9h0ccGOTe0C4NGXdtS0iObOw==}
 
@@ -3832,11 +3822,6 @@ packages:
 
   lines-and-columns@1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
-
-  lint-staged@15.4.3:
-    resolution: {integrity: sha512-FoH1vOeouNh1pw+90S+cnuoFwRfUD9ijY2GKy5h7HS3OR7JVir2N2xrsa0+Twc1B7cW72L+88geG5cW4wIhn7g==}
-    engines: {node: '>=18.12.0'}
-    hasBin: true
 
   lint-staged@15.5.0:
     resolution: {integrity: sha512-WyCzSbfYGhK7cU+UuDDkzUiytbfbi0ZdPy2orwtM75P3WTtQBzmG40cCxIa8Ii2+XjfxzLH6Be46tUfWS85Xfg==}
@@ -5384,6 +5369,7 @@ packages:
   wrangler@3.114.0:
     resolution: {integrity: sha512-cY0HxgU5yuc24tE1Y4KD2n9UzYYEx+9lSL7p/Sqj18SgDfwyiMPY/FryXQAPYLuD/S+dxArRQyeEkFSokIr75Q==}
     engines: {node: '>=16.17.0'}
+    deprecated: Deployments with nodejs_compat are broken. Please downgrade to 3.112.0
     hasBin: true
     peerDependencies:
       '@cloudflare/workers-types': ^4.20250224.0
@@ -5518,7 +5504,7 @@ snapshots:
   '@astrojs/check@0.9.4(prettier-plugin-astro@0.14.1)(prettier@3.5.3)(typescript@5.8.2)':
     dependencies:
       '@astrojs/language-server': 2.15.4(prettier-plugin-astro@0.14.1)(prettier@3.5.3)(typescript@5.8.2)
-      chokidar: 4.0.1
+      chokidar: 4.0.3
       kleur: 4.1.5
       typescript: 5.8.2
       yargs: 17.7.2
@@ -5562,7 +5548,7 @@ snapshots:
 
   '@astrojs/language-server@2.15.4(prettier-plugin-astro@0.14.1)(prettier@3.5.3)(typescript@5.8.2)':
     dependencies:
-      '@astrojs/compiler': 2.10.3
+      '@astrojs/compiler': 2.10.4
       '@astrojs/yaml2ts': 0.2.2
       '@jridgewell/sourcemap-codec': 1.5.0
       '@volar/kit': 2.4.10(typescript@5.8.2)
@@ -5655,7 +5641,7 @@ snapshots:
 
   '@astrojs/yaml2ts@0.2.2':
     dependencies:
-      yaml: 2.6.1
+      yaml: 2.7.0
 
   '@babel/code-frame@7.26.2':
     dependencies:
@@ -5923,8 +5909,6 @@ snapshots:
 
   '@cloudflare/workerd-windows-64@1.20250310.0':
     optional: true
-
-  '@cloudflare/workers-types@4.20250303.0': {}
 
   '@cloudflare/workers-types@4.20250313.0': {}
 
@@ -7800,10 +7784,6 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  chokidar@4.0.1:
-    dependencies:
-      readdirp: 4.0.2
-
   chokidar@4.0.3:
     dependencies:
       readdirp: 4.0.2
@@ -8471,20 +8451,6 @@ snapshots:
       web-namespaces: 2.0.1
       zwitch: 2.0.4
 
-  hast-util-to-html@9.0.3:
-    dependencies:
-      '@types/hast': 3.0.4
-      '@types/unist': 3.0.3
-      ccount: 2.0.1
-      comma-separated-tokens: 2.0.3
-      hast-util-whitespace: 3.0.0
-      html-void-elements: 3.0.0
-      mdast-util-to-hast: 13.2.0
-      property-information: 6.5.0
-      space-separated-tokens: 2.0.2
-      stringify-entities: 4.0.4
-      zwitch: 2.0.4
-
   hast-util-to-html@9.0.5:
     dependencies:
       '@types/hast': 3.0.4
@@ -8733,21 +8699,6 @@ snapshots:
   lilconfig@3.1.3: {}
 
   lines-and-columns@1.2.4: {}
-
-  lint-staged@15.4.3:
-    dependencies:
-      chalk: 5.4.1
-      commander: 13.1.0
-      debug: 4.4.0
-      execa: 8.0.1
-      lilconfig: 3.1.3
-      listr2: 8.2.5
-      micromatch: 4.0.8
-      pidtree: 0.6.0
-      string-argv: 0.3.2
-      yaml: 2.7.0
-    transitivePeerDependencies:
-      - supports-color
 
   lint-staged@15.5.0:
     dependencies:
@@ -9540,7 +9491,7 @@ snapshots:
   rehype-stringify@10.0.1:
     dependencies:
       '@types/hast': 3.0.4
-      hast-util-to-html: 9.0.3
+      hast-util-to-html: 9.0.5
       unified: 11.0.5
 
   rehype@13.0.2:
@@ -9899,6 +9850,10 @@ snapshots:
   tailwindcss-animate@1.0.7(tailwindcss@4.0.12):
     dependencies:
       tailwindcss: 4.0.12
+
+  tailwindcss-animate@1.0.7(tailwindcss@4.0.13):
+    dependencies:
+      tailwindcss: 4.0.13
 
   tailwindcss@4.0.12: {}
 
@@ -10434,26 +10389,6 @@ snapshots:
       '@cloudflare/workerd-linux-64': 1.20250310.0
       '@cloudflare/workerd-linux-arm64': 1.20250310.0
       '@cloudflare/workerd-windows-64': 1.20250310.0
-
-  wrangler@3.114.0(@cloudflare/workers-types@4.20250303.0):
-    dependencies:
-      '@cloudflare/kv-asset-handler': 0.3.4
-      '@cloudflare/unenv-preset': 2.0.0(unenv@2.0.0-rc.8)(workerd@1.20250224.0)
-      '@esbuild-plugins/node-globals-polyfill': 0.2.3(esbuild@0.17.19)
-      '@esbuild-plugins/node-modules-polyfill': 0.2.2(esbuild@0.17.19)
-      blake3-wasm: 2.1.5
-      esbuild: 0.17.19
-      miniflare: 3.20250224.0
-      path-to-regexp: 6.3.0
-      unenv: 2.0.0-rc.8
-      workerd: 1.20250224.0
-    optionalDependencies:
-      '@cloudflare/workers-types': 4.20250303.0
-      fsevents: 2.3.3
-      sharp: 0.33.5
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
 
   wrangler@3.114.0(@cloudflare/workers-types@4.20250313.0):
     dependencies:

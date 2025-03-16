@@ -4,7 +4,7 @@ A full-stack application for managing running events and races. Built with moder
 
 ## Applications
 
-### Frontend (`apps/runner-fe`)
+### Frontend (`apps/web`)
 
 - Built with Astro + React
 - Deployed to Cloudflare Pages
