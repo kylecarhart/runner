@@ -1,4 +1,4 @@
-import type { CreateEventRequest, Event } from "@runner/api/event";
+import type { CreateEventRequest, Event } from "@runner/schemas/event";
 import { InferInsertModel } from "drizzle-orm";
 import { db } from "../../database/db.js";
 import { invariant } from "../../utils/invariant.js";

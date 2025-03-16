@@ -5,7 +5,7 @@
 - TODO: Get error codes under control
 - TODO: Rate limiting
 - TODO: Evaluate Astro Frontend
-- TODO: Runner-be debug launch.json
+- TODO: Api debug launch.json
 - TODO: Syncpack or pnpm overrides
 - TODO: Knip
 - TODO: BiomeJS when Astro is evaluated (good) and supported

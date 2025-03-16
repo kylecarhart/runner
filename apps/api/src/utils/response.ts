@@ -1,4 +1,4 @@
-import { Pagination, SuccessResponseSchema } from "@runner/api/response";
+import { Pagination, SuccessResponseSchema } from "@runner/schemas/response";
 import { ContentfulStatusCode } from "hono/utils/http-status";
 import { ZodSchema } from "zod";
 import { ZodResponseError } from "../errors/ZodResponseError.js";

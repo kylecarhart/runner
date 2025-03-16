@@ -7,11 +7,11 @@ on:
   push:
     branches: ["main"]
     # paths:
-    #   - apps/runner-be/**
+    #   - apps/api/**
   pull_request:
     branches: ["main"]
     # paths:
-    #   - apps/runner-be/**
+    #   - apps/api/**
 
 jobs:
   build:
@@ -33,6 +33,6 @@ jobs:
       - name: Install Dependencies
         run: pnpm install
       - name: Build
-        run: pnpm run --filter @runner/runner-be build
+        run: pnpm run --filter @runner/api build
       # - name: Test Coverage
-      #   run: pnpm run --filter @runner/runner-be coverage
+      #   run: pnpm run --filter @runner/api coverage

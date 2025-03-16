@@ -22,8 +22,8 @@
     "@radix-ui/react-popover": "^1.1.6",
     "@radix-ui/react-select": "^2.1.6",
     "@radix-ui/react-slot": "^1.1.2",
-    "@runner/api": "workspace:*",
     "@runner/config-ts": "workspace:*",
+    "@runner/schemas": "workspace:*",
     "@runner/ui": "workspace:*",
     "@runner/utils": "workspace:*",
     "@tailwindcss/vite": "^4.0.12",
@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250303.0",
-    "@runner/runner-be": "workspace:*",
+    "@runner/api": "workspace:*",
     "lint-staged": "^15.4.3",
     "wrangler": "^3.114.0"
   },

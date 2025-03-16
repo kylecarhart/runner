@@ -1,4 +1,4 @@
-import type { AppType } from "@runner/runner-be";
+import type { AppType } from "@runner/api";
 import { hc } from "hono/client";
 
 /** @see https://github.com/cloudflare/workers-sdk/issues/2514#issuecomment-2178070014 */

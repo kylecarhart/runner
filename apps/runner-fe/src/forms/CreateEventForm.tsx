@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   CreateEventRequestSchema,
   type CreateEventRequest,
-} from "@runner/api/event";
+} from "@runner/schemas/event";
 import { Button } from "@runner/ui/components/button";
 import { Calendar } from "@runner/ui/components/calendar";
 import {

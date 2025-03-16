@@ -75,7 +75,7 @@ const processEnvFile = () => {
 
   // Update wrangler.toml
   const wranglerConfig = {
-    name: "runner-be",
+    name: "runner-api",
     main: "src/index.ts",
     compatibility_date: "2024-11-15",
     compatibility_flags: ["nodejs_compat"],

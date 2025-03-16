@@ -14,7 +14,7 @@ A full-stack application for managing running events and races. Built with moder
   - User authentication
   - Community features
 
-### Backend (`apps/runner-be`)
+### Backend (`apps/api`)
 
 - Built with Hono.js
 - Deployed to Cloudflare Workers

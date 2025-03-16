@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { OpenAPIHono } from "@hono/zod-openapi";
-import { User } from "@runner/api/user";
+import { User } from "@runner/schemas/user";
 import { Context } from "hono";
 import { contextStorage } from "hono/context-storage";
 import { secureHeaders } from "hono/secure-headers";

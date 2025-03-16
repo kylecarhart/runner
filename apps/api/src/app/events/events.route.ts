@@ -2,7 +2,7 @@ import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
 import {
   CreateEventRequestSchema,
   CreateEventResponseSchema,
-} from "@runner/api/event";
+} from "@runner/schemas/event";
 import { HonoEnv } from "../../index.js";
 import { sessionsMiddleware } from "../../middleware/sessions.middleware.js";
 import { contentJson } from "../../utils/openapi.js";

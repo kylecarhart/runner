@@ -1,10 +1,13 @@
-import { DEFAULT_PAGINATION, type PaginationQuery } from "@runner/api/request";
-import { Pagination } from "@runner/api/response";
+import {
+  DEFAULT_PAGINATION,
+  type PaginationQuery,
+} from "@runner/schemas/request";
+import { Pagination } from "@runner/schemas/response";
 import {
   type ChangePasswordRequest,
   type CreateUserRequest,
   type UpdateUserRequest,
-} from "@runner/api/user";
+} from "@runner/schemas/user";
 import { stripUndefined } from "@runner/utils/object";
 import { eq, or } from "drizzle-orm";
 import {

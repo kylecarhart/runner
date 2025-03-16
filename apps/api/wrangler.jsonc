@@ -1,5 +1,5 @@
 {
-  "name": "runner-be",
+  "name": "runner-api",
   "main": "src/index.ts",
   "compatibility_date": "2024-11-15",
   "compatibility_flags": ["nodejs_compat"],
@@ -30,7 +30,7 @@
   "env": {
     // Production
     "prod": {
-      "name": "runner-be-prod",
+      "name": "runner-api-prod",
       "define": {
         "ENVIRONMENT": "\"production\""
       },
