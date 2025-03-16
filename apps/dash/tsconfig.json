@@ -6,9 +6,6 @@
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "skipLibCheck": true,
-    "paths": {
-      "@/*": ["../packages/ui/*"]
-    }
+    "skipLibCheck": true
   }
 }
