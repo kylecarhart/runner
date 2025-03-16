@@ -1,7 +1,7 @@
 {
   "name": "@runner/api",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend API for runner applications",
   "keywords": [],
   "license": "ISC",
   "author": "Kyle Carhart",
