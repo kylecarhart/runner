@@ -1,8 +1,8 @@
 # Runner Frontend
 
-## TODO
+## Environment Variables
 
-- [] Upgrade react to 19 once https://github.com/facebook/react/issues/31827 is fixed.
+Copy `.env.example` to `.env` and fill in the blanks.
 
 ## Commands
 

@@ -20,7 +20,8 @@
     "DB_HOST": "aws-0-us-east-1.pooler.supabase.com",
     "DB_PORT_TRANSACTION": "6543",
     "DB_PORT_SESSION": "5432",
-    "DB_NAME": "postgres"
+    "DB_NAME": "postgres",
+    "DB_USER": "postgres.citynhghficrpegsglbq"
   },
   // Default build-time env variables for local development
   "define": {
@@ -40,7 +41,8 @@
         "DB_HOST": "aws-0-us-east-1.pooler.supabase.com",
         "DB_PORT_TRANSACTION": "6543",
         "DB_PORT_SESSION": "5432",
-        "DB_NAME": "postgres"
+        "DB_NAME": "postgres",
+        "DB_USER": "postgres.citynhghficrpegsglbq"
       }
     }
   }

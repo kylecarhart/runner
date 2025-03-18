@@ -16,10 +16,8 @@
     "deploy": "wrangler deploy --env prod",
     "dev": "wrangler dev --local --port 3000 --show-interactive-dev-session=false",
     "emit-types": "tsc --declaration --declarationMap --emitDeclarationOnly",
-    "env": "tsx scripts/env.script.ts",
     "lint": "eslint .",
     "pre-commit": "lint-staged && pnpm type-check",
-    "start": "pnpm run dev",
     "test": "vitest",
     "type-check": "tsc --noEmit"
   },
