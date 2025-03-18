@@ -1,4 +1,3 @@
-import Separator from "@/components/Separator.tsx";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   CreateEventRequestSchema,
@@ -28,13 +27,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@runner/ui/components/select";
+import { Separator } from "@runner/ui/components/separator";
 import { Textarea } from "@runner/ui/components/textarea";
 import { cn } from "@runner/ui/utils";
 import { US_STATES } from "@runner/utils/us";
 import { format } from "date-fns";
 import { CalendarIcon, LoaderCircle } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { createEvent } from "../clients/v1Client.ts";
+// import { createEvent } from "../clients/v1Client.ts";
 
 export default function CreateEventForm() {
   const form = useForm<CreateEventRequest>({
@@ -58,11 +58,10 @@ export default function CreateEventForm() {
 
   const onSubmit = async (data: CreateEventRequest) => {
     try {
-      const response = await createEvent({ json: data });
-
-      if (!response.ok) {
-        throw new Error("Create event failed");
-      }
+      // const response = await createEvent({ json: data });
+      // if (!response.ok) {
+      // throw new Error("Create event failed");
+      // }
     } catch (error) {
       setError("root.serverError", {
         type: "400",

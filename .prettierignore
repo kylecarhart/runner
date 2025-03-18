@@ -8,3 +8,6 @@ build
 
 # Test
 coverage
+
+# Generated files
+*.gen.*

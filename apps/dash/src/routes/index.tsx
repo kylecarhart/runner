@@ -12,9 +12,9 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@runner/ui/components/sidebar";
-import { Skeleton } from "@runner/ui/components/skeleton";
 import { createFileRoute } from "@tanstack/react-router";
 import { AppSidebar } from "../components/app-sidebar";
+import CreateEventForm from "../events/CreateEventForm.js";
 
 export const Route = createFileRoute("/")({
   component: HomeComponent,
@@ -44,13 +44,8 @@ function HomeComponent() {
             </Breadcrumb>
           </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-            <Skeleton className="aspect-video" />
-            <Skeleton className="aspect-video" />
-            <Skeleton className="aspect-video" />
-          </div>
-          <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
+        <div className="flex flex-1 flex-col gap-4 p-4 pt-0 max-w-prose">
+          <CreateEventForm />
         </div>
       </SidebarInset>
     </SidebarProvider>

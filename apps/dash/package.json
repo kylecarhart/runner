@@ -11,13 +11,19 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@hookform/resolvers": "^4.1.3",
+    "@runner/api": "workspace:*",
+    "@runner/schemas": "workspace:*",
     "@runner/ui": "workspace:*",
+    "@runner/utils": "workspace:*",
     "@tailwindcss/vite": "^4.0.12",
     "@tanstack/react-router": "^1.114.3",
     "@tanstack/router-devtools": "^1.114.3",
+    "date-fns": "^4.1.0",
     "lucide-react": "^0.479.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-hook-form": "^7.54.2",
     "tailwindcss": "^4.0.12"
   },
   "devDependencies": {
