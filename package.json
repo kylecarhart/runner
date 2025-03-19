@@ -9,6 +9,7 @@
   "type": "module",
   "scripts": {
     "@runner/ui": "workspace:*",
+    "dev": "turbo watch dev",
     "dev:dash": "turbo watch dev --filter=@runner/dash --filter=@runner/api",
     "dev:web": "turbo watch dev --filter=@runner/web --filter=@runner/api",
     "lint": "pnpm -r --bail run lint ",

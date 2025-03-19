@@ -30,7 +30,7 @@ import SiteLayout from "../layouts/SiteLayout.astro";
         color="green"
       >
         <CalendarPlus slot="icon" className="h-10 w-10 text-green-600" />
-        <a slot="cta" href="/events/create">Create an Event</a>
+        <a slot="cta" href={import.meta.env.PUBLIC_DASH_URL}>Create an Event</a>
       </Card>
 
       <!-- Local Running Groups -->

@@ -25,5 +25,9 @@ export default defineConfig({
             "react-dom/server": "react-dom/server.edge",
           },
     },
+    // envPrefix: ["VITE_", "PUBLIC_"], // TODO: Don't need this yet
+  },
+  server: {
+    port: 5150,
   },
 });
