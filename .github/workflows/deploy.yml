@@ -37,8 +37,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Deploy
-        run: pnpm run --filter=@runner/api deploy
-          
+      - name: Deploy affected
+        run: pnpm run deploy:affected
+        # run: pnpm run --filter=@runner/api deploy
+
       # - name: Test
       #   run: pnpm test
