@@ -15,6 +15,9 @@
       "persistent": true,
       "cache": false,
       "dependsOn": ["^build", "^emit-types"]
+    },
+    "deploy": {
+      "dependsOn": ["^build", "^emit-types"]
     }
   }
 }
