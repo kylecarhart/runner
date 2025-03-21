@@ -17,7 +17,7 @@
       "dependsOn": ["^build", "^emit-types"]
     },
     "deploy": {
-      "dependsOn": ["^build", "^emit-types"]
+      "dependsOn": ["^deploy", "^build", "^emit-types"]
     }
   }
 }
