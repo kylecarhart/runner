@@ -2,11 +2,11 @@
   "$schema": "https://turbo.build/schema.json",
   "tasks": {
     "build": {
-      "dependsOn": ["^build", "^emit-types"],
+      "dependsOn": ["^build", "@runner/api#emit-types"],
       "outputs": ["dist/**"]
     },
-    "emit-types": {
-      "dependsOn": ["^emit-types"]
+    "@runner/api#emit-types": {
+      "outputs": ["dist/**"]
     },
     "type-check": {
       "dependsOn": ["^type-check"]
@@ -14,10 +14,10 @@
     "dev": {
       "persistent": true,
       "cache": false,
-      "dependsOn": ["^build", "^emit-types"]
+      "dependsOn": ["^build"]
     },
     "deploy": {
-      "dependsOn": ["^deploy", "^build", "^emit-types"]
+      "dependsOn": ["^build"]
     }
   }
 }
