@@ -12,11 +12,10 @@ jobs:
     timeout-minutes: 15
     runs-on: ubuntu-latest
     env:
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN  }}
-      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-    # To use Remote Caching, uncomment the next lines and follow the steps below.
-    #   TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
-    #   TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN  }} # CF Deployment
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }} # CF Deployment
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }} # Turbo Remote Cache
+      TURBO_TEAM: ${{ vars.TURBO_TEAM }} # Turbo Remote Cache
 
     steps:
       - name: Check out code
