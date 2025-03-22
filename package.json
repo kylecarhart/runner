@@ -8,6 +8,7 @@
   "author": "Kyle Carhart",
   "type": "module",
   "scripts": {
+    "build": "turbo run build",
     "deploy:affected": "turbo run deploy --affected",
     "dev": "turbo watch dev",
     "dev:dash": "turbo watch dev --filter=@runner/dash --filter=@runner/api",
