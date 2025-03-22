@@ -11,3 +11,14 @@ Delete any dist folders and use `--force` with the turbo run command to try and 
 ## `Cannot read properties of undefined (reading 'replace')`
 
 You probably are missing the `.env` file.
+
+## Building TS Project vs Just Emitting Types
+
+When tested against API, there was no significant difference between building the project to an outDir.
+
+```sh
+# These took the same amount of time.
+tsc
+tsc --declaration --declarationMap
+tsc --declaration --declarationMap --emitDeclarationOnly
+```

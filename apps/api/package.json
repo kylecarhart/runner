@@ -9,15 +9,15 @@
   "main": "src/index.ts",
   "types": "dist/src/index.d.ts",
   "scripts": {
+    "build": "tsc",
     "coverage": "vitest run --coverage",
     "db:migrate": "pnpm build && drizzle-kit generate",
     "db:push": "pnpm build && drizzle-kit push",
     "db:studio": "pnpm build && drizzle-kit studio",
     "deploy": "wrangler deploy --env prod",
     "dev": "wrangler dev --local --port 3000 --show-interactive-dev-session=false",
-    "emit-types": "tsc --declaration --declarationMap --emitDeclarationOnly",
     "lint": "eslint .",
-    "pre-commit": "lint-staged && pnpm type-check",
+    "pre-commit": "lint-staged",
     "test": "vitest",
     "type-check": "tsc --noEmit"
   },

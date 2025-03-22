@@ -3,11 +3,9 @@
   "globalPassThroughEnv": ["CLOUDFLARE_API_TOKEN", "CLOUDFLARE_ACCOUNT_ID"],
   "tasks": {
     "build": {
-      "dependsOn": ["^build", "@runner/api#emit-types"],
-      "outputs": ["dist/**"]
-    },
-    "@runner/api#emit-types": {
-      "outputs": ["dist/**"]
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"],
+      "inputs": ["$TURBO_DEFAULT$", "!README.md"]
     },
     "type-check": {
       "dependsOn": ["^type-check"]
