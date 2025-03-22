@@ -7,7 +7,7 @@
   "author": "Kyle Carhart",
   "type": "module",
   "main": "src/index.ts",
-  "types": "dist/src/index.d.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "coverage": "vitest run --coverage",
