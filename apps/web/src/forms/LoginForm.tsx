@@ -46,6 +46,7 @@ export default function LoginForm() {
       // Go to redirect if provided, otherwise go home.
       window.location.href = redirect || "/";
     } catch (error) {
+      console.error(error);
       setError("root.serverError", {
         type: "400",
         message: "Failed to log in. Please try again.",
