@@ -5,12 +5,13 @@
   "type": "module",
   "scripts": {
     "astro": "astro",
-    "build": "astro check && astro build",
-    "deploy": "astro build && wrangler pages deploy",
+    "build": "astro build",
+    "deploy": "wrangler pages deploy",
     "dev": "astro dev",
     "pre-commit": "lint-staged",
     "preview": "astro build && wrangler pages dev",
-    "start": "astro dev"
+    "start": "astro dev",
+    "type-check": "astro check"
   },
   "dependencies": {
     "@asteasolutions/zod-to-openapi": "^7.3.0",
