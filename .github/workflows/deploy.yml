@@ -37,6 +37,7 @@ jobs:
         run: pnpm install
 
       - name: Deploy API
-        run: pnpx turbo-ignore @runner/api --task=deploy
+        run: pnpm run deploy:affected
+        # run: pnpx turbo-ignore @runner/api --task=deploy
         env:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}

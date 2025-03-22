@@ -16,4 +16,4 @@ Environment variables are held within `wrangler.jsonc`. Secrets are held within 
 Globals are replaced by esbuild during build time, and are marked as `# DEFINE` in the `.env` file. They are defined in `wrangler.toml` under `[define]`.
 See [Cloudflare Workers - Build time constants with Wrangler](https://kian.org.uk/cloudflare-workers-build-time-constants-with-wrangler/) for more information.
 
-Test Change
+Test Change 2
