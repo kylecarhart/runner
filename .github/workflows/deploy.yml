@@ -16,6 +16,7 @@ jobs:
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }} # CF Deployment
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }} # Turbo Remote Cache
       TURBO_TEAM: ${{ vars.TURBO_TEAM }} # Turbo Remote Cache
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
     steps:
       - name: Check out code
@@ -36,8 +37,18 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Populate secrets
+        run: |
+          echo
+
+      - name: Check deploy API
+        id: affected-api
+        run: pnpx turbo-ignore @runner/api
+        continue-on-error: true
+
       - name: Deploy API
-        run: pnpm run deploy:affected
-        # run: pnpx turbo-ignore @runner/api --task=deploy
-        env:
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        working-directory: apps/api
+        run: |
+          echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .dev.vars.prod
+          echo POSTMARK_SERVER_TOKEN=${{ secrets.POSTMARK_SERVER_TOKEN }} >> .dev.vars.prod
+          turbo deploy
