@@ -56,5 +56,5 @@ Shared utilities and constants.
 ### Prerequisites
 
 - Node.js v22+
-- PNPM v9+
+- PNPM v10+
 - Cloudflare Wrangler CLI
