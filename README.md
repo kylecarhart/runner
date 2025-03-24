@@ -2,17 +2,22 @@
 
 A full-stack application for managing running events and races. Built with modern web technologies and deployed on Cloudflare's edge network.
 
-## Applications
+## Apps
 
-### Frontend (`apps/web`)
+### Web (`apps/web`)
 
 - Built with Astro + React
 - Deployed to Cloudflare Pages
 - Features:
-  - Event creation and management
   - Race registration
-  - User authentication
   - Community features
+
+### Dash (`apps/dash`)
+
+- Built with Vite + React + Tanstack
+- Deployed to Cloudflare Pages
+- Features:
+  - Event creation and management
 
 ### Backend (`apps/api`)
 
@@ -26,13 +31,21 @@ A full-stack application for managing running events and races. Built with moder
 
 ## Packages
 
-### @runner/api
+### @runner/config-ts
 
-Shared API types and schemas between frontend and backend.
+Shared typescript configs
 
 ### @runner/postmark
 
 Fetch-based Postmark API client for edge environments.
+
+### @runner/schemas
+
+Shared API types and schemas between frontend and backend.\
+
+### @runner/ui
+
+Reusable ui components
 
 ### @runner/utils
 
