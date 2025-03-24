@@ -52,7 +52,7 @@ jobs:
         # if: steps.affected-api.outcome == 'failure'
         run: |
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .dev.vars.prod
-          ls -a
+          echo "POSTMARK_SERVER_TOKEN=${{ secrets.POSTMARK_SERVER_TOKEN }}" >> .dev.vars.prod
+          pnpx wrangler deploy --env prod
         # run: |
-        #   echo POSTMARK_SERVER_TOKEN=${{ secrets.POSTMARK_SERVER_TOKEN }} >> .dev.vars.prod
         #   pnpx turbo deploy
