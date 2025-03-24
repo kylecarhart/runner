@@ -46,9 +46,11 @@ jobs:
         run: pnpx turbo-ignore @runner/api
         continue-on-error: true
 
+        # Deploy API if changed
       - name: Deploy API
         working-directory: apps/api
+        if: steps.affected-api.outcome == 'failure'
         run: |
           echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .dev.vars.prod
           echo POSTMARK_SERVER_TOKEN=${{ secrets.POSTMARK_SERVER_TOKEN }} >> .dev.vars.prod
-          turbo deploy
+          pnpx turbo deploy
