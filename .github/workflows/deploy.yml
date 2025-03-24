@@ -53,4 +53,5 @@ jobs:
         run: |
           echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .dev.vars.prod
           echo POSTMARK_SERVER_TOKEN=${{ secrets.POSTMARK_SERVER_TOKEN }} >> .dev.vars.prod
+          ls
           pnpx turbo deploy
