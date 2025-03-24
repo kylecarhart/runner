@@ -16,7 +16,7 @@ jobs:
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }} # CF Deployment
       TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }} # Turbo Remote Cache
       TURBO_TEAM: ${{ vars.TURBO_TEAM }} # Turbo Remote Cache
-      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      # DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
     steps:
       - name: Check out code
@@ -37,22 +37,19 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Populate secrets
-        run: |
-          echo
+      - name: Deploy affected
+        run: pnpx turbo run deploy --affected
 
-      - name: Check deploy API
-        id: affected-api
-        run: pnpx turbo-ignore @runner/api
-        continue-on-error: true
+      # - name: Check deploy API
+      #   id: affected-api
+      #   run: pnpx turbo-ignore @runner/api
+      #   continue-on-error: true
 
-        # Deploy API if changed
-      - name: Deploy API
-        working-directory: apps/api
-        # if: steps.affected-api.outcome == 'failure'
-        run: |
-          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .dev.vars.prod
-          echo "POSTMARK_SERVER_TOKEN=${{ secrets.POSTMARK_SERVER_TOKEN }}" >> .dev.vars.prod
-          pnpx wrangler deploy --env prod
-        # run: |
-        #   pnpx turbo deploy
+      #   # Deploy API if changed
+      # - name: Deploy API
+      #   working-directory: apps/api
+      #   # if: steps.affected-api.outcome == 'failure'
+      #   run: |
+      #     echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .dev.vars.prod
+      #     echo "POSTMARK_SERVER_TOKEN=${{ secrets.POSTMARK_SERVER_TOKEN }}" >> .dev.vars.prod
+      #     pnpx wrangler deploy --env prod
