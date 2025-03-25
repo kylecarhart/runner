@@ -62,6 +62,7 @@ export default function CreateEventForm() {
       // if (!response.ok) {
       // throw new Error("Create event failed");
       // }
+      console.log("TODO. Add this functionality back in.");
     } catch (error) {
       setError("root.serverError", {
         type: "400",
